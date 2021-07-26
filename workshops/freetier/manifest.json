@@ -13,6 +13,11 @@
       "filename": "https://raw.githubusercontent.com/oracle/learning-library/master/common/labs/cloud-login/pre-register-free-tier-account.md"
     },
     {
+      "title": "Provisioning",
+      "description": "Provision of Autonomous Database.",
+      "filename": "../../provisioning/provisioning.md"
+    },
+    {
       "title": "JSON",
       "description": "JSON",
       "filename": "../../json/json.md"

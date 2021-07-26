@@ -1,12 +1,20 @@
+# Introduction
 
+A converged database is a database that has **native support for all modern data types and the latest development paradigms** built into one product.
 
-Introduction
-========================================================================================================================
+![Converged Banner](images/converged_database.png)
+
+Converged databases support Spatial data for location awareness, JSON for document stores, IoT for device integration, in-memory technologies for real-time analytics, and of course, traditional relational data. By providing support for all of these data types, a Converged Database can run all sorts of workloads from IoT to Blockchain to Analytics and Machine Learning. It can also handle any development paradigm, including Microservices, Events, REST, SaaS, and CI/CD, to name a few.
+
+**Oracle Autonomous Database** is an excellent example of a converged database, as it provides support for Machine Learning, Blockchain, Graph, Spatial, JSON, REST, Events, Editions, and IoT Streaming as part of the core database at no additional cost. It allows you to support many diverse projects using a single platform, significantly reducing complexity and management overhead, while minimizing risk.
+
+## About this Workshop
 
 This step takes you through the process of connecting to Oracle Cloud and locating your database.
 
-Step 1. Connecting to the Oracle Cloud
-------------------------------------------------------------------------------------------------------------------------
+_Estimated Lab Time:_ XX minutes
+
+## Step 1. Connecting to the Oracle Cloud
 
 **Objectives:**
 
@@ -92,9 +100,9 @@ A summary of your instance lifecycle status is shown in the large box on the lef
 | ![](../common-images/atp-available.png) | ![](../common-images/adw-available.png) |
 | --------------------------------------- | --------------------------------------- |
 
+_At this point, you are ready to start learning! Please proceed._
 
+## **Acknowledgements**
 
-You can now proceed with the next lab.
-
-
-
+- **Author** - Melanie Ashworth-March, Oracle Solution Center
+- **Contributor** - Priscila Iruela, Victor Martin
