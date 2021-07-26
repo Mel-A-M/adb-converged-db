@@ -1,0 +1,65 @@
+<PurchaseOrder>
+  <Reference>ADAMS-299227121040988PST</Reference>
+  <Actions>
+    <Action>
+      <User>SAM</User>
+    </Action>
+  </Actions>
+  <Reject/>
+  <Requestor>Sam Doe</Requestor>
+  <User>SAM</User>
+  <CostCenter>R20</CostCenter>
+  <ShippingInstructions>
+    <name>Jill Adams</name>
+    <address>300 Oracle Parkway, Redwood Shores, CA 94065</address>
+    <telephone>650 123 1234</telephone>
+  </ShippingInstructions>
+  <SpecialInstructions>Ground</SpecialInstructions>
+  <LineItems>
+    <LineItem ItemNumber="1">
+      <Description>The Ruling Class</Description>
+      <Part Id="715515012445" UnitPrice="39.95" Quantity="2"/>
+    </LineItem>
+    <LineItem ItemNumber="2">
+      <Description>Diabolique</Description>
+      <Part Id="037429135565" UnitPrice="29.95" Quantity="3"/>
+    </LineItem>
+    <LineItem ItemNumber="3">
+      <Description>8 1/2</Description>
+      <Part Id="037429135664" UnitPrice="39.95" Quantity="4"/>
+    </LineItem>
+    <LineItem ItemNumber="4">
+      <Description>The Clockwork Orange</Description>
+      <Part Id="788399938" UnitPrice="39.45" Quantity="3"/>
+    </LineItem>
+    <LineItem ItemNumber="5">
+      <Description>Space Odissey</Description>
+      <Part Id="101014501010" UnitPrice="11.95" Quantity="3"/>
+    </LineItem>
+    <LineItem ItemNumber="6">
+      <Description>Full Metal Jacket</Description>
+      <Part Id="039393592204" UnitPrice="29.95" Quantity="4"/>
+    </LineItem>
+    <LineItem ItemNumber="7">
+      <Description>The Shining</Description>
+      <Part Id="03234555938383" UnitPrice="25.55" Quantity="3"/>
+    </LineItem>
+    <LineItem ItemNumber="8">
+      <Description>Pulp Fiction</Description>
+      <Part Id="03738103823444" UnitPrice="24.25" Quantity="43"/>
+    </LineItem>
+    <LineItem ItemNumber="9">
+      <Description>Tenet</Description>
+      <Part Id="7101020290575" UnitPrice="89.95" Quantity="2"/>
+    </LineItem>
+    <LineItem ItemNumber="10">
+      <Description>Dunkirk</Description>
+      <Part Id="037491986720" UnitPrice="69.95" Quantity="3"/>
+    </LineItem>
+    <LineItem ItemNumber="11">
+      <Description>Fight Club</Description>
+      <Part Id="0371194857292" UnitPrice="38.95" Quantity="4"/>
+    </LineItem>
+  </LineItems>
+</PurchaseOrder>
+
