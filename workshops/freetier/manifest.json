@@ -18,6 +18,11 @@
       "filename": "../../provisioning/provisioning.md"
     },
     {
+      "title": "Preparing the data",
+      "description": "Uploading the required test data and creating auth token",
+      "filename": "../../provisioning/provisioning.md"
+    },
+    {
       "title": "JSON",
       "description": "JSON",
       "filename": "../../json/json.md"
@@ -31,6 +36,11 @@
       "title": "Spatial",
       "description": "Spatial",
       "filename": "../../spatial/spatial.md"
+    },
+    {
+      "title": "XML",
+      "description": "XML",
+      "filename": "../../XML/xml.md"
     },
     {
       "title": "Need Help?",
