@@ -20,7 +20,7 @@
     {
       "title": "Preparing the data",
       "description": "Uploading the required test data and creating auth token",
-      "filename": "../../provisioning/provisioning.md"
+      "filename": "../../upload-data/upload-data.md"
     },
     {
       "title": "JSON",
