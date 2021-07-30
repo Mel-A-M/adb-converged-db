@@ -2,6 +2,8 @@
 
 A converged database is a database that has **native support for all modern data types and the latest development paradigms** built into one product.
 
+A converged database is a multi-model, multitenant, multi-workload database. It supports the multiple data types and access methods each development team wants, without unneeded functionality getting in the way. It provides both the consolidation and isolation that dev teams want but don’t want to think about. And it excels in all types of workloads (like OLTP, analytics, and IoT) these teams require. Oracle Database 19c is the world’s first converged database. The rest of the versions since 19c supports the converged capabilities.
+
 ![Converged Banner](images/converged_database.png)
 
 Converged databases support Spatial data for location awareness, JSON for document stores, IoT for device integration, in-memory technologies for real-time analytics, and of course, traditional relational data. By providing support for all of these data types, a Converged Database can run all sorts of workloads from IoT to Blockchain to Analytics and Machine Learning. It can also handle any development paradigm, including Microservices, Events, REST, SaaS, and CI/CD, to name a few.
@@ -21,8 +23,6 @@ _Estimated Lab Time:_ XX minutes
 - Learn how to login to the Oracle Cloud Console
 
   
-
-
 ### Signing in to the OCI Console
 
 Start your web browser. 
