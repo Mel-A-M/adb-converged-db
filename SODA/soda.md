@@ -127,11 +127,11 @@ cd ..
 
 For the next step you will create a file to store our connection information.  You will then use this file with any additional python programs moving forward in this lab. Placing your connection settings in a separate file makes the database connections much more seamless to use.  
 
-Create a file called *myConnection.py* and enter the following lines:
+Create a file called *myConnection.py*. Copy the text below but remember to edit the os.environ line to match your wallet location : 
 
 ````
 import os
-os.environ['TNS_ADMIN'] = '/home/<your-directory-name-here>/wallet'
+os.environ['TNS_ADMIN'] = '/home/your-directory-name-here/wallet'
 
 # Username
 usrnm="admin"
