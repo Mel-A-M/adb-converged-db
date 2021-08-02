@@ -73,7 +73,7 @@ ls
 
 
 
-## **STEP 2**: Connect to your Database from Python
+## STEP 2: Connect to your Database from Python
 
 You will be using the Oracle Cloud Shell for this lab.  The Oracle Cloud Shell is preconfigured with Python3 and cx\_Oracle for us to connect to our database using python.  You can find more information about cx\_Oracle as well as how to install it at the following [blog](https://oracle.github.io/python-cx_Oracle/) site.
 
@@ -511,7 +511,7 @@ You should see the following output:
 
 
 
-> *A Status of '1' means success. If you run the select statement more than once, it will return a '0' as there is no longer anything to drop as is expected.*
+> *A Status of '1' means success. If you run the select statement more than once, it will return a '0' on the subsequent runs as there is no longer anything to drop.*
 
 
 
