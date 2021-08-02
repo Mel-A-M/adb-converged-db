@@ -78,7 +78,6 @@ To complete this lab, you need to have the following:
 
    ![upload-button](images/upload-bucket-04.png)
    
-
 7. The upload of the 3 files will start. Once the upload is complete you will see the status marked as *Finished* on the right hand side of the page. Select **Close**
 
    ![upload-finished](images/upload-bucket-05.png)
@@ -110,7 +109,34 @@ In this lab you will generate the token as your user, and it will inherit the sa
 
 
 
+## STEP 4: Prepare the DBMS_CLOUD.CREATE_CREDENTIAL statement
 
+During this lab you will create a private CREDENTIAL object for your user that stores this information encrypted in your Autonomous Database instance using the DBMS_CLOUD package. This encrypted connection information is only usable by your user schema, and remains stored in the database for future use (until the AUTH token is destroyed by the cloud user). 
+
+Using a text editor on your local machine prepare the following SQL and name it create_credential.sql
+
+```
+set define off
+begin
+ DBMS_CLOUD.create_credential(
+  credential_name => 'OBJ_STORE_CRED',
+  username => '',
+  password => ''
+ );
+end;
+/
+```
+
+You will need to add more information to this SQL
+
+- **password:** populate this with the AUTH token you generated in STEP 3
+- **username:**  Your cloud username to use in this command can be found in the Cloud console. Select the user profile button on the top right hand side and you will see your complete username. 
+
+![](./images/find-username.png)
+
+Your SQL will look similar to this example (please note - this screenshot contains dummy values and cannot be used for your lab)
+
+![](./images/sample-cred.png)
 
 
 
