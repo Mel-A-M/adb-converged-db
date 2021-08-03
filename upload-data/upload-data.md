@@ -106,9 +106,6 @@ In this lab you will generate the token as your Oracle Cloud user, and it will i
    ![auth-token-listed](images/auth-token-05.png)
 
 
-<<<<<<< HEAD
-
-
 
 ## STEP 4: Prepare the DBMS_CLOUD.CREATE_CREDENTIAL statement
 
@@ -141,9 +138,7 @@ Your SQL will look similar to this example (please note - this screenshot contai
 
 Save this file as you will need it several times during the lab. 
 
-=======
->>>>>>> a45fb5ae746f7b04363b8fd2d1de258de3a0cb8f
-_At this point, you have done the data preparation steps for this lab, please proceed._
+> At this point, you have done the data preparation steps for this lab, please proceed.
 
 ## **Acknowledgements**
 
