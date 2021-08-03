@@ -77,7 +77,6 @@ To create an external table using a file stored in Object Storage you will use t
 
    ![Bucket Menu](../common-images/object-storage-01.png)
    
-
 2. Click on the name of your **lab-bucket**
    ![](../common-images/select-lab-bucket.png)
 
