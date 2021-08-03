@@ -28,7 +28,7 @@ Let check the most important characteristics of **Oracle Autonomous Databases**.
 
 *Note: While this lab uses ATP, the steps are identical for creating an ADW database.*
 
-Estimated Lab Time: 15 minutes
+**Estimated Lab Time**: 15 minutes
 
 ### Objectives
 

@@ -5,7 +5,7 @@
 In this lab we will create an object storage bucket in our compartment to upload the data that we will use during the rest of labs of this workshop.
 Finally, we will create an Auth Token to allow access from the Autonomous Database to Object Storage.
 
-_Estimated Lab Time:_ 15 minutes
+**Estimated Lab Time:** 15 minutes.
 
 ### Objectives
 
@@ -109,7 +109,7 @@ In a production environment, you would normally want to create a new cloud user 
 
    ![copy to notepad](images/auth-token-04.png)
 
-5. You can now select **Close**. You will see the Auth Token listed on the screen.
+5. You can now select **Close**. You will see the **Auth Token** listed on the screen.
    ![auth-token-listed](images/auth-token-05.png)
 
 _At this point, you have done the data preparation steps for this lab, please proceed._
