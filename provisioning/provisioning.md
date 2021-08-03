@@ -1,4 +1,4 @@
-# Provision of Autonomous Database
+# Provisioning an Autonomous Database
 
 ![ADB Banner](images/adb_banner.png)
 
@@ -44,11 +44,10 @@ To complete this lab, you need to have the following:
 
 ## **STEP 1**: Provision ATP
 
-1. Go to **Menu** > **Oracle Database** > **Autonomous Transation Processing**.
+1. Go to **Menu** > **Oracle Database** > **Autonomous Transaction Processing**.
 
    ![ATP Menu](images/menu_atp_1.png)
 
-   
 2. Click **Create Autonomous Database**.
 
    ![ATP Create Button](images/atps.png)
@@ -67,7 +66,6 @@ To complete this lab, you need to have the following:
 
    ![ATP Form 1](images/atp_creation_1_2_New.png)
 
-   
 4. Fill the next part of the provisioning form with the following values.
 
    - Always Free: Turn it `on`, but it will work if you leave it `off` like in the screenshot.
@@ -82,11 +80,11 @@ To complete this lab, you need to have the following:
    - Auto Scaling: `on` or default value.
 
    Auto scaling you can leave it off but it is a nice feature as the ATP database will scale if the workload is increasing and scale down automatically if the workload reduces. Zero downtime during the process. It's cool, isn't it?
-      
+   
    - Password: `Oracle_12345`
    - Confirm password: `Oracle_12345`
    
-   > Reminder: Note your password in a safe location as this cannot be reset.
+   > Reminder: Note your password in a safe location as the reset process is not documented as part of this lab.
    
    ![ATP Form 2](images/atp_creation_2_New.png)
 

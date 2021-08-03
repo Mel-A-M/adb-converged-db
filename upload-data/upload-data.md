@@ -52,7 +52,7 @@ To complete this lab, you need to have the following:
 
 5. Your Object Storage bucket is ready to use.
 
-## STEP 2: Populate your Object Storage Bucket
+## **STEP 2:** Populate your Object Storage Bucket
 
 1. Download and save the following files to your local computer. 
    [export_spatial22Sep2020.dmp](files/export_spatial22Sep202.dmp) 
@@ -86,7 +86,7 @@ To complete this lab, you need to have the following:
 
 ![bucket contents](images/upload-bucket-06.png)
 
-## STEP 3: Generate an Auth Token
+## **STEP 3**: Generate an Auth Token
 
 To access data in  Object Storage you must enable your database user to authenticate itself with the Object Storage using your username and an authentication token. 
 
@@ -107,7 +107,7 @@ In this lab you will generate the token as your Oracle Cloud user, and it will i
 
 
 
-## STEP 4: Prepare the DBMS_CLOUD.CREATE_CREDENTIAL statement
+## STEP 4: Prepare the Create Credential SQL 
 
 During this lab you will create a private CREDENTIAL object for your schema. The DBMS_CLOUD package is used to create the credential in Autonomous Shared Database, and store  This encrypted connection information is only usable by your user schema, and remains stored in the database for future use (until the AUTH token is destroyed by the cloud user). 
 
