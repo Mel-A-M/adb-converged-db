@@ -204,7 +204,7 @@ The import should take less than a minute to run. 2 errors are expected in the o
 ## STEP 3: Connect to SQL Developer Web
 In the previous step you executed commands to grant the appspat user privileges and setup SQL Developer Web using Rest Services (ORDS). 
 
-Open *Database Actions* from your Database Details screen.
+On your *Database Details* screen select the **Tools ** tab and select **Open Database Actions.**
 
 ![](../common-images/open-dbactions.png)
 

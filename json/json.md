@@ -52,23 +52,20 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
 
 
-
-### Storing your object store authentication token credentials in the database
-
-  ![Database Actions screen](../common-images/open-dbactions.png)
-During the section '*Preparing the Data*' you prepared a create_credential.sql file. Copy and paste the contents of this into SQL Developer Web and execute using the 'Run Script' button 
+1. On your *Database Details* screen select the **Tools ** tab and select **Open Database Actions.** ![Database Actions screen](../common-images/open-dbactions.png)
+2.  Enter the username `admin` and select **Next.**  ![Admin Login](./images/login-admin-01.png)
+3.  Enter the password for your ADMIN user and sign in. 
+   ![Admin Password Login](../common-images/login-admin-02.png)
+4. Under the *Development* section select the **SQL** tile to start SQL Developer Web.![SQL Development](./images/start-sqldev-web.png)
+5. During the section '*Preparing the Data*' you prepared a `create_credential.sql` file. Copy and paste the contents of this into SQL Developer Web and execute using the 'Run Script' button 
 
 **Do not copy and paste the example script below.**
 
-  ![Admin Login](./images/login-admin-01.png)
-
-
-  ![Admin Password Login](../common-images/login-admin-02.png)
 ![](../common-images/create-cred.png)
 
 Now you are ready to load data from Object Store as the ADMIN schema.
 
-  ![SQL Development](./images/start-sqldev-web.png)
+  
 ## STEP 3: Create an External Table on the file.
 
 To create an external table using a file stored in Object Storage you will use the DBMS_CLOUD.CREATE_EXTERNAL_TABLE procedure.
@@ -80,12 +77,9 @@ To create an external table using a file stored in Object Storage you will use t
 2. Click on the name of your **lab-bucket**
    ![](../common-images/select-lab-bucket.png)
 
-**Storing your object store authentication token credentials in the database**
 
-During the section 'Preparing the Data', you prepared a create_credential.sql file. Copy and paste the contents of this into SQL Developer Web.
 
->Note: Do not copy and paste the example script below.
-3. On the bucket details screen click on the action menu (the 3 dots) next to the file *Purchase Orders.dmp*. Select **View Object Details**
+3. On the bucket details screen click on the action menu (the 3 dots) next to the file *PurchaseOrders.dmp*. Select **View Object Details**
    ![get-object-details](images/get-object-details.png)
 
 4.  On the *Object Details* dialog note the value for the **URL Path (URI)**
