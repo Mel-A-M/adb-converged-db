@@ -8,7 +8,7 @@ This lab prepares the converged data sources required for the remaining labs.
 
 
 
-_Estimated Lab Time:_ 15 minutes
+**Estimated Lab Time:** 15 minutes.
 
 ### Objectives
 
@@ -102,10 +102,11 @@ In this lab you will generate the token as your Oracle Cloud user, and it will i
    ![generate-token-description](images/auth-token-03.png)
 4. The Token is generated. Select **Copy** and save the output to a text file called `token.txt` on your computer.
    ![copy to notepad](images/auth-token-04.png)
-5. You can now select **Close**. You will see the Auth Token listed on the screen.
+5. You can now select **Close**. You will see the **Auth Token** listed on the screen.
    ![auth-token-listed](images/auth-token-05.png)
 
 
+<<<<<<< HEAD
 
 
 
@@ -140,6 +141,8 @@ Your SQL will look similar to this example (please note - this screenshot contai
 
 Save this file as you will need it several times during the lab. 
 
+=======
+>>>>>>> a45fb5ae746f7b04363b8fd2d1de258de3a0cb8f
 _At this point, you have done the data preparation steps for this lab, please proceed._
 
 ## **Acknowledgements**

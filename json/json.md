@@ -4,15 +4,15 @@
 
 ## Introduction
 
-This lab will show how JSON data can be stored and manipulated in the Autonomous Database. 
+This lab will show how **JSON** data can be stored and manipulated in the Autonomous Database. 
 
-Oracle Autonomous JSON Database is  Oracle Autonomous Transaction Processing, but specialized for developing NoSQL-style applications that use JavaScript Object Notation (JSON) documents. You can promote an Autonomous JSON Database service to an Autonomous Transaction Processing service if you need to have the need to store larger data set.           
+**Oracle Autonomous JSON Database** is Oracle Autonomous Transaction Processing, but specialized for developing NoSQL-style applications that use **JavaScript Object Notation (JSON)** documents. You can promote an Autonomous JSON Database service to an Autonomous Transaction Processing service if you need to have the need to store larger data set.           
 
 There are three main parts to this lab.
 
-- **Create an External table on  Object Storage** - You will use the DBMS_CLOUD package to create an external table on a JSON file in Object Storage.
-- **Insert and Update JSON Data** -  You can use standard database APIs to insert or update JSON data. You can also work directly with JSON data contained in file-system files by creating an external table that exposes it to the database. You will add a row to your JSON table using insert query and then the Oracle SQL function `json_mergepatch` to update specific portions of a JSON document.
-- **Query JSON Documents using SQL** - You will see improvements in the simplicity of querying JSON documents using SQL. You will also see materialized views query rewriting has been enhanced so that queries with JSON_EXISTS, `JSON_VALUE` and other functions can utilize a materialized view created over a query that contains a `JSON_TABLE` function.
+  - **Create an External table on Object Storage** - You will use the DBMS_CLOUD package to create an external table on a JSON file in Object Storage.
+  - **Insert and Update JSON Data** - You can use standard database APIs to insert or update JSON data. You can also work directly with JSON data contained in file-system files by creating an external table that exposes it to the database. You will add a row to your JSON table using insert query and then the Oracle SQL function `json_mergepatch` to update specific portions of a JSON document.
+  - **Query JSON Documents using SQL** - You will see improvements in the simplicity of querying JSON documents using SQL. You will also see materialized views query rewriting has been enhanced so that queries with JSON_EXISTS, `JSON_VALUE` and other functions can utilize a materialized view created over a query that contains a `JSON_TABLE` function.
 
 ### JSON with Oracle Database
 
@@ -34,9 +34,10 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
 ![](./images/json_intro.png " ")
 
+**Estimated Lab Time**: 30 minutes.
+
+
 ## STEP 1: Start SQL Developer Web
-
-
 
 1. Open *Database Actions* from your Database Details screen.
    ![](../common-images/open-dbactions.png)
@@ -54,16 +55,20 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
 ### Storing your object store authentication token credentials in the database
 
+  ![Database Actions screen](../common-images/open-dbactions.png)
 During the section '*Preparing the Data*' you prepared a create_credential.sql file. Copy and paste the contents of this into SQL Developer Web and execute using the 'Run Script' button 
 
 **Do not copy and paste the example script below.**
 
+  ![Admin Login](./images/login-admin-01.png)
 
 
+  ![Admin Password Login](../common-images/login-admin-02.png)
 ![](../common-images/create-cred.png)
 
 Now you are ready to load data from Object Store as the ADMIN schema.
 
+  ![SQL Development](./images/start-sqldev-web.png)
 ## STEP 3: Create an External Table on the file.
 
 To create an external table using a file stored in Object Storage you will use the DBMS_CLOUD.CREATE_EXTERNAL_TABLE procedure.
@@ -72,10 +77,14 @@ To create an external table using a file stored in Object Storage you will use t
 
    ![Bucket Menu](../common-images/object-storage-01.png)
    
-
 2. Click on the name of your **lab-bucket**
    ![](../common-images/select-lab-bucket.png)
 
+**Storing your object store authentication token credentials in the database**
+
+During the section 'Preparing the Data', you prepared a create_credential.sql file. Copy and paste the contents of this into SQL Developer Web.
+
+>Note: Do not copy and paste the example script below.
 3. On the bucket details screen click on the action menu (the 3 dots) next to the file *Purchase Orders.dmp*. Select **View Object Details**
    ![get-object-details](images/get-object-details.png)
 
@@ -142,6 +151,11 @@ commit
 
 1. Take a count of the rows in your purchase_order table. Your number returned my vary.
 
+  - **table_name**: This will be the new table's name.
+  - **credential_name**: This is the credential that has access to the Object Storage location.
+  - **file_uri_list**: This is the file location. It can be specified in several formats see the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
+  - **format**: This describes the format for the data in the file. In this example you are specifying a rejectlimit, but you could also specify record separators and other information depending on the format of your file. See the  [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/format-options.html) for more  details on the available formats.
+  - **column_list**: A comma-delimited list of column names and data types for the external table.
 ```
 select count(*) from purchase_order;
 ```
@@ -316,143 +330,130 @@ Next, use the description of the product to find all the customers who purchased
 
 
 
-You can create relational views on JSON data, allowing the full power of SQL to be applied to the JSON content, without requiring any knowledge of the structure of the JSON or how to manipulate JSON using SQL. 
+  You can create relational views on JSON data, allowing the full power of SQL to be applied to the JSON content, without requiring any knowledge of the structure of the JSON or how to manipulate JSON using SQL. 
 
-Your users have a new query that they want to run regularly. They want to get information about orders that meet the critieria:
+5. Your users have a new query that they want to run regularly. They want to get information about orders that meet the critieria:
 
-- Ordered by a specific requester.
-- minimum 7 items in each order
-- unit price minimum $25 in each order?
+  - Ordered by a specific requester.
+  - minimum 7 items in each order
+  - unit price minimum $25 in each order?
 
-To accomplish this you will create two relational views. 
+  To accomplish this you will create two relational views. 
 
-Create view `PURCHASE_ORDER_MASTER_VIEW` . This view selects the summary information about the order, including the PO Number, and the Shipping information.
+6. Create view `PURCHASE_ORDER_MASTER_VIEW`. This view selects the summary information about the order, including the PO Number, and the Shipping information.
 
-```
-create or replace view PURCHASE_ORDER_MASTER_VIEW
-AS 
-SELECT M.* FROM PURCHASE_ORDER p,
-JSON_TABLE(p.PO_DOCUMENT,
+  ```
+  create or replace view PURCHASE_ORDER_MASTER_VIEW
+  AS 
+  SELECT M.* FROM PURCHASE_ORDER p,
+  JSON_TABLE(p.PO_DOCUMENT,
+        '$'
+       columns
+       	PO_NUMBER NUMBER(10) PATH '$.PONumber',
+       	REFERENCE VARCHAR2(30 CHAR) PATH '$.Reference',
+       	REQUESTOR VARCHAR(128) PATH '$.Requestor',
+        	USERID VARCHAR2(10 CHAR) PATH '$.User',
+       	COSTCENTER VARCHAR2(16) PATH '$.CostCenter',
+       	SHIP_TO_NAME VARCHAR2(20 CHAR) PATH '$.ShippingInstructions.name',
+       	SHIP_TO_STREET VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.street',
+        	SHIP_TO_CITY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.city',
+        	SHIP_TO_COUNTY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.county',
+      	SHIP_TO_POSTCODE VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.postcode',
+       	SHIP_TO_STATE VARCHAR2(2 CHAR) PATH '$.ShippingInstructions.Address.state',
+        	SHIP_TO_PROVINCE VARCHAR2(2 CHAR) PATH '$.ShippingInstructions.Address.province',
+       	SHIP_TO_ZIP VARCHAR2(8 CHAR) PATH '$.ShippingInstructions.Address.zipCode',
+       	SHIP_TO_COUNTRY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.country',
+       	SHIP_TO_PHONE VARCHAR2(24 CHAR) PATH '$.ShippingInstructions.Phone[0].number',
+       	INSTRUCTIONS VARCHAR2(2048 CHAR) PATH '$.SpecialInstructions'
+  ) m ;
+  ```
+
+7. Create view `PURCHASE_ORDER_DETAIL_VIEW`. This view contains nested information related to the Items on the  order. 
+
+  ```
+  create or replace view PURCHASE_ORDER_DETAIL_VIEW
+  AS
+  SELECT D.* FROM PURCHASE_ORDER p,
+  JSON_TABLE(
+       p.PO_DOCUMENT,
       '$'
-     columns
-     	PO_NUMBER NUMBER(10) PATH '$.PONumber',
-     	REFERENCE VARCHAR2(30 CHAR) PATH '$.Reference',
-     	REQUESTOR VARCHAR(128) PATH '$.Requestor',
-      	USERID VARCHAR2(10 CHAR) PATH '$.User',
-     	COSTCENTER VARCHAR2(16) PATH '$.CostCenter',
-     	SHIP_TO_NAME VARCHAR2(20 CHAR) PATH '$.ShippingInstructions.name',
-     	SHIP_TO_STREET VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.street',
-      	SHIP_TO_CITY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.city',
-      	SHIP_TO_COUNTY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.county',
-    	SHIP_TO_POSTCODE VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.postcode',
-     	SHIP_TO_STATE VARCHAR2(2 CHAR) PATH '$.ShippingInstructions.Address.state',
-      	SHIP_TO_PROVINCE VARCHAR2(2 CHAR) PATH '$.ShippingInstructions.Address.province',
-     	SHIP_TO_ZIP VARCHAR2(8 CHAR) PATH '$.ShippingInstructions.Address.zipCode',
-     	SHIP_TO_COUNTRY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.country',
-     	SHIP_TO_PHONE VARCHAR2(24 CHAR) PATH '$.ShippingInstructions.Phone[0].number',
-     	INSTRUCTIONS VARCHAR2(2048 CHAR) PATH '$.SpecialInstructions'
-) m ;
-```
+       	columns (
+       	PO_NUMBER NUMBER(10) PATH '$.PONumber',
+       	REFERENCE VARCHAR2(30 CHAR) PATH '$.Reference',
+       	REQUESTOR VARCHAR(128) PATH '$.Requestor',
+       	USERID VARCHAR2(10 CHAR) PATH '$.User',
+       	COSTCENTER VARCHAR2(16) PATH '$.CostCenter',
+       	SHIP_TO_NAME VARCHAR2(20 CHAR) PATH '$.ShippingInstructions.name',
+       	SHIP_TO_STREET VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.street',
+       	SHIP_TO_CITY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.city',
+       	SHIP_TO_COUNTY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.county',
+       	SHIP_TO_POSTCODE VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.postcode',
+       	SHIP_TO_STATE VARCHAR2(2 CHAR) PATH '$.ShippingInstructions.Address.state',
+       	SHIP_TO_PROVINCE VARCHAR2(2 CHAR) PATH '$.ShippingInstructions.Address.province',
+       	SHIP_TO_ZIP VARCHAR2(8 CHAR) PATH '$.ShippingInstructions.Address.zipCode',
+        	SHIP_TO_COUNTRY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.country',
+       	SHIP_TO_PHONE VARCHAR2(24 CHAR) PATH '$.ShippingInstructions.Phone[0].number',
+       	INSTRUCTIONS VARCHAR2(2048 CHAR) PATH '$.SpecialInstructions',
+       	NESTED PATH '$.LineItems[*]'
+       	columns (
+         		ITEMNO        NUMBER(38) PATH '$.ItemNumber',
+        		DESCRIPTION   VARCHAR2(256 CHAR) PATH '$.Part.Description',
+       		UPCCODE       VARCHAR2(14 CHAR) PATH '$.Part.UPCCode',
+      		QUANTITY      NUMBER(12,4) PATH '$.Quantity',
+      		UNITPRICE     NUMBER(14,2) PATH '$.Part.UnitPrice'
+       	)
+       )
+  ) d;
+  ```
+
+8. Query `PURCHASE_ORDER_DETAIL_VIEW` to find Purchase Orders that meet the criteria and were ordered by 'Stephen  King'.
+
+  ```
+  select PO_NUMBER, REFERENCE, INSTRUCTIONS, ITEMNO, UPCCODE, DESCRIPTION, QUANTITY, UNITPRICE
+       from PURCHASE_ORDER_DETAIL_VIEW d
+      where REQUESTOR = 'Steven King'
+      and QUANTITY  > 7
+      and UNITPRICE > 25.00;
+  ```
+
+  ![Query Example 5](./images/task6_query_05.png)    
 
 
-
-Create view `PURCHASE_ORDER_DETAIL_VIEW`. This view contains nested information related to the Items on the order. 
-
-```
-create or replace view PURCHASE_ORDER_DETAIL_VIEW
-AS
-SELECT D.* FROM PURCHASE_ORDER p,
-JSON_TABLE(
-     p.PO_DOCUMENT,
-    '$'
-     	columns (
-     	PO_NUMBER NUMBER(10) PATH '$.PONumber',
-     	REFERENCE VARCHAR2(30 CHAR) PATH '$.Reference',
-     	REQUESTOR VARCHAR(128) PATH '$.Requestor',
-     	USERID VARCHAR2(10 CHAR) PATH '$.User',
-     	COSTCENTER VARCHAR2(16) PATH '$.CostCenter',
-     	SHIP_TO_NAME VARCHAR2(20 CHAR) PATH '$.ShippingInstructions.name',
-     	SHIP_TO_STREET VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.street',
-     	SHIP_TO_CITY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.city',
-     	SHIP_TO_COUNTY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.county',
-     	SHIP_TO_POSTCODE VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.postcode',
-     	SHIP_TO_STATE VARCHAR2(2 CHAR) PATH '$.ShippingInstructions.Address.state',
-     	SHIP_TO_PROVINCE VARCHAR2(2 CHAR) PATH '$.ShippingInstructions.Address.province',
-     	SHIP_TO_ZIP VARCHAR2(8 CHAR) PATH '$.ShippingInstructions.Address.zipCode',
-      	SHIP_TO_COUNTRY VARCHAR2(32 CHAR) PATH '$.ShippingInstructions.Address.country',
-     	SHIP_TO_PHONE VARCHAR2(24 CHAR) PATH '$.ShippingInstructions.Phone[0].number',
-     	INSTRUCTIONS VARCHAR2(2048 CHAR) PATH '$.SpecialInstructions',
-     	NESTED PATH '$.LineItems[*]'
-     	columns (
-       		ITEMNO        NUMBER(38) PATH '$.ItemNumber',
-      		DESCRIPTION   VARCHAR2(256 CHAR) PATH '$.Part.Description',
-     		UPCCODE       VARCHAR2(14 CHAR) PATH '$.Part.UPCCode',
-    		QUANTITY      NUMBER(12,4) PATH '$.Quantity',
-    		UNITPRICE     NUMBER(14,2) PATH '$.Part.UnitPrice'
-     	)
-     )
-) d;
-```
-
-
-
-Query `PURCHASE_ORDER_DETAIL_VIEW` to find Purchase Orders that meet the criteria and were ordered by 'Stephen King'.
-
-```
-select PO_NUMBER, REFERENCE, INSTRUCTIONS, ITEMNO, UPCCODE, DESCRIPTION, QUANTITY, UNITPRICE
-     from PURCHASE_ORDER_DETAIL_VIEW d
-    where REQUESTOR = 'Steven King'
-    and QUANTITY  > 7
-    and UNITPRICE > 25.00;
-```
-
-  ![](./images/task6_query_05.png)    
-
-
-
-
-
-You can use the `PRETTY` option when querying JSON data using JSON_QUERY. This will pretty-print the values and return them as a character string. `JSON_VALUE` selects a scalar value from JSON data and returns it as a SQL value. You can also use `json_value` to create function-based B-tree indexes for use with JSON data . The function `json_value` has two required arguments. The first argument to `json_value` is a SQL expression that returns an instance of either a scalar SQL data type or a user-defined SQL object type. A scalar return value can be of data type VARCHAR2, BLOB, or CLOB. The first argument can be a table or view column value, a PL/SQL variable, or a bind variable with proper casting. The result of evaluating the SQL expression is used as the context item for evaluating the path expression.
+9. You can use the `PRETTY` option when querying JSON data using JSON_QUERY. This will pretty-print the values and return them as a character string. `JSON_VALUE` selects a scalar value from JSON data and returns it as a SQL value. You can also use `json_value` to create function-based B-tree indexes for use with JSON data . The function `json_value` has two required arguments. The first argument to `json_value` is a SQL expression that returns an instance of either a scalar SQL data type or a user-defined SQL object type. A scalar return value can be of data type VARCHAR2, BLOB, or CLOB. The first argument can be a table or view column value, a PL/SQL variable, or a bind variable with proper casting. The result of evaluating the SQL expression is used as the context item for evaluating the path expression.
 
 The second argument to json_value is a SQL/JSON path expression followed by optional clauses RETURNING, ON ERROR, and ON EMPTY. The path expression must target a single scalar value, or else an error occurs. 
 
-Compare the output from these 2 queries accessing the same data, retrieving items on Purchase Order number 97.   Execute the SQL using the 'Run Script' button for the best output. ![](../common-images/run-script.png)
+Compare the output from these 2 queries accessing the same data, retrieving items on Purchase Order number 97.   Execute the SQL using the **Run Script** button for the best output. ![](./images/run-script.png)
+
+
+10. First run it without the PRETTY option.
+
+  ```
+  select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]') LINEITEMS
+  from PURCHASE_ORDER p
+  where JSON_VALUE (PO_DOCUMENT,'$.PONumber')  = 97;
+  ```
+
+  ![Query Example 6](./images/task6_query_06.png)  
 
 
 
-First run it without the PRETTY option.
+11. Next try it with PRETTY. You can see that the output is much more readable by a human. 
 
-```
-select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]') LINEITEMS
-from PURCHASE_ORDER p
-where JSON_VALUE (PO_DOCUMENT,'$.PONumber')  = 97;
-```
+  ```
+  select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]' PRETTY) LINEITEMS
+  from PURCHASE_ORDER p
+  where JSON_VALUE (PO_DOCUMENT,'$.PONumber')  = 97;
+  ```
 
-![](./images/task6_query_06.png)  
-
-
-
-Next try it with PRETTY. You can see that the output is much more readable by a human. 
-
-```
-select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]' PRETTY) LINEITEMS
-from PURCHASE_ORDER p
-where JSON_VALUE (PO_DOCUMENT,'$.PONumber')  = 97;
-```
-
-![](./images/task6_query_06a.png) 
+  ![Query Example 6a](./images/task6_query_06a.png) 
 
 
-
-Congratulations, you have completed this lab on JSON in Autonomous Database.
-
-
+_Congratulations, you have completed this lab on JSON in Autonomous Database._
 
 ## Learn More
 
 - [JSON](https://docs.oracle.com/en/database/oracle/oracle-database/19/adjsn/index.html)
-
-
 
 ## Acknowledgements
 
