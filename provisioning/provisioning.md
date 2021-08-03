@@ -1,19 +1,34 @@
 # Provision of Autonomous Database
 
-![Banner](images/banner.png)
+![ADB Banner](images/adb_banner.png)
 
 ## Introduction
 
 This lab walks you through the steps to get started using the Oracle Autonomous Database on Oracle Cloud. There are two types of workloads:
 
-- Autonomous Transaction Processing (ADW)
+- Autonomous Data Warehouse (ADW)
 - Autonomous Transaction Processing (ATP)
 
-In this lab, you will provision a new Autonomous Transaction Processing (ATP) instance.
+In this lab, you will provision a new **Autonomous Transaction Processing (ATP)** instance.
+
+Let check the most important characteristics of **Oracle Autonomous Databases**.
+
+**Self-driving**
+- Automate database provisioning, tuning, and scaling.
+- Provisions highly available databases, configures and tunes for specific workloads, and scales compute resources when needed, all done automatically.
+
+**Self-securing**
+-  Automate data protection and security.
+- Protect sensitive and regulated data automatically, patch your database for security vulnerabilities, and prevent unauthorized access—all with Oracle Autonomous Database.
+
+**Self-repairing**
+- Automate failure detection, failover, and repair.
+- Detect and protect from system failures and user errors automatically and provide failover to standby databases with zero data loss.
+- Perfect for Developers!
 
 *Note: While this lab uses ATP, the steps are identical for creating an ADW database.*
 
-_Estimated Lab Time:_ 5 minutes
+Estimated Lab Time: 15 minutes
 
 ### Objectives
 
@@ -31,54 +46,74 @@ To complete this lab, you need to have the following:
 
 1. Go to **Menu** > **Oracle Database** > **Autonomous Transation Processing**.
 
-   ![ADW Menu](images/adw_menu.png)
+   ![ATP Menu](images/menu_atp_1.png)
 
+   
 2. Click **Create Autonomous Database**.
 
-   ![ADW Create Button](images/adw_create_button.png)
+   ![ATP Create Button](images/atps.png)
 
-3. Fill the first part of the provisioning form with the following values.
+   Check if you are in the **root compartment**.
 
-   ![ADW Form 1](images/adw_form_1.png)
+   > Compartments are a logical separation of resources to attach roles and permissions. It will make possible to create your team structure in compartments so you know who manage what resources. Not necessary at this stage.
 
-      - Compartment: `root` (You can select the root compartment, if not already selected)
-      - Display name: `converged`
-      - Database name: `converged`
-      - Choose a workload type: `Transation Processing`
-      - Choose a deployment type: `Shared Infrastructure`
+3. Fill out the following information:
 
+   - Compartment: `root`
+   - Display name: `converged`
+   - Database name: `converged`
+   - Choose a workload type: `Transation Processing`
+   - Choose a deployment type: `Shared Infrastructure`
+
+   ![ATP Form 1](images/atp_creation_1_2_New.png)
+
+   
 4. Fill the next part of the provisioning form with the following values.
 
-   ![ADW Form 2](images/adw_form_2.png)
+   - Always Free: Turn it `on`, but it will work if you leave it `off` like in the screenshot.
+   
+   You will have visible the **Always Free** logo next to the name of your database:
 
-      - Always Free: Turn it `on`, but it will work if you leave it `off` like in the screenshot.
-      - Choose database version: `19c`, if your region has 21c it will equally work.
-      - OCPU count: `1` or default value.
-      - Storage (TB): `1` or default value.
-      - Auto Scaling: `on` or default value.
+   ![Always Free Logo](./images/always_free_logo.png)
+
+   - Choose database version: `19c`, if your region has 21c it will equally work.
+   - OCPU count: `1` or default value.
+   - Storage (TB): `1` or default value.
+   - Auto Scaling: `on` or default value.
+
+   Auto scaling you can leave it off but it is a nice feature as the ATP database will scale if the workload is increasing and scale down automatically if the workload reduces. Zero downtime during the process. It's cool, isn't it?
+      
+   - Password: `Oracle_12345`
+   - Confirm password: `Oracle_12345`
+   
+   > Reminder: Note your password in a safe location as this cannot be reset.
+   
+   ![ATP Form 2](images/atp_creation_2_New.png)
 
 5. Fill the last part of the provisioning form with the following values.
+   
+   - Access Type: `Allow secure access from everywhere`
+   - Choose a license type: `License Included`
 
-   ![ADW Form 3](images/adw_form_3.png)
+   Click **Create Autonomous Database**.
 
-      - Password: `Oracle_12345`
-      - Confirm password: `Oracle_12345`
-      - Access Type: `Secure access from everywhere`
-      - Choose a license type: `License Included`
+   ![ATP Form 3](images/atp_creation_3_New.png) 
 
-6. Click **Create Autonomous Database**.
+6. We will see the new ATP Database provisioning.
 
-   We will see the new ADW Database provisioning.
+   Wait for the icon to change from `PROVISIONING`:
 
-   Wait for the icon to change from:
-
-   ![AWD Provisioning](images/adw_provisioning_state.png)
+   ![ATP Provisioning](images/atp_provisioning_state.png)
 
    To `ACTIVE` state:
 
-   ![AWD Active](images/adw_active_state.png)
+   ![ATP Active](images/atp_active_state.png)
 
 7. Your Autonomous Transaction Processing is ready to use.
+   
+   Look around the details and get familiar with the buttons and tabs on this page.
+
+   ![ATP Details](images/atp_details_New.png)
 
 _At this point, you are ready to start learning! Please proceed._
 
