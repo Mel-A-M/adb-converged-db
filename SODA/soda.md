@@ -73,7 +73,7 @@ ls
 
 
 
-## **STEP 2**: Connect to your Database from Python
+## STEP 2: Connect to your Database from Python
 
 You will be using the Oracle Cloud Shell for this lab.  The Oracle Cloud Shell is preconfigured with Python3 and cx\_Oracle for us to connect to our database using python.  You can find more information about cx\_Oracle as well as how to install it at the following [blog](https://oracle.github.io/python-cx_Oracle/) site.
 
@@ -127,11 +127,11 @@ cd ..
 
 For the next step you will create a file to store our connection information.  You will then use this file with any additional python programs moving forward in this lab. Placing your connection settings in a separate file makes the database connections much more seamless to use.  
 
-Create a file called *myConnection.py* and enter the following lines:
+Create a file called *myConnection.py*. Copy the text below but remember to edit the os.environ line to match your wallet location : 
 
 ````
 import os
-os.environ['TNS_ADMIN'] = '/home/<your-directory-name-here>/wallet'
+os.environ['TNS_ADMIN'] = '/home/your-directory-name-here/wallet'
 
 # Username
 usrnm="admin"
@@ -511,7 +511,7 @@ You should see the following output:
 
 
 
-> *A Status of '1' means success. If you run the select statement more than once, it will return a '0' as there is no longer anything to drop as is expected.*
+> *A Status of '1' means success. If you run the select statement more than once, it will return a '0' on the subsequent runs as there is no longer anything to drop.*
 
 
 

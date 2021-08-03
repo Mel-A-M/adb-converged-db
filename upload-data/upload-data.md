@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This labwe will create an object storage bucket in our compartment to upload the data that we will use during the rest of labs of this workshop.
+In this lab we will create an object storage bucket in our compartment to upload the data that we will use during the rest of labs of this workshop.
 Finally, we will create an Auth Token to allow access from the Autonomous Database to Object Storage.
 
 _Estimated Lab Time:_ 15 minutes

@@ -71,9 +71,9 @@ A user \'*atp_oss_access*\' with the correct setup and authentication token has 
 
 **Storing your object store authentication token credentials in the database**
 
-To access data in the Object Storage you must enable your database user to authenticate itself with the Object Storage using your object store account and authentication token.
+During the section '*Preparing the Data*' you prepared a create_credential.sql file. Copy and paste the contents of this into SQL Developer Web 
 
-You do this by creating a private CREDENTIAL object for your user that stores this information encrypted in your Autonomous Database instance. This encrypted connection information is only usable by your user schema.
+**Do not copy and paste the example script below.**
 
 1. Within the **SQL worksheet** of **SQL Developer** in your **admin_high** connection, **execute** the following code to store the object store credential in the database. Once you have the code in the **SQL worksheet**, execute it using the **Play** bottom on the top of the page.
 
@@ -335,7 +335,7 @@ To accomplish this you will create two relational views.
 
 Create view `PURCHASE_ORDER_MASTER_VIEW` . This view selects the summary information about the order, including the PO Number, and the Shipping information.
 
-```sql
+```
 create or replace view PURCHASE_ORDER_MASTER_VIEW
 AS 
 SELECT M.* FROM PURCHASE_ORDER p,
@@ -429,7 +429,7 @@ Compare the output from these 2 queries accessing the same data, retrieving item
 
 First run it without the PRETTY option.
 
-```sql
+```
 select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]') LINEITEMS
 from PURCHASE_ORDER p
 where JSON_VALUE (PO_DOCUMENT,'$.PONumber')  = 97;
