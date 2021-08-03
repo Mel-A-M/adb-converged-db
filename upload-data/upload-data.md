@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This lab 
+This lab prepares the converged data sources required for the remaining labs.
 
 
 
@@ -111,7 +111,7 @@ In this lab you will generate the token as your user, and it will inherit the sa
 
 ## STEP 4: Prepare the DBMS_CLOUD.CREATE_CREDENTIAL statement
 
-During this lab you will create a private CREDENTIAL object for your user that stores this information encrypted in your Autonomous Database instance using the DBMS_CLOUD package. This encrypted connection information is only usable by your user schema, and remains stored in the database for future use (until the AUTH token is destroyed by the cloud user). 
+During this lab you will create a private CREDENTIAL object for your schema. The DBMS_CLOUD package is used to create the credential in Autonomous Shared Database, and store  This encrypted connection information is only usable by your user schema, and remains stored in the database for future use (until the AUTH token is destroyed by the cloud user). 
 
 Using a text editor on your local machine prepare the following SQL and name it create_credential.sql
 
@@ -119,7 +119,7 @@ Using a text editor on your local machine prepare the following SQL and name it 
 set define off
 begin
  DBMS_CLOUD.create_credential(
-  credential_name => 'OBJ_STORE_CRED',
+  credential_name => 'LAB_BUCKET_CRED',
   username => '',
   password => ''
  );
@@ -136,9 +136,9 @@ You will need to add more information to this SQL
 
 Your SQL will look similar to this example (please note - this screenshot contains dummy values and cannot be used for your lab)
 
-![](./images/sample-cred.png)
+![](../common-images/sample-cred.png)
 
-
+Save this file as you will need it  during the lab. 
 
 _At this point, you have done the data preparation steps for this lab, please proceed._
 

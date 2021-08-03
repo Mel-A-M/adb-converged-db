@@ -56,43 +56,22 @@ Under the *Development* region of the Database Actions page select the **SQL** t
 
 ![](../common-images/start-sqldev-web.png)
 
-## **Step 2:** Prepare your instance to access object storage
+## Step 2: Prepare your user to access object storage
 
 
-
-
-### Information about how the environment was prepared
-
-To load data from the Oracle Cloud Infrastructure Object Storage you will need a Cloud user with the appropriate privileges to read data from the Object Store. A user \'*atp_oss_access*\' with the correct setup and authentication token has been pre-created for you to use in the next step. 
 
 
 ### Storing your object store authentication token credentials in the database
 
-To access data in the Object Storage you must enable your database user to authenticate itself with the Object Storage using your object store account and authentication token.
+During the section '*Preparing the Data*' you prepared a create_credential.sql file. Copy and paste the contents of this into SQL Developer Web 
 
-You do this by creating a private CREDENTIAL object for your user that stores this information encrypted in your Autonomous Database instance. This encrypted connection information is only usable by your user schema.
+**Do not copy and paste the example script below.**
 
-Within the SQL worksheet of SQL Developer in your **admin_high** connection, execute the following code to store the object store credential in the database:
 
-The correct sql can be found in the file [atp_create_credential.sql](../common-source/atp_create_credential.sql). You only need to create the credential once per user during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."OBJ_STORE_CRED" already exists` then you have already created this credential as part of a previous lab. 
-
-**Do not copy and paste the below example script.**
-
-```
-set define off
-begin
-DBMS_CLOUD.create_credential(
-credential_name => 'OBJ_STORE_CRED',
-username => 'atp_oss_access',
-password => '<PASSWORD HERE>'
-);
-end;
-/
-```
 
 ![](../common-images/create-cred.png)
 
-Now you are ready to load data from Object Store as the admin user.
+Now you are ready to load data from Object Store as the admin schema.
 
 ## Step 3: Create an External Table on the file.
 
@@ -115,7 +94,7 @@ END;
 The parameters you are providing are as follows
 
 - table_name: This will be the new table's name
-- credential_name: This is the credential that has access to the Object Storage location.
+- credential_name: This is the credential that has access to the Object Storage location. This name was defined as part of the CREATE_CREDENTIAL sql.
 - file_uri_list: This is the file location. It can be specified in several formats see the [documentation](.https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
 - format: This describes the format for the data in the file. In this example you are specifying a rejectlimit, but you could also specify record separators and other information depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/format-options.html) for more details on the available formats.
 - column_list: A comma-delimited list of column names and data types for the external table.
@@ -340,7 +319,7 @@ To accomplish this you will create two relational views.
 
 Create view `PURCHASE_ORDER_MASTER_VIEW` . This view selects the summary information about the order, including the PO Number, and the Shipping information.
 
-```sql
+```
 create or replace view PURCHASE_ORDER_MASTER_VIEW
 AS 
 SELECT M.* FROM PURCHASE_ORDER p,
@@ -434,7 +413,7 @@ Compare the output from these 2 queries accessing the same data, retrieving item
 
 First run it without the PRETTY option.
 
-```sql
+```
 select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]') LINEITEMS
 from PURCHASE_ORDER p
 where JSON_VALUE (PO_DOCUMENT,'$.PONumber')  = 97;
