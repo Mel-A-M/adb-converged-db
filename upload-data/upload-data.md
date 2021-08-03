@@ -16,7 +16,7 @@ In this lab, you will:
 
 -   Create an object storage bucket
 -   Upload data to your bucket
--   Generate and Auth Token to allow access from the Autonomous Database to object storage.
+-   Generate an Auth Token to allow access from the Autonomous Database to object storage.
 
 ### Prerequisites
 
@@ -26,11 +26,11 @@ To complete this lab, you need to have the following:
 
 ## **STEP 1**: Create an Object Storage Bucket
 
-1. Go to **Menu** > **Storage** > **Object Storage & Archive** > **Buckets**
+1. Go to **Menu** > **Storage** > **Object Storage & Archive** > **Buckets**.
 
    ![Bucket Menu](../common-images/object-storage-01.png)
 
-2. Click **Create Bucket**.
+2. Click **Create Bucket**. Be sure you have select the same compartment where you have installed the Database in the previous lab. The default compartment is **root**, for the lab purpose you can use root.
 
    ![bucket Create Button](images/create-bucket-01.png)
 
@@ -88,7 +88,7 @@ To complete this lab, you need to have the following:
 
 ## STEP 3: Generate an Auth Token
 
-To access data in the Object Storage you must enable your database user to authenticate itself with the Object Storage using your object store account and authentication token. 
+To access data in  Object Storage you must enable your database user to authenticate itself with the Object Storage using your username and an authentication token. 
 
 > Note: Once an Auth Token has been generated, it is only output to the screen once. As part of this step you will be asked to save the output into a text file for later use.
 
@@ -113,7 +113,7 @@ In this lab you will generate the token as your Oracle Cloud user, and it will i
 
 During this lab you will create a private CREDENTIAL object for your schema. The DBMS_CLOUD package is used to create the credential in Autonomous Shared Database, and store  This encrypted connection information is only usable by your user schema, and remains stored in the database for future use (until the AUTH token is destroyed by the cloud user). 
 
-Using a text editor on your local machine prepare the following SQL and name it create_credential.sql
+Using a text editor on your local machine prepare the following SQL and name it `create_credential.sql`
 
 ```
 set define off
