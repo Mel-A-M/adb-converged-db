@@ -63,9 +63,8 @@ There are some limitations on the usage of XML in Autonomous Database. See the d
 
 ## **STEP 2:** Prepare your user to access object storage
 
-1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. ![Run script icon](../common-images/run-script.png)
-
-  > .
+1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. 
+   **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. ![Run script icon](../common-images/run-script.png)
 
   ![Create credential SQL](images/create-cred.png)
 
@@ -83,7 +82,7 @@ To create an external table using a file stored in Object Storage you will use t
 
    
    
-2. Click on the name of your lab-bucket 
+2. Click on the name of your lab-bucket .
    ![Select Lab Bucket](images/select-lab-bucket.png)
 
 3. On the bucket details screen click on the action menu (the 3 dots) next to the file xmlfile.xml.  Select **View Object Details**
@@ -94,7 +93,7 @@ To create an external table using a file stored in Object Storage you will use t
 
    ![object-details](images/obj-details.png)
 
-5. Return to SQL Developer Web, and enter the statement to create your external table. Replace YOUR-FILE-URI-HERE with the URI of your xmfile.xml
+5. Return to SQL Developer Web, and enter the statement to create your external table. Replace `YOUR-FILE-URI-HERE` with the URI of your xmfile.xml
 
 ```plsql
 BEGIN
@@ -113,9 +112,9 @@ The parameters you are providing are as follows
 
 - table_name: This will be the new table's name
 - credential_name: This is the credential that has access to the Object Storage location.
-- file_uri_list: This is the file location. It can be specified in several formats see the [documentation](.https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
+- file\_uri\_list: This is the file location. It can be specified in several formats see the [documentation](.https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
 - format: This describes the format for the data in the file. In this example you are specifying a recorddelimiter, but you could also specify reject limits and other information depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/format-options.html) for more details on the available formats.
-- column_list: A comma-delimited list of column names and data types for the external table.
+- column\_list: A comma-delimited list of column names and data types for the external table.
 
 ![](./images/external_table_01.png)
 
@@ -142,68 +141,16 @@ INSERT INTO XPURCHASE (SELECT XMLTYPE(xml_document) from PURCHASE_XML);
 
 
 
-## STEP 5: Insert XML record.
+## **STEP 5:** Insert XML record.
 
 1. Let's take a count of the rows we have currently in the table in the database  and then do a insert. The source external table had 1 row.
 
 ```
 SELECT Count(*) FROM  xpurchase p;
 ```
-2. Use the  following sql to add a new row to the table.
+2. Download the SQL for the insert statement from [xml-insert.sql](files/xml-insert.sql) . Copy and paste the full statement into SQL Developer.
 
-```
-Insert into xpurchase values ('<PurchaseOrder>
-  <PONumber>10001</PONumber>
-  <Reference>MSD-20200505</Reference>
-  <Requestor>MS Dhoni</Requestor>
-  <User> TGATES </User>
-  <CostCenter>A50</CostCenter>
-  <ShippingInstructions>
-    <name>MS Dhoni</name>
-    <Address>
-      <street>200 Sporting Green</street>
-      <city>South San Francisco</city>
-      <state>CA</state>
-      <zipCode>99236</zipCode>
-      <country>United States of America</country>
-    </Address>
-    <Phone>
-      <type>Office</type>
-      <number>131-555-5589</number>
-    </Phone>
-  </ShippingInstructions>
-  <LineItems>
-    <ItemNumber>1</ItemNumber>
-    <Part>
-      <Description>Ivanhoe</Description>
-      <UnitPrice>19.95</UnitPrice>
-      <UPCCode>66479101648</UPCCode>
-    </Part>
-    <Quantity>2</Quantity>
-  </LineItems>
-  <LineItems>
-    <ItemNumber>2</ItemNumber>
-    <Part>
-      <Description>Karaoke: Classic Country Hits Vol. 3 203</Description>
-      <UnitPrice>19.95</UnitPrice>
-      <UPCCode>13023003897</UPCCode>
-    </Part>
-    <Quantity>2</Quantity>
-  </LineItems>
-  <LineItems>
-    <ItemNumber>3</ItemNumber>
-    <Part>
-      <Description>Urban Legend</Description>
-      <UnitPrice>19.95</UnitPrice>
-      <UPCCode>43396030916</UPCCode>
-    </Part>
-    <Quantity>9</Quantity>
-  </LineItems>
-  <Special_Instructions>COD</Special_Instructions>
-</PurchaseOrder>
-');
-commit;
-```
+
 
 ![](./images/task4_insert_01.png)
 
@@ -273,50 +220,18 @@ WHERE xmlexists('/PurchaseOrder/ShippingInstructions/Address[city/text()=$CITY]'
 
 
 
+2. Get the product description for products whose unit prices matches $19.95. **XMLSERIALIZE** is a SQL/XML operator that you can use to convert an XML type to a character type. Download the SQL for the  statement from [xmlserialize.sql](files/xmlserialize.sql) . Copy and paste the full statement into SQL Developer.
 
 
-2. Get the product description for products whose unit prices matches $19.95. **XMLSERIALIZE** is a SQL/XML operator that you can use to convert an XML type to a character type.
-
-
-
-```
-  SELECT XMLSERIALIZE(CONTENT COLUMN_VALUE AS CLOB INDENT SIZE=2)
-  FROM  xpurchase xp,
-    XMLTable(
-      '<Summary>;
-       {
-        for $r in /PurchaseOrder/LineItems/Part
-        return $r/Description
-       }
-       </Summary>'
-       passing xml_document
-    )
-    WHERE xmlexists('/PurchaseOrder/LineItems/Part[UnitPrice/text()=$UnitPrice]' passing xml_document, '19.95' AS "UnitPrice" );
-```
 
 ![](./images/task6_xmlserialize.png)
 
 
 
 3. **XMLQUERY** allows you to query XML data in SQL statements. It takes an XQuery expression as a string literal, an optional context item, and other bind variables and returns the result of evaluating the XQuery expression using these input values. The XQuery string is a complete XQuery expression, including prolog (a series of declarations and definitions that together create the required environment for query processing.) For more information about XQuery see the standard [here](https://www.w3.org/TR/xquery/).
+   Download the SQL for the  statement from [xmlquery.sql](files/xmlquery.sql) . Copy and paste the full statement into SQL Developer.
 
-```
-SELECT xmlquery(
-      '<POSummary lineItemCount="{count($XML/PurchaseOrder/LineItems/ItemNumber)}">;{
-         $XML/PurchaseOrder/User,
-         $XML/PurchaseOrder/Requestor,
-         $XML/PurchaseOrder/LineItems/LineItem[2]
-       }
-       </POSummary>'
-      passing xml_document AS "XML"
-      returning content
-    ).getclobval() initial_state
-    FROM  xpurchase
-    WHERE xmlExists(
-      '$XML/PurchaseOrder[CostCenter=$CS]'
-       passing xml_document AS "XML",
-      'R20' AS "CS"      )
-```
+
 
 ![](./images/task6_xquery.png)
 
