@@ -150,7 +150,59 @@ SELECT Count(*) FROM  xpurchase p;
 ```
 2. Download the SQL for the insert statement from [xml-insert.sql](files/xml-insert.sql) . Copy and paste the full statement into SQL Developer.
 
-
+```xml
+Insert into xpurchase values ('<PurchaseOrder>
+  <PONumber>10001</PONumber>
+  <Reference>MSD-20200505</Reference>
+  <Requestor>MS Dhoni</Requestor>
+  <User> TGATES </User>
+  <CostCenter>A50</CostCenter>
+  <ShippingInstructions>
+    <name>MS Dhoni</name>
+    <Address>
+      <street>200 Sporting Green</street>
+      <city>South San Francisco</city>
+      <state>CA</state>
+      <zipCode>99236</zipCode>
+      <country>United States of America</country>
+    </Address>
+    <Phone>
+      <type>Office</type>
+      <number>131-555-5589</number>
+    </Phone>
+  </ShippingInstructions>
+  <LineItems>
+    <ItemNumber>1</ItemNumber>
+    <Part>
+      <Description>Ivanhoe</Description>
+      <UnitPrice>19.95</UnitPrice>
+      <UPCCode>66479101648</UPCCode>
+    </Part>
+    <Quantity>2</Quantity>
+  </LineItems>
+  <LineItems>
+    <ItemNumber>2</ItemNumber>
+    <Part>
+      <Description>Karaoke: Classic Country Hits Vol. 3 203</Description>
+      <UnitPrice>19.95</UnitPrice>
+      <UPCCode>13023003897</UPCCode>
+    </Part>
+    <Quantity>2</Quantity>
+  </LineItems>
+  <LineItems>
+    <ItemNumber>3</ItemNumber>
+    <Part>
+      <Description>Urban Legend</Description>
+      <UnitPrice>19.95</UnitPrice>
+      <UPCCode>43396030916</UPCCode>
+    </Part>
+    <Quantity>9</Quantity>
+  </LineItems>
+  <Special_Instructions>COD</Special_Instructions>
+</PurchaseOrder>
+');
+commit;
+```
 
 ![](./images/task4_insert_01.png)
 
@@ -184,7 +236,7 @@ FROM xpurchase where existsNode(xml_document, '/PurchaseOrder[Reference="MSD-202
 
 2. Update the User to 'M March'
 
-```
+```xml
 UPDATE xpurchase
 set xml_document=updateXML(XML_DOCUMENT, '/PurchaseOrder/User/text()', 'M March')
 WHERE existsNode(XML_DOCUMENT, '/PurchaseOrder[Reference="MSD-20200505"]')=1;
