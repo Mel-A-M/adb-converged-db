@@ -38,7 +38,6 @@ To complete this lab, you need to have the following:
    - Default Storage Tier: `Standard`
    - Encryption: `Encrypt using Oracle managed keys`
 
-        
 4. Click **Create**.
 
    You will now see the **new bucket** on your list of buckets.
@@ -111,9 +110,9 @@ In this lab you will generate the token as your Oracle Cloud user, and it will i
 
 
 
-## STEP 4: Prepare the Create Credential SQL 
+## **STEP 4**: Prepare the Create Credential SQL 
 
-During this lab you will create a private **CREDENTIAL** object for your schema. The **DBMS_CLOUD** package is used to create the credential in **Autonomous Shared Database**, and store. This encrypted connection information is only usable by your **user schema**, and remains stored in the database for future use (until the AUTH token is destroyed by the cloud user). 
+During this lab you will create a private **CREDENTIAL** object for your schema. The **DBMS\_CLOUD** package is used to create the credential in **Autonomous Shared Database**, and store. This encrypted connection information is only usable by your **user schema**, and remains stored in the database for future use (until the AUTH token is destroyed by the cloud user). 
 
 1. Using a **text editor** on your local machine prepare the following SQL and name it `create_credential.sql`.
 
