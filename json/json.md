@@ -397,13 +397,11 @@ where j.PO_DOCUMENT.ShippingInstructions.Address.city = 'South San Francisco';
 
   ![Query Example 5](./images/task6_query_05.png)    
 
-
 9. You can use the `PRETTY` option when querying JSON data using JSON_QUERY. This will pretty-print the values and return them as a character string. `JSON_VALUE` selects a scalar value from JSON data and returns it as a SQL value. You can also use `json_value` to create function-based B-tree indexes for use with JSON data . The function `json_value` has two required arguments. The first argument to `json_value` is a SQL expression that returns an instance of either a scalar SQL data type or a user-defined SQL object type. A scalar return value can be of data type VARCHAR2, BLOB, or CLOB. The first argument can be a table or view column value, a PL/SQL variable, or a bind variable with proper casting. The result of evaluating the SQL expression is used as the context item for evaluating the path expression.
 
   The second argument to json_value is a SQL/JSON path expression followed by optional clauses RETURNING, ON ERROR, and ON EMPTY. The path expression must target a single scalar value, or else an error occurs. 
 
   **Compare** the output from these 2 queries accessing the same data, retrieving items on Purchase Order number 97. **Execute** the following statement using the **Run Script** button on the top of the page.**Execute** the following statement using the **Run Script** button on the top of the page.
-
 
   First* **run** it **without the PRETTY** option.
 
