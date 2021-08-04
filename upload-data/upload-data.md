@@ -144,7 +144,6 @@ During this lab you will create a private **CREDENTIAL** object for your schema.
 
 _At this point, you have done the data preparation steps for this lab, please proceed._
 
-
 ## **Acknowledgements**
 
 - **Author** - Melanie Ashworth-March, Oracle Solution Center
