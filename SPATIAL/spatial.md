@@ -33,38 +33,33 @@ We will be using three tables – CUSTOMERS, WAREHOUSES and WAREHOUSES\_DTP.
 
 Each table stores location using Oracle's native spatial data type, SDO\_GEOMETRY. A location can be stored as a point in an SDO\_GEOMETRY column of a table. The customer's location is associated with longitude and latitude values on the Earth's surface—for example, -63.13631, 52.485426.
 
-## STEP 1: Prepare your environment
+**Estimated Lab Time:** 30 minutes
 
-If you have  downloaded the wallet for your database in a previous lab, skip to **Extract the wallet** If you do not have a wallet, follow this process.
+## **STEP 1**: Prepare your environment
+
+If you have  downloaded the wallet for your database into your cloud shell  in a previous lab, skip to **Extract the wallet** If you do not have a wallet, follow this process.
 
 ### Download the Wallet
 
-Navigate to the *Autonomous Database Details* page for your database. 
+1. Navigate to the *Autonomous Database Details* page for your database. 
 
-Select the **Copy** next to the OCID for your database.
-
-![](../common-images/adb-get-ocid.png)
-
-Start Cloud Shell by selecting the icon in the menu bar.
-
-![](../common-images/start-cloud-shell.png)
-
-After a few moments, the cloud shell will open at the bottom of your web browser window.
-
-Use your autonomous\_database\_ocid to create the Oracle Wallet. You will be setting the wallet password to the same value as the ADB admin password for ease of use. This is not a recommended practice and just used for the purposes of this lab. You will give the downloaded file the name 'converged-wallet.zip'.
-
-
+2. Select the **Copy** next to the OCID for your database.
+   ![](../common-images/adb-get-ocid.png)
+3. Start Cloud Shell by selecting the icon in the menu bar.
+   ![](../common-images/start-cloud-shell.png)
+   After a few moments, the cloud shell will open at the bottom of your web browser window.
+4. Replace YOUR-OCID-HERE in the command below with the OCID for your database. You will be setting the wallet password to the same value as the ADB admin password for ease of use. This is not a recommended practice and just used for the purposes of this lab. The wallet will be created with the name `converged-wallet.zip`.
 
 ````
 cd ~
-oci db autonomous-database generate-wallet --password <your admin password> --file converged-wallet.zip --autonomous-database-id <your ocid>
+oci db autonomous-database generate-wallet --password Oracle_12345 --file converged-wallet.zip --autonomous-database-id YOUR-OCID-HERE
 ````
 
-  ![](../common-images/generate-wallet.png)
+![](../common-images/generate-wallet.png)
 
-The wallet file will be downloaded to your cloud shell file system under your home directory.
+​	The wallet file will be downloaded to your cloud shell file system under your home directory.
 
-Enter the list command in your cloudshell below to verify the *converged-wallet.zip* was created
+5. Enter the ls (list) command in your cloudshell below to verify the *converged-wallet.zip* was created
 
 ````
 ls
@@ -74,17 +69,18 @@ ls
 
 ### Extract the wallet
 
-Unzip the contents of the wallet file into a directory that  you will call *wallet*. The directory can be created automatically by  the unzip command.
+1. Use the unzip command below to unzip the contents of the wallet file into a directory that  you will call *wallet*. The directory will  be created automatically by  the unzip command.
 
 ````
+cd ~
 unzip -d wallet converged-wallet.zip
 ````
 
 ![](../common-images/unzip-wallet.png)
 
-Next you need to modify the *sqlnet.ora* file located in the wallet directory to include the location of the wallet contents (.e.g the directory holding your tnsnames.ora)
+2. Next you need to modify the *sqlnet.ora* file located in the wallet directory to include the location of the wallet contents (.e.g the directory holding your tnsnames.ora)
 
-If you are unsure of the full directory name and path,  you can cut-and-paste this from the output of the *pwd* operation.
+   If you are unsure of the full directory name and path,  you can cut-and-paste this from the output of the *pwd* operation.
 
 ````
 cd ~/wallet
@@ -93,41 +89,39 @@ pwd
 
 ![](../common-images/wallet-pwd.png)
 
-Edit the contents of the *sqlnet.ora* file
+3. Edit the contents of the *sqlnet.ora* file
 
 ````
 vi sqlnet.ora
 ````
 
-Change the first line in the sqlnet.ora file to use your directory name as it appears in your Oracle Cloud Shell prompt:
+​	Change the first line in the sqlnet.ora file to use your directory name as it appears in your Oracle Cloud Shell prompt:
 
 *OLD:* `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="?/network/admin")))`
 
 *NEW:* `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/<YOUR USERNAME HERE>/wallet")))`
 
-So in the screenshot example, my wallet directory is `/home/melanie_as/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/melanie_as/wallet")))` Use your information to complete this change.
+​	So in the screenshot example, my wallet directory is `/home/melanie_as/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/melanie_as/wallet")))` Use your information to complete this change.
 
 
 
 ![](../common-images/sqlnet-wallet.png)
 
-Change directory back to your home Directory
+4. Change directory back to your home Directory
 
 ````
 cd ..
 ````
 
-## STEP 2: Load the data
+## **STEP 2**: Load the data
 
 In this step you will load the data for the lab using Oracle Data Pump. 
 
 ### Storing your object store authentication token credentials in the database
 
-To access data in the Object Storage you must enable your database user to authenticate itself with the Object Storage using your object store account and authentication token.
+To access data in the Object Storage you must enable your database user to authenticate itself with the Object Storage using your object store account and authentication token. You do this by creating a private CREDENTIAL object for your user that stores this information encrypted in your Autonomous Database instance. This encrypted connection information is only usable by your user schema. 
 
-You do this by creating a private CREDENTIAL object for your user that stores this information encrypted in your Autonomous Database instance. This encrypted connection information is only usable by your user schema. 
-
-In cloud shell, set the TNS_ADMIN environment variable to your wallet directory. The tilde `~` symbol is a shortcut for your home directory path. 
+1. In cloud shell, set the TNS_ADMIN environment variable to your wallet directory. The tilde `~` symbol is a shortcut for your home directory path. 
 
 ```
 export TNS_ADMIN=~/wallet
@@ -135,33 +129,21 @@ export TNS_ADMIN=~/wallet
 
 ![](../common-images/set-tns-admin.png)
 
-Connect using SQL*Plus command line from your cloud shell prompt
+2. Connect using SQL*Plus command line from your cloud shell prompt, using your admin password instead of YOUR-ADMIN-PASSWORD and your database name instead of YOUR-DB-NAME
 
-```
-sqlplus admin/<your admin password>@<your dbname>_high
-```
+   ```
+   sqlplus admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_high
+   ```
 
+   ![](../common-images/sqlplus-admin.png)
 
+   
 
-Now execute the script to create a credential. Copy and paste the contents of the  script file  [atp_create_credential.sql](../common-source/atp_create_credential.sql). You only need to create the credential once during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."OBJ_STORE_CRED" already exists` then you have already created this credential as part of a previous lab. 
+   3. During the section '*Preparing the Data*' you prepared a `create_credential.sql` file. Copy and paste the contents of this into SQL*PLUS session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous lab. 
 
-**Do not copy and paste the example script below.**
+![](../common-images/sqlplus-create-cred-admin.png)
 
-```
-set define off
-begin
-DBMS_CLOUD.create_credential(
-credential_name => 'OBJ_STORE_CRED',
-username => 'atp_oss_access',
-password => '<PASSWORD HERE>'
-);
-end;
-/
-```
-
-![](./images/create-cred.png)
-
-Prepare the destination schema for your imported data. In SQL*Plus execute the following commands
+4. Prepare the destination schema for your imported data. In SQL*Plus execute the following commands
 
 ```
 create user appspat identified by OracleLab1234;
@@ -178,71 +160,96 @@ BEGIN
       COMMIT;
     END;
     /
+    
 ```
 
-You have verified that your wallet has been correctly configured by using SQL*Plus and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for SQL Developer Web by enabling ORDS.
+5. You have verified that your wallet has been correctly configured by using SQL\*Plus and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for SQL Developer Web by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
+6. Quit SQL\*PLUS.
 
-Now you are ready to load data from Object Store as the admin user.
+### Running impdp
 
-Quit SQL*PLUS.
+1. Locate the file URI for your datapump export file. Go to **Menu** > **Storage** > **Object Storage & Archive** > **Buckets**
 
-In Cloud Shell execute the following command to import the data, replacing the password and database name with values from your environment.
+   ![Bucket Menu](../common-images/object-storage-01.png)
+
+   
+   
+2. Click on the name of your lab-bucket 
+   ![Select Lab Bucket](../common-images/select-lab-bucket.png)
+
+3. On the bucket details screen click on the action menu (the 3 dots) next to the file export_spatial22Sep2020.dmp.  Select View Object Details
+   ![get-object-details](images/get-obj-details.png)
+
+4. On the *Object Details* dialog note the value for the **URL Path (URI)**
+   ![](images/obj-details.png)
+
+   
+
+5. In Cloud Shell execute the following command to import the data, replacing the following values:
+
+- YOUR-ADMIN-PASSWORD: replace with the password for your admin account
+
+- YOUR-DB-NAME: replace with your database nam e, and make sure you are connecting to the _high service (e.g. `converged_high`)
+
+- YOUR-FILE-URI: The URI for the dump file stored in your lab bucket as noted in the previous step.
+
+
 
 ```
-impdp admin/<your password>@<your DB>_high \
-credential=obj_store_cred  \
-dumpfile=https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/oractdemeabdmautodb/b/DEMO_DATA/o/export_spatial22Sep2020.dmp \
-directory=data_pump_dir
+impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_high
+credential=lab_bucket_cred  \
+directory=data_pump_dir \
+dumpfile=YOUR-FILE-URI 
 ```
 
 ![](./images/import-command.png)
 
-The import should take less than a minute to run. 2 errors are expected in the output `ORA-31684: Object type USER:"APPSPAT" already exists` and `ORA-39083: Object type ROLE_GRANT failed to create with error: ORA-01924: role 'DBA' not granted or does not exist`
+The import should take less than a minute to run. 
+
+2 errors are expected in the output `ORA-31684: Object type USER:"APPSPAT" already exists` and `ORA-39083: Object type ROLE_GRANT failed to create with error: ORA-01924: role 'DBA' not granted or does not exist`
 
 ![](./images/import-command-results.png)
 
-## STEP 3: Connect to SQL Developer Web
-In the previous step you executed commands to grant the appspat user privileges and setup SQL Developer Web using Rest Services (ORDS). 
+## **STEP 3:** Connect to SQL Developer Web
+In the previous step you executed commands to grant the appspat user privileges and setup SQL Developer Web using Rest Services (ORDS).  You are now going to connect as this new user. 
 
-On your *Database Details* screen select the **Tools ** tab and select **Open Database Actions.**
+1. On your *Database Details* screen select the **Tools ** tab and select **Open Database Actions.**
 
 ![](../common-images/open-dbactions.png)
 
 
 
-Enter the username `appspat` and select **Next.**
+2. Enter the username `appspat` and select **Next.**
 
 ![](./images/login-appspat-01.png)
 
-Enter the password for appspat `OracleLab1234` and sign in.
+3. Enter the password for appspat `OracleLab1234` and sign in.
 
 ![](./images/login-appspat-02.png)
 
-Under the *Development* region of the Database Actions page select the **SQL** tile.
+4. Under the *Development* region of the Database Actions page select the **SQL** tile.
 
 ![](../common-images/start-sqldev-web.png)
 
 
 
-## STEP 4: Examining your Spatial data
+## **STEP 4:** Examining your Spatial data
 
 As part of the dataload you created the tables CUSTOMERS,WAREHOUSES_DTP and WAREHOUSES.
 
 Examine one of these tables using SQL Developer Web.
 
-Select the *Customers* table in the list of tables, and right click, and select **Edit**
+1. Select the *Customers* table in the list of tables, and right click, and select **Edit**
 
 ![](./images/examine-01.png)
 
-This opens the *Table Properties* window.
-
-You can see that the customer table has a column CUST_GEO_LOCATION which is of the special SDO_GEOMETRY data type to store the spatial data.
+2. This opens the *Table Properties* window. You can see that the customer table has a column CUST_GEO_LOCATION which is of the special SDO_GEOMETRY data type to store the spatial data.
 
 ![](./images/examine-02.png)
 
 
 
-Before the spatial index was created in the original data load, entries were inserted into the USER_SDO_GEOM_METADATA view to provide information about  dimensions associated with the data.
+3. Before the spatial index was created in the original data load, entries were inserted into the USER_SDO_GEOM_METADATA view to provide information about  dimensions associated with the data, for example.
 
 `insert into user_sdo_geom_metadata
 (TABLE_NAME,
@@ -264,19 +271,15 @@ MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', -180, 180, 0.05),
 
 
 
-
-Select the *Indexes* item in the sidebar.
-
-You can see that there has been an index created called  *CUSTOMERS_SIDX* .This index is on the CUSTOMER_SDO column. 
+4. Select the *Indexes* item in the sidebar. You can see that there has been an index created called  *CUSTOMERS_SIDX* .This index is on the CUSTOMER_SDO column.  This type of index on spatial data was created using a command similar to `CREATE INDEX customers_sidx ON customers(CUST_GEO_LOCATION) indextype is mdsys.spatial_index;`
 
 ![](./images/examine-03.png)
 
-This type of index on spatial data was created using a command similar to `CREATE INDEX customers_sidx ON customers(CUST_GEO_LOCATION) indextype is mdsys.spatial_index;`
 
 
-Select **Close** to leave table properties without making any changes.
+5. Select **Close** to leave table properties without making any changes.
 
-## **STEP 5**: Run Spatial Queries
+## **STEP 5:** Run Spatial Queries
 
 #### Query #1: Find the five customers closest to the warehouse whose warehouse name  is 'Ferndale Facility'
 
