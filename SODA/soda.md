@@ -147,7 +147,7 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
     - `passwd=` Supply the password for your admin user here. The password that we used is: `Oracle_12345`
     - `dsn=` Provide the name for your database connection.  This is the name of the Autonomous Database for this lab. We have used **converged**, just in case, you have followed our recomendations. We are appending the *_tp* suffix for a transaction processing service. You can also locate this from the *tnsnames.ora* file located in your wallet directory.  
 
-    ![myConnection.py file](./images/py-connect-03_new.png)
+  ![myConnection.py file](./images/py-connect-03_new.png)
 
 9. You are now ready to create your **first python program** to connect to the Autonomous Database using cx\_Oracle 8. **cx\_Oracle** is a Python extension that enables connectivity to an Oracle Database.  
 
