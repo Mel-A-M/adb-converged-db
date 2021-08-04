@@ -401,7 +401,7 @@ where j.PO_DOCUMENT.ShippingInstructions.Address.city = 'South San Francisco';
 
   The second argument to json_value is a SQL/JSON path expression followed by optional clauses RETURNING, ON ERROR, and ON EMPTY. The path expression must target a single scalar value, or else an error occurs. 
 
-  **Compare** the output from these 2 queries accessing the same data, retrieving items on Purchase Order number 97. **Execute** the following statement using the **Run Script** button on the top of the page.**Execute** the following statement using the **Run Script** button on the top of the page.
+  **Compare** the output from these 2 queries accessing the same data, retrieving items on Purchase Order number 97. **Execute** the following statement using the **Run Script** button on the top of the page.
 
   First* **run** it **without the PRETTY** option.
 
