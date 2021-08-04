@@ -37,19 +37,23 @@ The first thing to realize about JSON is that it remains a simple text format, w
 ## STEP 1: Start SQL Developer Web
 
 1. Open **Database Actions** from your Database Details screen.
-    
+   
+
   ![Database Actions Dashboard](./images/open-dbactions.png)
 
 2. Enter the username `admin` and select **Next**.
-    
-  ![Admin Login](../images/login-admin-01.png) 
+   
+
+  ![Admin Login](images/login-admin-01.png) 
 
 3. Enter the **password** for `admin` and select **Sign In**. We have created this password on the Provisioning ADB Lab, we have recomended to use:`Oracle_12345`.
-    
+   
+
   ![Admin Login Password](./images/login-admin-02.png)
 
 4. Under the **Development** region of the Database Actions page select the **SQL** tile, you will access to **SQL Developer Web**.
-    
+   
+
   ![Database Actions Dashboard - Development](./images/start-sqldev-web.png)
   ![SQL Developer Web](./images/sqldev-web.png)
 
@@ -70,18 +74,18 @@ To create an **external table** using a file stored in Object Storage you will u
 1. **Locate** the file URI (URL Path) for your JSON files. Go to **Menu** > **Storage** > **Object Storage & Archive** > **Buckets**.
 
   ![Bucket Menu](./images/object-storage-01.png)
-   
+
 2. **Click** on the name of your **lab-bucket**.
-  
+
   ![Select Bucket Lab-bucket](./images/select-lab-bucket.png)
 
 
 3. On the **Bucket details** screen **Click** on the **Action menu** (the 3 dots menu) next to the file **PurchaseOrders.dmp**. Select **View Object Details**.
-  
+
   ![Get Object Details](images/get-object-details.png)
 
 4. On the **Object Details** dialog note the value for the **URL Path (URI)**.
-  
+
   ![file URI](./images/get-object-details-01.png)
 
 5. Use the **URI** from the previous step in this SQL, **replacing** the text `FILE_URL_HERE` with the URI from your tenancy. **Execute** this SQL using the **Run Script** button on the top of the page.
@@ -98,13 +102,13 @@ To create an **external table** using a file stored in Object Storage you will u
   /
   ```
 
-  The parameters you are providing are as follows:
+The parameters you are providing are as follows:
 
-    - **table_name**: This will be the new table's name.
-    - **credential_name**: This is the credential that has access to the Object Storage location. This credential and name was created as part of STEP 2 of this Lab.
-    - **file_uri_list**: This is the file location. It can be specified in several formats see the [documentation](.https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
-    - **format**: This describes the format for the data in the file. In this example you are specifying a rejectlimit, but you could also specify record separators and other information depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/format-options.html) for more details on the available formats.
-    - **column_list**: A comma-delimited list of column names and data types for the external table.
+- **table_name**: This will be the new table's name.
+- **credential_name**: This is the credential that has access to the Object Storage location. This credential and name was created as part of STEP 2 of this Lab.
+- **file_uri_list**: This is the file location. It can be specified in several formats see the [documentation](.https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
+- **format**: This describes the format for the data in the file. In this example you are specifying a rejectlimit, but you could also specify record separators and other information depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/format-options.html) for more details on the available formats.
+- **column_list**: A comma-delimited list of column names and data types for the external table.
 
   ![Create External Table](./images/create-external.png)
 
@@ -151,7 +155,8 @@ To create an **external table** using a file stored in Object Storage you will u
     ![Select count SQL](./images/task4_insert_01.png)  
 
   2. **Insert a record**. This new record will have a PONumber of 10001, and will contain 2 items.
-  **Execute** the following statement using the **Run Script** button on the top of the page.
+
+    **Execute** the following statement using the **Run Script** button on the top of the page.
 
   ```sql
   INSERT INTO purchase_order
@@ -192,12 +197,13 @@ To create an **external table** using a file stored in Object Storage you will u
   ![Insert PONumber of 10001](./images/task4_insert_02.png)
 
   3. **Verify** your insert by selecting the information for PONumber 10001. Please **copy** the **ID** for your record (highlighted in red in the screenshot) and **Save** it. This value WILL NOT MATCH the one in the screenshot. You will use this **ID** in the update section of the lab.
-  **Execute** the following statement using the **Run Script** button on the top of the page.
 
+    **Execute** the following statement using the **Run Script** button on the top of the page.
+    
     ```sql
       Select id from purchase_order j where j.po_document.PONumber=10001;
     ```
-
+    
     ![Select PONumber=10001](./images/task4_insert_03.png)
 
 
@@ -410,7 +416,7 @@ where j.PO_DOCUMENT.ShippingInstructions.Address.city = 'South San Francisco';
     from PURCHASE_ORDER p
     where JSON_VALUE (PO_DOCUMENT,'$.PONumber')  = 97;
     ```
-
+    
     ![Query Example 6](./images/task6_query_06.png)  
 
 

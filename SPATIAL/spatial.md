@@ -139,7 +139,7 @@ export TNS_ADMIN=~/wallet
 
    
 
-   3. During the section '*Preparing the Data*' you prepared a `create_credential.sql` file. Copy and paste the contents of this into SQL*PLUS session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous lab. 
+   3. During the section '*Preparing the Data*' you prepared a `create_credential.sql` file. Copy and paste the contents of this into SQL*PLUS session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous step in this lab. 
 
 ![](../common-images/sqlplus-create-cred-admin.png)
 

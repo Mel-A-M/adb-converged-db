@@ -14,7 +14,7 @@ There are several steps within this lab.
 -  Query XML Data: XQuery is a very general and expressive language, and SQL/XML functions XMLQuery, XMLTable, XMLExists, and XMLCast combine that power of expression and computation with the strengths of SQL. We can query XMLType data, possibly decomposing the resulting XML into relational data using function XMLTable.
 -  Insert and Update XML Data -  You can update XML content or replace either the entire contents of a document or only particular parts of a document. The ability to perform partial updates on XML documents is very powerful, particularly when we make small changes to large documents, as it can significantly reduce the amount of network traffic and disk input-output required to perform the update. The Oracle UPDATEXML function allows us to update XML content stored in Oracle Database.
 
-
+**Expected Lab Duration:**30 minutes.
 
 
 ### About Oracle XML
@@ -39,80 +39,69 @@ Oracle XML DB allows an organization to manage XML content in the same way that 
 
 There are some limitations on the usage of XML in Autonomous Database. See the documentation [here](https://docs.oracle.com/en/cloud/paas/autonomous-database/atpdg/experienced-database-users.html)
 
-## Step 1: Start SQL Developer Web
+## **STEP 1:** Start SQL Developer Web
+
+1. Open *Database Actions* from your Database Details screen.
+
+![](images/open-dbactions.png)
 
 
 
-Open *Database Actions* from your Database Details screen.
+2. Enter the username `admin` and select **Next.**
 
-![](../common-images/open-dbactions.png)
+![](images/login-admin-01.png)
 
+3. Enter the password for admin `Oracle_12345`  and select **Sign In**.
 
+![](images/login-admin-02.png)
 
-Enter the username `admin` and select **Next.**
+4. Under the *Development* region of the Database Actions page select the **SQL** tile.
 
-![](../common-images/login-admin-01.png)
-
-Enter the password for admin  and select **Sign In**.
-
-![](../common-images/login-admin-02.png)
-
-Under the *Development* region of the Database Actions page select the **SQL** tile.
-
-![](../common-images/start-sqldev-web.png)
-
-## **Step 2:** Prepare your instance to access object storage
+![](images/start-sqldev-web.png)
 
 
 
+## **STEP 2:** Prepare your user to access object storage
 
-### Information about how the environment was prepared
+1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. ![Run script icon](../common-images/run-script.png)
 
-To load data from the Oracle Cloud Infrastructure Object Storage you will need a Cloud user with the appropriate privileges to read data from the Object Store. A user \'*atp_oss_access*\' with the correct setup and authentication token has been pre-created for you to use in the next step. 
+  > .
 
+  ![Create credential SQL](images/create-cred.png)
 
-### Storing your object store authentication token credentials in the database
-
-To access data in the Object Storage you must enable your database user to authenticate itself with the Object Storage using your object store account and authentication token.
-
-You do this by creating a private CREDENTIAL object for your user that stores this information encrypted in your Autonomous Database instance. This encrypted connection information is only usable by your user schema.
-
-Within the SQL worksheet of SQL Developer in your **admin_high** connection, execute the following code to store the object store credential in the database:
-
-The correct sql can be found in the file [atp_create_credential.sql](../common-source/atp_create_credential.sql). You only need to create the credential once per user during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."OBJ_STORE_CRED" already exists` then you have already created this credential as part of a previous lab. 
-
-**Do not copy and paste the below example script.**
-
-```
-set define off
-begin
-DBMS_CLOUD.create_credential(
-credential_name => 'OBJ_STORE_CRED',
-username => 'atp_oss_access',
-password => '<PASSWORD HERE>'
-);
-end;
-/
-```
-
-![](../common-images/create-cred.png)
-
-Now you are ready to load data from Object Store as the admin user.
+You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous exercise in this lab. Now you are ready to load data from Object Store as the `admin` schema.
 
 
 
-## Step 3: Create an External Table on the file.
+## **STEP 3:** Create an External Table on the file.
 
-To create an external table using a file stored in Object Storage you will use the DBMS_CLOUD.CREATE_EXTERNAL_TABLE procedure.
+To create an external table using a file stored in Object Storage you will use the **DBMS\_CLOUD.CREATE\_EXTERNAL\_TABLE** procedure.
 
+1. Locate the file URI for your datapump export file. Go to **Menu** > **Storage** > **Object Storage & Archive** > **Buckets**
 
+   ![Bucket Menu](images/object-storage-01.png)
 
-```
+   
+   
+2. Click on the name of your lab-bucket 
+   ![Select Lab Bucket](images/select-lab-bucket.png)
+
+3. On the bucket details screen click on the action menu (the 3 dots) next to the file xmlfile.xml.  Select **View Object Details**
+   
+   ![get-object-details](images/get-obj-details.png)
+   
+4. On the *Object Details* dialog note the value for the **URL Path (URI)**
+
+   ![object-details](images/obj-details.png)
+
+5. Return to SQL Developer Web, and enter the statement to create your external table. Replace YOUR-FILE-URI-HERE with the URI of your xmfile.xml
+
+```plsql
 BEGIN
    DBMS_CLOUD.CREATE_EXTERNAL_TABLE(
     table_name =>'PURCHASE_XML',
-    credential_name =>'OBJ_STORE_CRED',
-    file_uri_list =>'https://objectstorage.eu-frankfurt-1.oraclecloud.com/n/oractdemeabdmautodb/b/DEMO_DATA/o/converged%2Fxmlfile.xml',
+    credential_name =>'LAB_BUCKET_CRED',
+    file_uri_list =>'YOUR-FILE-URI-HERE',
     format => json_object('recorddelimiter' value '''|'''),
     column_list => 'XML_DOCUMENT CLOB',
     field_list => 'xml_document CHAR(80000)');
@@ -130,9 +119,9 @@ The parameters you are providing are as follows
 
 ![](./images/external_table_01.png)
 
-## Task 3:  Create a table from the External Table 
+## **STEP 4**:  Create a table from the External Table 
 
- You  can now immediately query our XML file lying in the object store via the external table CLOB column, using [native database XML features](https://docs.oracle.com/en/database/oracle/oracle-database/19/adxdb/how-to-use-XML-DB.html#GUID-D937B3D1-BA54-41D0-9428-4739DA805D75) such as XPATH expressions.
+1. You  can now immediately query our XML file lying in the object store via the external table CLOB column, using [native database XML features](https://docs.oracle.com/en/database/oracle/oracle-database/19/adxdb/how-to-use-XML-DB.html#GUID-D937B3D1-BA54-41D0-9428-4739DA805D75) such as XPATH expressions.
 
 ```
 SELECT EXTRACTVALUE(XMLTYPE(xml_document),'/PurchaseOrder/Actions/Action/User') as Users from PURCHASE_XML;
@@ -142,7 +131,7 @@ SELECT EXTRACTVALUE(XMLTYPE(xml_document),'/PurchaseOrder/Actions/Action/User') 
 
 
 
-Use your external table to populate a table in the database.
+2. Use your external table to populate a table in the database.
 
 ```
 CREATE TABLE XPURCHASE (xml_document xmltype); 
@@ -153,14 +142,14 @@ INSERT INTO XPURCHASE (SELECT XMLTYPE(xml_document) from PURCHASE_XML);
 
 
 
-## Task 4: Insert XML record.
+## STEP 5: Insert XML record.
 
-Let's take a count of the rows we have currently and then do a insert. The source external table had 1 row.
+1. Let's take a count of the rows we have currently in the table in the database  and then do a insert. The source external table had 1 row.
 
 ```
 SELECT Count(*) FROM  xpurchase p;
 ```
-Use your  following sql to add a new row to the table.
+2. Use the  following sql to add a new row to the table.
 
 ```
 Insert into xpurchase values ('<PurchaseOrder>
@@ -229,11 +218,11 @@ This should return 1 more row !
 
 
 
-## Task 5: Update values in the XML table
+## **STEP 6:** Update values in the XML table
 
-You can update values in your XML data. 
+You can update values in your XML data stored in the database.
 
-Review which user is responsible for the the Purchase Order with the Reference 'MSD-20200505'
+1. Review which user is responsible for the the Purchase Order with the Reference 'MSD-20200505'
 
 
 
@@ -246,7 +235,7 @@ FROM xpurchase where existsNode(xml_document, '/PurchaseOrder[Reference="MSD-202
 
 
 
-Update the User to 'M March'
+2. Update the User to 'M March'
 
 ```
 UPDATE xpurchase
@@ -257,7 +246,7 @@ commit;
 
 ![](./images/task5_update_02.png)
 
-Verify that the update was successful.
+3. Verify that the update was successful.
 
 ```
 SELECT extractValue(xml_document, '/PurchaseOrder/User') 
@@ -268,12 +257,12 @@ FROM xpurchase where existsNode(xml_document, '/PurchaseOrder[Reference="MSD-202
 
 
 
-## Task 6: Example Queries
+## **STEP 7:** Example Queries
 
 
 
-Get the list of the customer and their purchase information from a specific geographical location.  
-**XMLEXISTS** is an SQL/XML operator that you can use to query XML values in SQL, in a regular query. You can use the xmlexists function to look to see if a specific value is present in an xmltype column.
+1. Get the list of the customer and their purchase information from a specific geographical location.  
+   **XMLEXISTS** is an SQL/XML operator that you can use to query XML values in SQL, in a regular query. You can use the xmlexists function to look to see if a specific value is present in an xmltype column.
 
 ```
 SELECT xp.xml_document.getclobval() FROM   xpurchase xp
@@ -286,7 +275,7 @@ WHERE xmlexists('/PurchaseOrder/ShippingInstructions/Address[city/text()=$CITY]'
 
 
 
-Get the product description for products whose unit prices matches $19.95. **XMLSERIALIZE** is a SQL/XML operator that you can use to convert an XML type to a character type.
+2. Get the product description for products whose unit prices matches $19.95. **XMLSERIALIZE** is a SQL/XML operator that you can use to convert an XML type to a character type.
 
 
 
@@ -309,8 +298,7 @@ Get the product description for products whose unit prices matches $19.95. **XML
 
 
 
-
-**XMLQUERY** allows you to query XML data in SQL statements. It takes an XQuery expression as a string literal, an optional context item, and other bind variables and returns the result of evaluating the XQuery expression using these input values. The XQuery string is a complete XQuery expression, including prolog (a series of declarations and definitions that together create the required environment for query processing.) For more information about XQuery see the standard [here](https://www.w3.org/TR/xquery/).
+3. **XMLQUERY** allows you to query XML data in SQL statements. It takes an XQuery expression as a string literal, an optional context item, and other bind variables and returns the result of evaluating the XQuery expression using these input values. The XQuery string is a complete XQuery expression, including prolog (a series of declarations and definitions that together create the required environment for query processing.) For more information about XQuery see the standard [here](https://www.w3.org/TR/xquery/).
 
 ```
 SELECT xmlquery(
@@ -334,13 +322,7 @@ SELECT xmlquery(
 
 
 
-
-
-
-
-
-
-Find the purchase order reference if the Special Instructions for the order are 'COD' (Cash on Delivery) . **ExistsNode**  checks if  the xpath-expression returns at least one XML element or text node. If so, `existsNode` returns 1, otherwise, it returns 0. `existsNode` should only be used in the where clause of the select statement.
+4. Find the purchase order reference if the Special Instructions for the order are 'COD' (Cash on Delivery) . **ExistsNode**  checks if  the xpath-expression returns at least one XML element or text node. If so, `existsNode` returns 1, otherwise, it returns 0. `existsNode` should only be used in the where clause of the select statement.
 
 
 
