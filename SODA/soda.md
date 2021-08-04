@@ -4,19 +4,18 @@
 
 In this lab you will be introduced to using the Oracle SODA APIs for Python. But you should be aware that SODA is also available for Java, REST, C and Node.js.  
 
-*Estimated Lab Time:* 30 Minutes
+**Estimated Lab Time**: 30 Minutes.
 
 ### About Oracle SODA
-So what is exactly is SODA? it’s best described as follows (taken from the Oracle documentation):
+So what is exactly is **SODA**? It is best described as follows (taken from the Oracle documentation):
 
-“Simple Oracle Document Access (SODA) is a set of NoSQL-style APIs that let you create and store collections of documents (in particular JSON) in Oracle Database, retrieve them, and query them, without needing to know Structured Query Language (SQL) or how the documents are stored in the database.”
+  “Simple Oracle Document Access (SODA) is a set of NoSQL-style APIs that let you create and store collections of documents (in particular JSON) in Oracle Database, retrieve them, and query them, without needing to know Structured Query Language (SQL) or how the documents are stored in the database.”
 
-Oracle SODA documentation [link](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/python/index.html)
+Oracle SODA documentation [link](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/python/index.html).
 
-For more information see the [overview](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/adsdi/overview-soda.html#GUID-BE42F8D3-B86B-43B4-B2A3-5760A4DF79FB) in the Oracle Documentation
+For more information see the [overview](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/adsdi/overview-soda.html#GUID-BE42F8D3-B86B-43B4-B2A3-5760A4DF79FB) in the Oracle Documentation.
 
-
-#### SODA Terminology
+### SODA Terminology
 
 Common terms that are used in this lab:
 
@@ -26,162 +25,164 @@ Common terms that are used in this lab:
 
 - **Database**: A Database contains multiple collections and is the equivalent of a Schema in an Oracle Database.
 
-The Document model is completely schema-less.  In the Schema-less approach to creating a collection, your code can create a collection without requiring any metadata definition or DDL (Data Definition Language). Furthermore, it is possible to insert a document in a pre-created collection that does not match any previously inserted documents (or Schema Evolution).
+The Document model is completely schema-less. In the Schema-less approach to creating a collection, your code can create a collection without requiring any metadata definition or DDL (Data Definition Language). Furthermore, it is possible to insert a document in a pre-created collection that does not match any previously inserted documents (or Schema Evolution).
 
 One last thing about SODA. It is important to understand that SODA is NOT mandatory when working with JSON and the Oracle Database. However SODA provides a simple solution to bridging the programing gap between the NOSQL model and the relational model.
 
 ## STEP 1: Prepare your environment
 
-If you have  downloaded the wallet for your database in a previous lab, skip to STEP 2. If you do not have a wallet, follow this process.
+If you have downloaded the wallet for your database in a previous lab, skip to STEP 2. If you do not have a wallet, follow this process.
 
 ### Download the Wallet
 
-Navigate to the *Autonomous Database Details* page for your database. 
+1. **Navigate** to the **Autonomous Database Details** page for your database. Select the **Copy** next to the OCID for your database.
 
-Select the **Copy** next to the OCID for your database.
+  ![Get OCID Information](./images/adb-get-ocid.png)
 
-![](../common-images/adb-get-ocid.png)
+2. **Start Cloud Shell** by selecting the icon in the menu bar.
 
-Start Cloud Shell by selecting the icon in the menu bar.
+  ![Start Cloud Shell](./images/start-cloud-shell.png)
 
-![](../common-images/start-cloud-shell.png)
+  After a few moments, the **Cloud Shell** will open at the bottom of your web browser window.
 
-After a few moments, the cloud shell will open at the bottom of your web browser window.
+3. **Use** your **autonomous\_database\_ocid** to create the **Oracle Wallet**. You will be setting the wallet **password** to the same value as the ADB `admin` password for ease of use. This is not a recommended practice and just used for the purposes of this lab. The password that we used is: `Oracle_12345`. You will give the downloaded file the name **'converged-wallet.zip'**.
 
-Use your autonomous\_database\_ocid to create the Oracle Wallet. You will be setting the wallet password to the same value as the ADB admin password for ease of use. This is not a recommended practice and just used for the purposes of this lab. You will give the downloaded file the name 'converged-wallet.zip'.
+  ````
+  cd ~
+  oci db autonomous-database generate-wallet --password <your admin password> --file  converged-wallet.zip --autonomous-database-id <your ocid>
+  ````
+  
+  ![Generate Wallet](./images/generate-wallet.png)
 
+  The wallet file will be **downloaded** to your cloud shell file system under your home directory.
 
+4. **Enter** the list command in your **Cloud Shell** below to verify the **converged-wallet.zip** was created.
 
-````
-cd ~
-oci db autonomous-database generate-wallet --password <your admin password> --file converged-wallet.zip --autonomous-database-id <your ocid>
-````
+  ````
+  ls
+  ````
 
-  ![](../common-images/generate-wallet.png)
-
-The wallet file will be downloaded to your cloud shell file system under your home directory.
-
-Enter the list command in your cloudshell below to verify the *converged-wallet.zip* was created
-
-````
-ls
-````
-
-  ![](../common-images/check-wallet.png)
-
-
-
+  ![Check Wallet Downloaded](../common-images/check-wallet.png)
 
 
 ## STEP 2: Connect to your Database from Python
 
-You will be using the Oracle Cloud Shell for this lab.  The Oracle Cloud Shell is preconfigured with Python3 and cx\_Oracle for us to connect to our database using python.  You can find more information about cx\_Oracle as well as how to install it at the following [blog](https://oracle.github.io/python-cx_Oracle/) site.
+You will be using the **Oracle Cloud Shell** for this lab too. The Oracle Cloud Shell is preconfigured with **Python3** and **cx\_Oracle** for us to connect to our database using Python.  You can find more information about cx\_Oracle as well as how to install it at the following [blog](https://oracle.github.io/python-cx_Oracle/) site.
 
-You will also use the wallet-file we called *converged-wallet.zip* that we already created in our Oracle Cloud Shell in a previous lab.
+You will also use the **wallet-file** we called **converged-wallet.zip** that we already created in our Oracle Cloud Shell in a previous step fro this Lab.
 
-As a first step let's verify that Python3 is installed.  If you aren't already logged into Oracle Cloud please do so and restart Oracle Cloud Shell.  At the Cloud Shell prompt enter the following to see the version:
+1. As a first step let us **verify** that **Python3** is installed. If you are not already logged into Oracle Cloud please do so and restart **Oracle Cloud Shell**. At the Cloud Shell prompt enter the following to see the version:
 
-````
-python3 --version
-````
-Unzip the contents of the wallet file into a directory that  you will call *wallet*. The directory can be created automatically by  the unzip command.
+  ````
+  python3 --version
+  ````
+  
+2. **Unzip** the contents of the wallet file into a directory that you will call **wallet**. The directory can be created automatically by  the unzip command.
 
-````
-unzip -d wallet converged-wallet.zip
-````
+  ````
+  unzip -d wallet converged-wallet.zip
+  ````
 
-![](../common-images/unzip-wallet.png)
+  ![Unzip Wallet](./images/unzip-wallet.png)
 
-Next you need to modify the *sqlnet.ora* file located in the wallet directory to include the location of the wallet contents.
+3. Next you need to **modify** the **sqlnet.ora** file located in the wallet directory to include the location of the **wallet contents**.
 
-If you are unsure of the full directory name and path,  you can cut-and-paste this from the output of the *pwd* operation.
+  If you are unsure of the full directory name and path,  you can cut-and-paste this from the output of the **pwd** operation.
 
-````
-cd ~/wallet
-pwd
-````
+    ````
+    cd ~/wallet
+    pwd
+    ````
 
-![](../common-images/wallet-pwd.png)
+    ![Wallet pwd](./images/wallet-pwd.png)
 
-Edit the contents of the *sqlnet.ora* file
+4. **Edit** the contents of the **sqlnet.ora** file using **vi**.
 
-````
-vi sqlnet.ora
-````
+  ````
+  vi sqlnet.ora
+  ````
 
-Change the first line in the sqlnet.ora file to use your directory name as it appears in your Oracle Cloud Shell prompt:
+5. **Change** the first line in the sqlnet.ora file to use your directory name as it appears in your **Oracle Cloud Shell prompt**:
 
-*OLD:* `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="?/network/admin")))`
+  **OLD**: `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="?/network/admin")))`
 
-*NEW:* `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/user_name/wallet")))`
+  **NEW**: `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/user_name/wallet")))`
 
-So in the screenshot example, my wallet directory is `/home/melanie_as/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/melanie_as/wallet")))`
+  So in the screenshot example, my wallet directory is `/home/xxxxx_as/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/xxxxx_as/wallet")))`
 
-![](../common-images/sqlnet-wallet.png)
+  ![SQLnet wallet](./images/sqlnet-wallet.png)
 
-Change directory back to your home Directory
+6. **Change directory** back to your **home Directory**.
 
-````
-cd ..
-````
+  ````
+  cd ..
+  ````
 
-For the next step you will create a file to store our connection information.  You will then use this file with any additional python programs moving forward in this lab. Placing your connection settings in a separate file makes the database connections much more seamless to use.  
+7. For the next step you will **create a file to store our connection information**. You will then use this file with any additional python programs moving forward in this lab. Placing your connection settings in a separate file makes the database connections much more seamless to use.  
 
-Create a file called *myConnection.py*. Copy the text below but remember to edit the os.environ line to match your wallet location : 
+  **Create** a file called **myConnection.py**, using **vi**. 
 
-````
-import os
-os.environ['TNS_ADMIN'] = '/home/your-directory-name-here/wallet'
+  ````
+  vi myConnection.py
+  ````
 
-# Username
-usrnm="admin"
-# Password
-psswd="<your admin password>"
-# Data Source Name
-dsn= "cvgad01_tp"
-````
+8. **Copy** the text below but remember to **edit** the **os.environ** line to match your **wallet location**: 
 
-The contents of the file we have created-
+  ````
+  import os
+  os.environ['TNS_ADMIN'] = '/home/your-directory-name-here/wallet'
 
-- The first two lines permit us to set a *TNS_ADMIN* environment variable.  Make sure to enter your own directory location for the wallet.
-- `usrnm=` - You can leave this as is to use the admin user for this lab.
-- `passwd=` - Supply the password for your admin user here.
-- `dsn=` - Provide the name for your database connection.  This is the name of the Autonomous Database for this lab.  We are appending the *_tp* suffix for a transaction processing service.  You can also locate this from the *tnsnames.ora* file located in your wallet directory.  
+  # Username
+  usrnm="admin"
+  # Password
+  psswd="<your admin password>"
+  # Data Source Name
+  dsn= "converged_tp"
+  ````
 
+  The contents of the file we have created:
+
+    - The first two lines permit us to set a *TNS_ADMIN* environment variable. Make sure to enter your own directory location for the wallet.
+    - `usrnm=` You can leave this as is to use the admin user for this lab.
+    - `passwd=` Supply the password for your admin user here. The password that we used is: `Oracle_12345`
+    - `dsn=` Provide the name for your database connection.  This is the name of the Autonomous Database for this lab. We have used **converged**, just in case, you have followed our recomendations. We are appending the *_tp* suffix for a transaction processing service. You can also locate this from the *tnsnames.ora* file located in your wallet directory.  
+
+    ![myConnection.py file](./images/py-connect-03_new.png)
+
+9. You are now ready to create your **first python program** to connect to the Autonomous Database using cx\_Oracle 8. **cx\_Oracle** is a Python extension that enables connectivity to an Oracle Database.  
+
+10. **Create** a file called **soda1.py** and **enter** the following lines:
+
+  ````
+  import cx_Oracle
+  import myConnection
+
+  connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
+
+  print("Database version:", connection.version)
+  print("\n")
+  ````
+
+  > *Note*: You do not need to modify any lines of code in this file.
+
+  About this program:
+    - The first two lines load the cx\_Oracle extension along with the connection information from the file we created in our previous step.
+    - We use the third line of code to pass the connection information to the program.
+    - The final line prints the database version.
+
+11. **Enter** the following to run the program:
+
+  ````
+  python3 soda1.py
+  ````
+
+  If everything is configured correctly, you should see this output:
+
+<!-- Wrong screenshoot! -->
 ![](./images/py-connect-03.png)
 
-You are now ready to create your first python program to connect to the Autonomous Database using cx\_Oracle 8. cx\_Oracle is a Python extension that enables connectivity to an Oracle Database.  
 
-Create a file called *soda1.py* and enter the following lines:
-
-````
-import cx_Oracle
-import myConnection
-
-connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
-
-print("Database version:", connection.version)
-print("\n")
-````
-
-> *Note*: You do not need to modify any lines of code in this file.
-
-About this program
-- The first two lines load the cx\_Oracle extension along with the connection information from the file we created in our previous step.
-- We use the third line of code to pass the connection information to the program.
-- The final line prints the database version.
-
-Enter the following to run the program:
-
-````
-python3 soda1.py
-````
-
-If everything is configured correctly, you should see this output:
-
-![](./images/py-connect-03.png)
-
-
+<!-- Priscila up to here! -->
 ## STEP 3: Insert a SODA Collection into the Database
 
 Now that your environment is configured and you can connect to database from Python, you are ready to get started with SODA.  
