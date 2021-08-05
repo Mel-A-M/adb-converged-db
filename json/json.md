@@ -397,11 +397,11 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
   First **run** it **without the PRETTY** option.
 
-    ```sql
-    select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]') LINEITEMS
-    from PURCHASE_ORDER p
-    where JSON_VALUE (PO_DOCUMENT,'$.PONumber')  = 97;
-    ```
+  ```sql
+  select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]') LINEITEMS
+  from PURCHASE_ORDER p
+  where JSON_VALUE (PO_DOCUMENT,'$.PONumber') = 97;
+  ```
 
   ![Query Example 6](./images/task6_query_06.png)  
 
@@ -412,7 +412,7 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
   from PURCHASE_ORDER p
   where JSON_VALUE (PO_DOCUMENT,'$.PONumber') = 97;
   ```
-  
+
   ![Query Example 6a](./images/task6_query_06a.png) 
 
 
