@@ -18,7 +18,7 @@ Let check the most important characteristics of **Oracle Autonomous Databases**.
 - Provisions highly available databases, configures and tunes for specific workloads, and scales compute resources when needed, all done automatically.
 
 **Self-securing**
--  Automate data protection and security.
+- Automate data protection and security.
 - Protect sensitive and regulated data automatically, patch your database for security vulnerabilities, and prevent unauthorized access—all with Oracle Autonomous Database.
 
 **Self-repairing**
@@ -99,7 +99,7 @@ To complete this lab, you need to have the following:
 
 6. We will see the new ATP Database provisioning.
 
-   Wait for the icon to change from `PROVISIONING`:
+   Wait for the icon to change from `PROVISIONING` state:
 
    ![ATP Provisioning](images/atp_provisioning_state.png)
 

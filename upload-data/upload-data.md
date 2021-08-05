@@ -109,7 +109,6 @@ In this lab you will generate the token as your Oracle Cloud user, and it will i
    ![auth-token-listed](images/auth-token-05.png)
 
 
-
 ## **STEP 4**: Prepare the Create Credential SQL 
 
 During this lab you will create a private **CREDENTIAL** object for your schema. The **DBMS\_CLOUD** package is used to create the credential in **Autonomous Shared Database**, and store. This encrypted connection information is only usable by your **user schema**, and remains stored in the database for future use (until the AUTH token is destroyed by the cloud user). 

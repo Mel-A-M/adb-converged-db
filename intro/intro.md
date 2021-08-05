@@ -6,7 +6,7 @@ A converged database is a **multi-model**, **multitenant**, **multi-workload** d
 
 ![Converged Banner](images/converged-db-1.png)
 
-Converged databases support Spatial data for location awareness, JSON for document stores, IoT for device integration, in-memory technologies for real-time analytics, and of course, traditional relational data. 
+Converged databases support **Spatial** data for location awareness, **JSON** for document stores, **IoT** for device integration, **In-memory** technologies for real-time analytics, and of course, traditional **Relational data**. 
 
 By providing support for all of these data types, a Converged Database can run all sorts of workloads from IoT to Blockchain to Analytics and Machine Learning. It can also handle any development paradigm, including Microservices, Events, REST, SaaS, and CI/CD, to name a few.
 
