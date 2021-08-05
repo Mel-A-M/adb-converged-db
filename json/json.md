@@ -395,7 +395,7 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
   **Compare** the output from these 2 queries accessing the same data, retrieving items on Purchase Order number 97. **Execute** the following statement using the **Run Script** button on the top of the page.
 
-  First* **run** it **without the PRETTY** option.
+  First **run** it **without the PRETTY** option.
 
     ```sql
     select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]') LINEITEMS
@@ -412,6 +412,7 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
   from PURCHASE_ORDER p
   where JSON_VALUE (PO_DOCUMENT,'$.PONumber') = 97;
   ```
+  
   ![Query Example 6a](./images/task6_query_06a.png) 
 
 
