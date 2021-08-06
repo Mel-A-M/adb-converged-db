@@ -6,6 +6,8 @@ This lab will show how **JSON** data can be stored and manipulated in the **Auto
 
 **Oracle Autonomous JSON Database** is Oracle Autonomous Transaction Processing, but specialized for developing NoSQL-style applications that use **JavaScript Object Notation (JSON)** documents. You can promote an Autonomous JSON Database service to an Autonomous Transaction Processing service if you need to have the need to store larger data set.           
 
+## Objectives
+
 There are three main parts to this lab.
 
   - **Create an External table on Object Storage** - You will use the **DBMS_CLOUD** package to create an external table on a JSON file in Object Storage.

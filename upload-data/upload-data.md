@@ -4,9 +4,7 @@
 
 This lab prepares the converged data sources required for the remaining labs of the workshop. In this case we will create an Object Storage bucket, upload data to your bucket and generate an Auth Token to allow access from the Autonomous Database to Object Storage.
 
-**Estimated Lab Time:** 15 minutes.
-
-### Objectives
+## Objectives
 
 In this lab, you will:
 
@@ -14,11 +12,13 @@ In this lab, you will:
 -   Upload data to your bucket
 -   Generate an Auth Token to allow access from the Autonomous Database to Object Storage
 
-### Prerequisites
+## Prerequisites
 
 To complete this lab, you need to have the following:
 
 - Logged into your Oracle Cloud Account
+
+**Estimated Lab Time:** 15 minutes.
 
 ## **STEP 1**: Create an Object Storage Bucket
 

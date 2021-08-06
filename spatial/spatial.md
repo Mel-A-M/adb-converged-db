@@ -5,6 +5,7 @@
 ## Introduction
 This lab walks you through the steps of setting up the environment for Spatial lab and then takes you through. You can connect to the Oracle Database instance using any client of your choice. The instructions for this lab, document using SQL Developer Web and sql*plus in Cloud Shell.
 
+## Objectives
 
 
 ### About Oracle Spatial

@@ -1,11 +1,3 @@
-
-
-
-
-
-
-![](../common-images/osc-logo.png)
-
 # Oracle XML and Autonomous Database
 
 ## Introduction
@@ -14,7 +6,7 @@ There are several steps within this lab.
 -  Query XML Data: XQuery is a very general and expressive language, and SQL/XML functions XMLQuery, XMLTable, XMLExists, and XMLCast combine that power of expression and computation with the strengths of SQL. We can query XMLType data, possibly decomposing the resulting XML into relational data using function XMLTable.
 -  Insert and Update XML Data -  You can update XML content or replace either the entire contents of a document or only particular parts of a document. The ability to perform partial updates on XML documents is very powerful, particularly when we make small changes to large documents, as it can significantly reduce the amount of network traffic and disk input-output required to perform the update. The Oracle UPDATEXML function allows us to update XML content stored in Oracle Database.
 
-**Expected Lab Duration:**30 minutes.
+## Objectives
 
 
 ### About Oracle XML
@@ -39,13 +31,13 @@ Oracle XML DB allows an organization to manage XML content in the same way that 
 
 There are some limitations on the usage of XML in Autonomous Database. See the documentation [here](https://docs.oracle.com/en/cloud/paas/autonomous-database/atpdg/experienced-database-users.html)
 
+**Expected Lab Duration**: 30 minutes.
+
 ## **STEP 1:** Start SQL Developer Web
 
 1. Open *Database Actions* from your Database Details screen.
 
 ![](images/open-dbactions.png)
-
-
 
 2. Enter the username `admin` and select **Next.**
 

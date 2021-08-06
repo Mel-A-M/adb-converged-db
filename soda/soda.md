@@ -4,7 +4,7 @@
 
 In this lab you will be introduced to using the Oracle SODA APIs for Python. But you should be aware that SODA is also available for Java, REST, C and Node.js.  
 
-**Estimated Lab Time**: 30 Minutes.
+## Objectives
 
 ### About Oracle SODA
 So what is exactly is **SODA**? It is best described as follows (taken from the Oracle documentation):
@@ -28,6 +28,8 @@ Common terms that are used in this lab:
 The Document model is completely schema-less. In the Schema-less approach to creating a collection, your code can create a collection without requiring any metadata definition or DDL (Data Definition Language). Furthermore, it is possible to insert a document in a pre-created collection that does not match any previously inserted documents (or Schema Evolution).
 
 One last thing about SODA. It is important to understand that SODA is NOT mandatory when working with JSON and the Oracle Database. However SODA provides a simple solution to bridging the programing gap between the NOSQL model and the relational model.
+
+**Estimated Lab Time**: 30 Minutes.
 
 ## STEP 1: Prepare your environment
 
