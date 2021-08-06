@@ -30,7 +30,7 @@ You will also use Oracle SQL Developer Web to help execute the programs associat
 
 ## Prerequisites
 
-An Oracle Cloud Account with credits.
+An **Oracle Cloud Free Tier Account** using **Always Free cloud services**. You can check this information on **Getting Started Section**.
 
 _At this point, you are ready to start learning! Please proceed._
 
