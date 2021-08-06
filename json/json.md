@@ -199,7 +199,6 @@ To create an **external table** using a file stored in Object Storage you will u
   
   ![Select PONumber=10001](./images/task4_insert_03.png)
 
-
 ## **STEP 6**: Update a Record
 
 You can use Oracle SQL function `json-mergepatch` or PL/SQL object-type method `json-mergepatch()` to update specific portions of a JSON document. In both methods you provide a JSON Merge Patch document, which declaratively specifies the changes to make to a a specified JSON document. JSON Merge Patch is an IETF standard.    
@@ -245,7 +244,6 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
   FROM purchase_order po
   WHERE json_exists(po.po_document,'$?(@.LineItems.Part.UPCCode == 85391628927)');
   ```
-
   ![Example Query 2](./images/task6_query_02.png)
 
 3. Next, find the customers who all are purchased a specific products **based on a PONumber**. The `JSON_TABLE` operator uses a set of JSON path expressions to map content from a JSON document into columns in a virtual table, which you can also think of as an inline view.  Once the contents of the JSON document have been exposed as columns, all of the power of SQL can be brought to bear on the content of the  JSON document. 
@@ -273,7 +271,6 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
           ) D
        where PO_NUMBER = 1600;
   ```
-
   ![Example Query 3](./images/task6_query_03.png)
 
 4. Next, use the description of the product to find all the customers who **purchased the item**. This example uses `JSON_TABLE`. 
@@ -417,10 +414,9 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
   ![Query Example 6a](./images/task6_query_06a.png) 
 
-
 _Congratulations, you have completed this lab on JSON in Autonomous Database._
 
-## Learn More
+### Learn More
 
 - [JSON](https://docs.oracle.com/en/database/oracle/oracle-database/19/adjsn/index.html)
 
