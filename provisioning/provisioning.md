@@ -30,13 +30,13 @@ Let check the most important characteristics of **Oracle Autonomous Databases**.
 
 **Estimated Lab Time**: 15 minutes.
 
-### Objectives
+## Objectives
 
 In this lab, you will:
 
 -   Learn how to provision a new Autonomous Database
 
-### Prerequisites
+## Prerequisites
 
 To complete this lab, you need to have the following:
 
