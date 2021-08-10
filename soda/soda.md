@@ -32,7 +32,7 @@ One last thing about SODA. It is important to understand that SODA is NOT mandat
 
 **Estimated Lab Time**: 30 Minutes.
 
-## STEP 1: Prepare your environment
+## TASK 1: Prepare your environment
 
 If you have downloaded the wallet for your database in a previous lab, skip to STEP 2. If you do not have a wallet, follow this process.
 
@@ -66,7 +66,7 @@ If you have downloaded the wallet for your database in a previous lab, skip to S
   ````
   ![Check Wallet Downloaded](../common-images/check-wallet.png)
 
-## STEP 2: Connect to your Database from Python
+## TASK 2: Connect to your Database from Python
 
 You will be using the **Oracle Cloud Shell** for this lab too. The Oracle Cloud Shell is preconfigured with **Python3** and **cx\_Oracle** for us to connect to our database using Python.  You can find more information about cx\_Oracle as well as how to install it at the following [blog](https://oracle.github.io/python-cx_Oracle/) site.
 
@@ -186,7 +186,7 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
 
 
 <!-- Priscila up to here! -->
-## STEP 3: Insert a SODA Collection into the Database
+## TASK 3: Insert a SODA Collection into the Database
 
 Now that your environment is configured and you can connect to database from Python, you are ready to get started with SODA.  
 
@@ -350,7 +350,7 @@ Now that your environment is configured and you can connect to database from Pyt
 
 You are now ready to switch gears and view the SODA collection from the viewpoint of the Oracle database.
 
-## STEP 4: Viewing your SODA Collection from the Database
+## TASK 4: Viewing your SODA Collection from the Database
 
 In this section you will connect to the Oracle database you provisioned in your previous lab. This is the database environment that you configured your Python programs to connect to.
 

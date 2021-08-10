@@ -35,7 +35,7 @@ Each table stores location using Oracle's native spatial data type, SDO\_GEOMETR
 
 **Estimated Lab Time:** 30 minutes
 
-## **STEP 1**: Prepare your environment
+## **TASK 1**: Prepare your environment
 
 If you have **downloaded** the **wallet** for your database into your **cloud shell** in a previous lab, skip to **Extract the wallet**. If you do not have a wallet, follow this process.
 
@@ -111,7 +111,7 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
    cd ..
    ````
 
-## **STEP 2**: Load the data
+## **TASK 2**: Load the data
 
 In this step you will load the data for the lab using Oracle Data Pump. 
 
@@ -206,7 +206,7 @@ To access data in the Object Storage you must enable your database user to authe
 
    ![](./images/import-command-results.png)
 
-## **STEP 3:** Connect to SQL Developer Web
+## **TASK 3:** Connect to SQL Developer Web
 In the previous step you executed commands to grant the appspat user privileges and setup SQL Developer Web using Rest Services (ORDS).  You are now going to connect as this new user. 
 
 1. On your **Database Details** screen select the **Tools** tab and select **Open Database Actions**.
@@ -225,7 +225,7 @@ In the previous step you executed commands to grant the appspat user privileges 
 
    ![](../common-images/start-sqldev-web.png)
 
-## **STEP 4:** Examining your Spatial data
+## **TASK 4:** Examining your Spatial data
 
 As part of the dataload you created the tables CUSTOMERS,WAREHOUSES_DTP and WAREHOUSES.
 
@@ -267,7 +267,7 @@ Examine one of these tables using SQL Developer Web.
 
 5. Select **Close** to leave table properties without making any changes.
 
-## **STEP 5:** Run Spatial Queries
+## **TASK 5:** Run Spatial Queries
 
 #### Query #1: Find the five customers closest to the warehouse whose warehouse name  is 'Ferndale Facility'
 

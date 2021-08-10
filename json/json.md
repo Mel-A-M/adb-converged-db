@@ -38,7 +38,7 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
 **Estimated Lab Time**: 30 minutes.
 
-## STEP 1: Start SQL Developer Web
+## TASK 1: Start SQL Developer Web
 
 1. Open **Database Actions** from your Database Details screen.
    
@@ -57,7 +57,7 @@ The first thing to realize about JSON is that it remains a simple text format, w
   ![Database Actions Dashboard - Development](./images/start-sqldev-web.png)
   ![SQL Developer Web](./images/sqldev-web.png)
 
-## STEP 2: Prepare your user to access Object Storage
+## TASK 2: Prepare your user to access Object Storage
 
 1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. ![Run script icon](./images/run-script.png)
 
@@ -67,7 +67,7 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
   Now you are ready to load data from Object Store as the `admin` schema.
 
-## STEP 3: Create an External Table on the file
+## TASK 3: Create an External Table on the file
 
 To create an **external table** using a file stored in Object Storage you will use the **DBMS_CLOUD.CREATE_EXTERNAL_TABLE procedure**.
 
@@ -115,7 +115,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
   ![Create External Table](./images/create-external.png)
 
-## **STEP 4**: Load the JSON dump file into your database
+## **TASK 4**: Load the JSON dump file into your database
 
 1. **Create** your destination table `PURCHASE_ORDER` which will be used to contain JSON documents. The table has a column `PO_DOCUMENT` of type CLOB. The **IS JSON constraint** is applied to the column `PO_DOCUMENT`, ensuring that the column can store only well formed JSON documents. In Oracle there is no dedicated JSON data type. JSON documents are stored in the database using standard Oracle data types such as VARCHAR2, CLOB and BLOB. In order to ensure that the content of the column is valid JSON data, the new constraint IS JSON can be applied to a column. This constraint returns TRUE if the content of the column is well-formed, valid JSON and FALSE otherwise. **Copy** and **execute** the following statement using the **Run Script** button on the top of the page.
 
@@ -141,7 +141,7 @@ To create an **external table** using a file stored in Object Storage you will u
   /
   ```
 
-## STEP 5: Insert a record
+## TASK 5: Insert a record
 
 1. **Take a count** of the rows in your **purchase_order table**. Your number returned my vary. **Execute** the following statement using the **Run Script** button on the top of the page.
 
@@ -199,7 +199,7 @@ To create an **external table** using a file stored in Object Storage you will u
   
   ![Select PONumber=10001](./images/task4_insert_03.png)
 
-## **STEP 6**: Update a Record
+## **TASK 6**: Update a Record
 
 You can use Oracle SQL function `json-mergepatch` or PL/SQL object-type method `json-mergepatch()` to update specific portions of a JSON document. In both methods you provide a JSON Merge Patch document, which declaratively specifies the changes to make to a a specified JSON document. JSON Merge Patch is an IETF standard.    
 
@@ -218,7 +218,7 @@ You can use Oracle SQL function `json-mergepatch` or PL/SQL object-type method `
 
   ![Select json_mergepatch](./images/task5_update_01.png)
 
-## STEP 7: Example Queries
+## TASK 7: Example Queries
 
 The Oracle database allows a simple ‘dotted’ notation to be used to perform a limited set of operations on columns containing JSON. In order to use the dotted notation, a table alias must be assigned to the table in the FROM clause, and any reference to the JSON column must be prefixed with the assigned alias. All data is returned as VARCHAR2(4000). 
 

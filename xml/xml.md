@@ -34,7 +34,7 @@ There are some limitations on the usage of XML in Autonomous Database. See the d
 
 **Expected Lab Duration**: 30 minutes.
 
-## **STEP 1:** Start SQL Developer Web
+## **TASK 1:** Start SQL Developer Web
 
 1. Open **Database Actions** from your **Database Details screen**.
 
@@ -53,7 +53,7 @@ There are some limitations on the usage of XML in Autonomous Database. See the d
    ![](images/start-sqldev-web.png)
 
 
-## **STEP 2:** Prepare your user to access object storage
+## **TASK 2:** Prepare your user to access object storage
 
 1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. 
    **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. ![Run script icon](../common-images/run-script.png)
@@ -63,7 +63,7 @@ There are some limitations on the usage of XML in Autonomous Database. See the d
 You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous exercise in this lab. Now you are ready to load data from Object Store as the `admin` schema.
 
 
-## **STEP 3:** Create an External Table on the file.
+## **TASK 3:** Create an External Table on the file.
 
 To create an external table using a file stored in Object Storage you will use the **DBMS\_CLOUD.CREATE\_EXTERNAL\_TABLE** procedure.
 
@@ -112,7 +112,7 @@ To create an external table using a file stored in Object Storage you will use t
 
    ![](./images/external_table_01.png)
 
-## **STEP 4**:  Create a table from the External Table 
+## **TASK 4**:  Create a table from the External Table 
 
 1. You  can now immediately query our XML file lying in the object store via the external table CLOB column, using [native database XML features](https://docs.oracle.com/en/database/oracle/oracle-database/19/adxdb/how-to-use-XML-DB.html#GUID-D937B3D1-BA54-41D0-9428-4739DA805D75) such as XPATH expressions.
 
@@ -132,7 +132,7 @@ To create an external table using a file stored in Object Storage you will use t
    ![](./images/task3_copy_ext.png)
 
 
-## **STEP 5:** Insert an XML record.
+## **TASK 5:** Insert an XML record.
 
 1. Let us take a **count** of the rows we have currently in the table in the database and then do a insert. The source external table had **1 row**.
 
@@ -150,7 +150,7 @@ To create an external table using a file stored in Object Storage you will use t
 
 This should return 1 more row !
 
-## **STEP 6:** Update values in the XML table
+## **TASK 6:** Update values in the XML table
 
 You can update values in your XML data stored in the database.
 
@@ -184,7 +184,7 @@ You can update values in your XML data stored in the database.
 
    ![](./images/task5_update_03.png)
 
-## **STEP 7:** Example Queries
+## **TASK 7:** Example Queries
 
 1. Get the list of the customer and their purchase information from a specific geographical location.  
    **XMLEXISTS** is an SQL/XML operator that you can use to query XML values in SQL, in a regular query. You can use the xmlexists function to look to see if a specific value is present in an xmltype column.
