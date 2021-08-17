@@ -59,7 +59,9 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
 ## TASK 2: Prepare your user to access Object Storage
 
-1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. ![Run script icon](./images/run-script.png)
+1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. 
+
+  ![Run script icon](./images/run-script.png)
 
   > Do not copy and paste the example script below.
 
