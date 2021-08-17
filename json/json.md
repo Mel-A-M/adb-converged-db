@@ -61,8 +61,6 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
 1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. 
 
-  ![Run script icon](./images/run-script.png)
-
   > Do not copy and paste the example script below.
 
   ![Create credential SQL](./images/create-cred.png)
@@ -123,11 +121,11 @@ To create an **external table** using a file stored in Object Storage you will u
 
   ```sql
   create table PURCHASE_ORDER
-  (
-  ID RAW(16) NOT NULL,
-  DATE_LOADED  TIMESTAMP(6) WITH TIME ZONE,
-  PO_DOCUMENT CLOB CHECK (PO_DOCUMENT IS JSON)
-  )
+    (
+      ID RAW(16) NOT NULL,
+      DATE_LOADED  TIMESTAMP(6) WITH TIME ZONE,
+      PO_DOCUMENT CLOB CHECK (PO_DOCUMENT IS JSON)
+    )
   /
   ```
 
@@ -135,9 +133,9 @@ To create an **external table** using a file stored in Object Storage you will u
 
   ```sql
   insert into PURCHASE_ORDER
-  select SYS_GUID(), SYSTIMESTAMP, JSON_DOCUMENT
-  from PURCHASE_EXT
-  where JSON_DOCUMENT IS JSON
+    select SYS_GUID(), SYSTIMESTAMP, JSON_DOCUMENT
+    from PURCHASE_EXT
+    where JSON_DOCUMENT IS JSON
   /
   commit
   /
@@ -145,7 +143,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
 ## TASK 5: Insert a record
 
-1. **Take a count** of the rows in your **purchase_order table**. Your number returned my vary. **Execute** the following statement using the **Run Script** button on the top of the page.
+1. **Take a count** of the rows in your **purchase_order table**. Your number returned should vary. **Execute** the following statement using the **Run Script** button on the top of the page.
 
   ```sql
   select count(*) from purchase_order;
@@ -312,7 +310,7 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
   To accomplish this you will create two relational views. 
 
-6. **Create view** `PURCHASE_ORDER_MASTER_VIEW`. This view selects the summary information about the order, including the PO Number, and the Shipping information.
+6. **Create view** `PURCHASE_ORDER_MASTER_VIEW`. This view selects the summary information about the order, including the **PONumber**, and the Shipping information.
 
   ```sql
   create or replace view PURCHASE_ORDER_MASTER_VIEW
@@ -390,11 +388,11 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
   ![Query Example 5](./images/task6_query_05.png)    
 
-9. You can use the `PRETTY` option when querying JSON data using JSON_QUERY. This will pretty-print the values and return them as a character string. `JSON_VALUE` selects a scalar value from JSON data and returns it as a SQL value. You can also use `json_value` to create function-based B-tree indexes for use with JSON data . The function `json_value` has two required arguments. The first argument to `json_value` is a SQL expression that returns an instance of either a scalar SQL data type or a user-defined SQL object type. A scalar return value can be of data type VARCHAR2, BLOB, or CLOB. The first argument can be a table or view column value, a PL/SQL variable, or a bind variable with proper casting. The result of evaluating the SQL expression is used as the context item for evaluating the path expression.
+9. You can use the `PRETTY` option when querying JSON data using JSON_QUERY. This will pretty-print the values and return them as a character string. `JSON_VALUE` selects a scalar value from JSON data and returns it as a SQL value. You can also use `json_value` to create function-based B-tree indexes for use with JSON data. The function `json_value` has two required arguments. The first argument to `json_value` is a SQL expression that returns an instance of either a scalar SQL data type or a user-defined SQL object type. A scalar return value can be of data type VARCHAR2, BLOB, or CLOB. The first argument can be a table or view column value, a PL/SQL variable, or a bind variable with proper casting. The result of evaluating the SQL expression is used as the context item for evaluating the path expression.
 
   The second argument to json_value is a SQL/JSON path expression followed by optional clauses RETURNING, ON ERROR, and ON EMPTY. The path expression must target a single scalar value, or else an error occurs. 
 
-  **Compare** the output from these 2 queries accessing the same data, retrieving items on Purchase Order number 97. **Execute** the following statement using the **Run Script** button on the top of the page.
+  **Compare** the output from these 2 queries accessing the same data, retrieving items on **Purchase Order number** 97. **Execute** the following statement using the **Run Script** button on the top of the page.
 
   First **run** it **without the PRETTY** option.
 
