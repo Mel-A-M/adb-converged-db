@@ -26,7 +26,7 @@ To complete this lab, you need to have the following:
 
    ![Bucket Menu](../common-images/object-storage-01.png)
 
-2. Click **Create Bucket**. Be sure you have select the same compartment where you have installed the Database in the previous lab. The default compartment is **root**, for the lab purpose you can use `root`.
+2. Click **Create Bucket**. Be sure you have select the same compartment where you have installed the Database in the previous lab. The default compartment is **root**, for the lab purpose, you can use `root`.
 
    ![bucket Create Button](images/create-bucket-01.png)
 
@@ -82,13 +82,13 @@ To complete this lab, you need to have the following:
 
 ## **TASK 3**: Generate an Auth Token
 
-To access data in Object Storage you must enable your database user to authenticate itself with the Object Storage using your username and an **authentication token**. 
+To access data in Object Storage you must enable your database user to authenticate itself with the Object Storage using your username and an **Authentication Token**. 
 
 > Note: Once an **Auth Token** has been generated, it is only output to the screen once. As part of this step you will be asked to save the output into a text file for later use.
 
 In this lab you will generate the token as your Oracle Cloud user, and it will inherit the same permissions and rights in Oracle Cloud as your user. In a production environment  you could create a new cloud user just for the purposes of accessing an object storage bucket and assign the least privileges required to read the specific Object Storage bucket using policies.
 
-1. Select the **Profile** icon in the top right hand corner of the screen. Then click on **your username** to go to your **User Details** page.
+1. Select the **Profile** icon in the top right hand corner of the screen. Then click on **your username** to go to **User Details** page.
 
    ![click-profile](images/auth-token-01.png)
 
@@ -129,7 +129,7 @@ During this lab you will create a private **CREDENTIAL** object for your schema.
 
 2. You will need to add more information to this SQL.
 
-   - **password**: Ppopulate this with the **AUTH token** you generated in STEP 3 of this lab.
+   - **password**: Populate this with the **AUTH token** you generated in TASK 3 of this lab.
    - **username**: Your **cloud username** to use in this command can be found in the Cloud console. Select the user profile button on the top right hand side and you will see your complete username. 
 
    ![Cloud Profile Details](./images/find-username.png)
@@ -138,7 +138,7 @@ During this lab you will create a private **CREDENTIAL** object for your schema.
 
    ![Sample create credential SQL](./images/sample-cred.png)
 
-4. **Save** this file as you will need it several times during the lab. 
+4. **Save** this file (name it `create_credential.sql`.) as you will need it several times during the lab. 
 
 _At this point, you have done the data preparation steps for this lab, please proceed._
 

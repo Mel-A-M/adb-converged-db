@@ -32,6 +32,8 @@ You will also use Oracle SQL Developer Web to help execute the programs associat
 
 An **Oracle Cloud Free Tier Account** using **Always Free cloud services**. You can check this information on **Getting Started Section**.
 
+Here's a video to help with signing up:[](youtube:4U-0SumNz6w)
+
 _At this point, you are ready to start learning! Please proceed._
 
 ## **Acknowledgements**

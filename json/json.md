@@ -48,7 +48,7 @@ The first thing to realize about JSON is that it remains a simple text format, w
    
   ![Admin Login](images/login-admin-01.png) 
 
-3. Enter the **password** for `admin` and select **Sign In**. We have created this password on the Provisioning ADB Lab, we have recomended to use:`Oracle_12345`.
+3. Enter the **password** for `admin` and select **Sign In**. We have created this password on the Provisioning ADB Lab, we have recomended to use: `Oracle_12345`.
    
   ![Admin Login Password](./images/login-admin-02.png)
 

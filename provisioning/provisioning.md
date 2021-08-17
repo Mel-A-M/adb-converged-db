@@ -90,7 +90,7 @@ To complete this lab, you need to have the following:
 
 5. Fill the last part of the provisioning form with the following values.
    
-   - Access Type: `Allow secure access from everywhere`
+   - Access Type: `Secure access from everywhere`
    - Choose a license type: `License Included`
 
    Click **Create Autonomous Database**.
