@@ -422,5 +422,6 @@ _Congratulations, you have completed this lab on JSON in Autonomous Database._
 
 ## Acknowledgements
 
-- Authors:  Balasubramanian Ramamoorthy, Arvind Bhope, Melanie Ashworth-March
-- Last Update by:  Melanie Ashworth-March / June 2021
+- **Authors**: Balasubramanian Ramamoorthy, Arvind Bhope, Melanie Ashworth-March
+- **Contributor**: Priscila Iruela, Victor Martin
+- **Last Update by**: Melanie Ashworth-March / June 2021

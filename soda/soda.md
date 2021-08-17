@@ -502,5 +502,6 @@ _Congratulations, you have completed this lab on SODA in Autonomous Database._
 
 ## Acknowledgements
 
-* **Author** - Sean Stacey, Database Product Management, PTS
-* **Last Updated By/Date** - Melanie Ashworth-March / June 2021
+- **Author** - Sean Stacey, Database Product Management, Melanie Ashworth-March, Oracle Solution Center
+- **Contributor**: Priscila Iruela, Victor Martin
+- **Last Updated By/Date** - Melanie Ashworth-March / June 2021

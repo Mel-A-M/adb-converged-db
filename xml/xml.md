@@ -222,4 +222,5 @@ _Congratulations, you have completed this lab on XML in Autonomous Database._
 
 ## Acknowledgements
 - **Authors** - Balasubramanian Ramamoorthy, Arvind Bhope, Melanie Ashworth-March
+- **Contributor**: Priscila Iruela, Victor Martin
 - **Last Updated By/Date** - Melanie Ashworth-March / June 2021

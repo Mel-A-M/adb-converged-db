@@ -411,5 +411,6 @@ _Congratulations, you have completed this lab on Spatial in Autonomous Database.
 
 ## Acknowledgements
 
-* **Authors** - Balasubramanian Ramamoorthy, Arvind Bhope
-* **Last Updated By/Date** - Melanie Ashworth-March, Rob Watson - June 2021
+- **Authors** - Balasubramanian Ramamoorthy, Arvind Bhope, Melanie Ashworth-March
+- **Contributor**: Priscila Iruela, Victor Martin
+- **Last Updated By/Date** - Melanie Ashworth-March, Rob Watson - June 2021

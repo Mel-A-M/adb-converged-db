@@ -144,5 +144,5 @@ _At this point, you have done the data preparation steps for this lab, please pr
 
 ## **Acknowledgements**
 
-- **Author** - Melanie Ashworth-March, Oracle Solution Center
-- **Contributor** - Priscila Iruela, Victor Martin
+- **Author**: Melanie Ashworth-March, Oracle Solution Center
+- **Contributor**: Priscila Iruela, Victor Martin

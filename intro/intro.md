@@ -38,5 +38,5 @@ _At this point, you are ready to start learning! Please proceed._
 
 ## **Acknowledgements**
 
-- **Author** - Melanie Ashworth-March, Oracle Solution Center
-- **Contributor** - Priscila Iruela, Victor Martin
+- **Author**: Melanie Ashworth-March, Oracle Solution Center
+- **Contributor**: Priscila Iruela, Victor Martin
