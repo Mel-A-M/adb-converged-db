@@ -1,14 +1,14 @@
 # Oracle Spatial
 
 ## Introduction
-This lab walks you through the steps of setting up the environment for Spatial lab and then takes you through. You can connect to the Oracle Database instance using any client of your choice. The instructions for this lab, document using SQL Developer Web and sql*plus in Cloud Shell.
+This lab walks you through the steps of setting up the environment for Spatial lab and then takes you through. You can connect to the Oracle Database instance using any client of your choice. The instructions for this lab, document using **SQL Developer Web** and **sql*plus** in Cloud Shell.
 
 ## Objectives
 
 
 ### About Oracle Spatial
 
-Oracle Spatial is an integrated set of functions, procedures, data types, and data models that support spatial analytics. The spatial features enable spatial data to be stored, accessed, and analyzed quickly and efficiently in an Oracle database.
+**Oracle Spatial** is an integrated set of functions, procedures, data types, and data models that support spatial analytics. The spatial features enable spatial data to be stored, accessed, and analyzed quickly and efficiently in an Oracle database.
 
 Oracle Spatial is designed to make spatial data management easier and more natural to users of location-enabled applications and geographic information system (GIS) applications. Once spatial data is stored in an Oracle database, it can be easily manipulated, retrieved, and related to all other data stored in the database.
 
@@ -16,7 +16,7 @@ A common example of spatial data can be seen in a road map. A road map is a two-
 
 The data that indicates the Earth location (such as longitude and latitude) of these rendered objects is the spatial data. When the map is rendered, this spatial data is used to project the locations of the objects on a two-dimensional piece of paper.
 
- [](youtube:Q2jm93Rm95g)
+[![Spatial and Graphn - Now Included in Oracle Database](https://img.youtube.com/vi/Q2jm93Rm95g/hqdefault.jpg)](https://youtu.be/Q2jm93Rm95g)
 
 Oracle Spatial consists of the following:
 
