@@ -43,11 +43,11 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
 
 1. **Navigate** to the **Autonomous Database Details** page for your database. Select the **Copy** next to the **OCID** for your database.
 
-   ![](../common-images/adb-get-ocid.png)
+   ![Get OCID Information](../common-images/adb-get-ocid.png)
 
 2. Start **Cloud Shell** by selecting the icon in the **menu bar**.
 
-   ![](../common-images/start-cloud-shell.png)
+   ![Start Cloud Shell](../common-images/start-cloud-shell.png)
    
    After a few moments, the cloud shell will open at the **bottom** of your web browser window.
 
@@ -58,7 +58,7 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
    oci db autonomous-database generate-wallet --password Oracle_12345 --file converged-wallet.zip --autonomous-database-id YOUR-OCID-HERE
    ````
 
-   ![](../common-images/generate-wallet.png)
+   ![Generate Wallet](../common-images/generate-wallet.png)
 
    The wallet file will be downloaded to your cloud shell file system under your home directory.
 
@@ -68,7 +68,7 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
    ls
    ````
 
-  ![](../common-images/check-wallet.png)
+  ![Check Wallet Downloaded](../common-images/check-wallet.png)
 
 ### Extract the wallet
 
@@ -79,7 +79,7 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
    unzip -d wallet converged-wallet.zip
    ````
    
-   ![](../common-images/unzip-wallet.png)
+   ![Unzip Wallet](../common-images/unzip-wallet.png)
 
 2. Next you need to modify the **sqlnet.ora** file located in the wallet directory to include the location of the wallet contents (.e.g the directory holding your tnsnames.ora). If you are unsure of the full directory name and path, you can cut-and-paste this from the output of the **pwd** operation.
 
@@ -88,7 +88,7 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
    pwd
    ````
 
-   ![](../common-images/wallet-pwd.png)
+   ![Wallet pwd](../common-images/wallet-pwd.png)
 
 3. **Edit** the contents of the **sqlnet.ora** file.
 
@@ -103,7 +103,7 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
 
    So in the screenshot example, my wallet directory is `/home/melanie_as/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/melanie_as/wallet")))` Use your information to complete this change.
 
-   ![](../common-images/sqlnet-wallet.png)
+   ![SQLnet wallet](../common-images/sqlnet-wallet.png)
 
 4. **Change** directory back to your home Directory.
 
@@ -123,26 +123,27 @@ To access data in the Object Storage you must enable your database user to authe
 
    ```
    export TNS_ADMIN=~/wallet
+   echo $TNS_ADMIN
    ```
 
-   ![](../common-images/set-tns-admin.png)
+   ![Set TNS Admin](../common-images/set-tns-admin.png)
 
-2. **Connect** using **SQL*Plus command line** from your cloud shell prompt, using your **admin** password instead of YOUR-ADMIN-PASSWORD and your database name instead of YOUR-DB-NAME.
+2. **Connect** using **SQL*Plus command line** from your cloud shell prompt, using your **admin** password instead of YOUR-ADMIN-PASSWORD (We have suggested `Oracle_12345`) and your database name instead of YOUR-DB-NAME (We have suggested `converged_tp`).
 
+   ```sql
+   sqlplus admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp
    ```
-   sqlplus admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_high
-   ```
 
-   ![](../common-images/sqlplus-admin.png)
+   ![SQLPlus Admin Converged_tp](./images/sqlpus_admin_converged_tp.png)
 
    
-3. During the section '**Preparing the Data**' you prepared a `create_credential.sql` file. Copy and paste the contents of this into SQL*PLUS session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous step in this lab. 
+3. During the section '**Preparing the Data**' you prepared a `create_credential.sql` file. **Copy and paste** the contents of this into SQL*PLUS session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous step in this lab. 
 
-   ![](../common-images/sqlplus-create-cred-admin.png)
+   ![Set create credential](../common-images/sqlplus-create-cred-admin.png)
 
-4. Prepare the destination schema for your imported data. In SQL*Plus execute the following commands
+4. **Prepare** the destination schema for your imported data. In **SQL*Plus** execute the following commands
 
-   ```
+   ```sql
    create user appspat identified by OracleLab1234;
    grant dwrole to appspat;
    alter user appspat quota unlimited on data;
@@ -160,9 +161,13 @@ To access data in the Object Storage you must enable your database user to authe
 
    ```
 
-5. You have verified that your wallet has been correctly configured by using SQL\*Plus and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for SQL Developer Web by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
+5. You have **verified** that your wallet has been correctly configured by using SQL\*Plus and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for SQL Developer Web by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
 
 6. **Quit** SQL\*PLUS.
+
+   ```
+   quit
+   ```
 
 ### Running impdp
 
@@ -180,34 +185,37 @@ To access data in the Object Storage you must enable your database user to authe
 
 4. On the **Object Details** dialog note the value for the **URL Path (URI)**:
    
-   ![](images/obj-details.png)
+   ![IRL Path](images/obj-details.png)
 
    
 5. In Cloud Shell execute the following command to import the data, replacing the following values:
 
-   - YOUR-ADMIN-PASSWORD: replace with the password for your admin account
+   - YOUR-ADMIN-PASSWORD: replace with the password for your admin account. (We have suggested `Oracle_12345`)
 
-   - YOUR-DB-NAME: replace with your database nam e, and make sure you are connecting to the _high service (e.g. `converged_high`)
+   - YOUR-DB-NAME: replace with your database nam e, and make sure you are connecting to the _high service (We have suggested `converged_tp`)
 
    - YOUR-FILE-URI: The URI for the dump file stored in your lab bucket as noted in the previous step.
 
    ```
-   impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_high
+   impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp \
    credential=lab_bucket_cred  \
    directory=data_pump_dir \
    dumpfile=YOUR-FILE-URI 
    ```
 
-   ![](./images/import-command.png)
+   ![Import command converged_tp](./images/import_command_converged_tp.png)
 
    The import should take less than a minute to run. 
 
 6. 2 errors are expected in the output `ORA-31684: Object type USER:"APPSPAT" already exists` and `ORA-39083: Object type ROLE_GRANT failed to create with error: ORA-01924: role 'DBA' not granted or does not exist`
 
-   ![](./images/import-command-results.png)
+   ![Import command converged_tp Results](./images/import_command_converged_tp_results.png)
+
+
+--> Priscila reviewing content<--
 
 ## **TASK 3:** Connect to SQL Developer Web
-In the previous step you executed commands to grant the appspat user privileges and setup SQL Developer Web using Rest Services (ORDS).  You are now going to connect as this new user. 
+In the previous step you executed commands to **grant** the appspat user privileges and setup SQL Developer Web using **Rest Services (ORDS)**. You are now going to connect as this new user. 
 
 1. On your **Database Details** screen select the **Tools** tab and select **Open Database Actions**.
 
