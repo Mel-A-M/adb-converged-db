@@ -183,7 +183,7 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
 
   If everything is configured correctly, you should see this output:
 
-  ![](./images/py-connect-04.png)
+  ![soda1.py screenshoot](./images/py-connect-04.png)
 
 
 ## TASK 3: Insert a SODA Collection into the Database
@@ -238,11 +238,11 @@ Now that your environment is configured and you can connect to database from Pyt
   
   If everything is configured correctly, you should see this output:
   
-  ![](./images/py-insert-01.png)
+  ![soda2.py screenshoot](./images/py-insert-01.png)
 
   The program created a collection in the database, on the fly and without specifying any DDL (Data Definition Language) or metadata beforehand. Also, you did not need to install any specific code or packages to use SODA. SODA is built into the base Oracle Database (all editions).
 
-  The collection is stored in the database as a table and a document key is generated for the document. You will be exploring the documents and collections from inside the database in Step-4.  
+  The collection is stored in the database as a table and a document key is generated for the document. You will be exploring the documents and collections from inside the database in Step 4.  
 
   In the next example you will see how to perform a bulk insert into a collection with SODA.  
 
@@ -288,11 +288,11 @@ Now that your environment is configured and you can connect to database from Pyt
 
 4. This program will insert four additional documents into your existing collection called   **sodacollection**. Some additional things to consider:
 
-  - The documents will be inserted using a bulk insert operation.
+    - The documents will be inserted using a bulk insert operation.
 
-  - The **diet** field is an array of values.
+    - The **diet** field is an array of values.
 
-  - The fourth document being inserted includes an additional field that is not in any prior documents. This would be problematic in the relational model as a column would need to pre-exist for this insert to succeed.  In SODA this change can happen on the fly as it supports *schema-evolution* natively.
+    - The fourth document being inserted includes an additional field that is not in any prior documents. This would be problematic in the relational model as a column would need to pre-exist for this insert to succeed.  In SODA this change can happen on the fly as it supports *schema-evolution* natively.
 
 5. **Save** the changes and **run** the program as follows:
 
@@ -302,9 +302,9 @@ Now that your environment is configured and you can connect to database from Pyt
 
   If everything is configured correctly, you should see this output:
 
-  ![](./images/py-insert-03.png)
+  ![soda3.py screenshoot](./images/py-insert-03.png)
 
-  The next example will explore running a QBE (Query By Example) operation against the Collection.
+  The next example will explore running a **QBE** (Query By Example) operation against the **Collection**.
 
 6. **Create** a new file called **soda4.py** and **enter** the following lines and **save** the file:
 
@@ -334,7 +334,7 @@ Now that your environment is configured and you can connect to database from Pyt
   print("\n")
   ````
 
-  In this program you are performing a QBE against the collection to find all the whales with a diet  that includes plankton.  To perform this the program is using a soda operation to filter based on  the string/element including the search term ("plankton" in this case).
+  In this program you are performing a **QBE** against the collection to find all the whales with a diet that includes plankton.  To perform this the program is using a soda operation to filter based on the string/element including the search term ("plankton" in this case).
 
 7. **Save** the changes and **run** the program as follows:
 
@@ -342,11 +342,11 @@ Now that your environment is configured and you can connect to database from Pyt
   python3 soda4.py
   ```
 
-    If everything is configured correctly, you should see this output:
+  If everything is configured correctly, you should see this output:
 
-  ![](./images/py-insert-04.png)
+  ![soda4.py screenshoot](./images/py-insert-04.png)
 
-  At this stage you should have a basic understanding of how SODA can provide a seamless document interface for developers to interact with the Oracle database.  All without the need to know anything about the underlying database layout.
+  At this stage you should have a basic understanding of how **SODA** can provide a seamless document interface for developers to interact with the Oracle database. **All without the need to know anything about the underlying database layout**.
 
 You are now ready to switch gears and view the SODA collection from the viewpoint of the Oracle database.
 
@@ -356,30 +356,29 @@ In this section you will connect to the Oracle database you provisioned in your 
 
 1. **Return** to your **Autonomous Database Details** screen. Select **Hamburger Menu** -> **Oracle Database** -> and then the **Autonomous Database Type** that you are using e.g. **Autonomous Transaction Processing** 
 
-  ![](../common-images/hamburger-menu.png)
+  ![Database Dashboard](../common-images/hamburger-menu.png)
 
 2. **Click** on the **Display Name**.
 
-  ![](../common-images/select-database.png)
-
+  ![Database Converged](../common-images/select_database_converged.png)
+  
 3. On the Autonomous Database Details page click on the **Tools** tab, select **Open Database Actions**, a new browser will open up:
 
-  	![](./images/open-dbactions.png)
+  ![Database Actions Dashboard](./images/open-dbactions.png)
 
 4. **Login** with the **admin** user using your admin user **password**:`Oracle_12345`.
 
-  ![](./images/db-soda-01.png)
+  ![Admin Login Password](./images/db-soda-01.png)
 
 5. Under the **Development** heading select the **SQL** tile to start **SQL Developer Web**.
 
-  ![](./images/db-soda-02.png)
+  ![Database Actions Dashboard - Development](./images/db-soda-02.png)
 
 6. In the first part of this lab you created a collection in python called "**sodacollection**".  This object did not previously exist in the database, but the first SODA insert operation created this automatically for you.
 
   The collection appears in the database as a table. You can see the table's columns described in the pane on the left hand side of the screen:
 
-  ![](./images/db-soda-03.png)
-
+  ![SODA Collection](./images/db-soda-03.png)
 
 7. The **table** can be queried just as any other table in an Oracle database. You can query the contents displayed in the following example:
 
@@ -390,12 +389,12 @@ In this section you will connect to the Oracle database you provisioned in your 
 
 8. You should see the following **output**:
 
-  ![](./images/db-soda-04.png)
+  ![Query soda desc](./images/db-soda-04.png)
 
 
-9. The first thing you would have noticed is that other than the ID to map the key for each document entered into the collection, there is no way of knowing what data is stored in the collection, as the information is stored in a column called json_document which is a BLOB.
+9. The first thing you would have noticed is that other than the **ID** to map the key for each document entered into the collection, there is no way of knowing what data is stored in the collection, as the information is stored in a column called json_document which is a BLOB.
 
-  In the JSON lab you have seen how to query the document contents of a BLOB holding a JSON document using the json_serialize function.  You can see how this operation works with this data sample by entering the following SQL code:
+  In the JSON lab you have seen how to query the document contents of a BLOB holding a JSON document using the json_serialize function. You can see how this operation works with this data sample by entering the following SQL code:
 
   ````sql
   select id,
@@ -408,11 +407,11 @@ In this section you will connect to the Oracle database you provisioned in your 
 
 10. You should see the following **output**:
 
-  ![](./images/db-soda-05.png)
+  ![Query soda select](./images/db-soda-05.png)
 
-  > *NOTE:  The json_serialize operation is returned using pretty format.  If you use the Run Query button in SQLDeveloper Web the Document contents are returned as a single formatted column on a single row.  If you were to have run the same SQL statement from a SQL command-line, the document would be displayed in a "pretty format" as illustrated below.  This is just for reference, you do not need to perform this operation.*   
+  > *NOTE:  The json_serialize operation is returned using pretty format. If you use the Run Query button in SQLDeveloper Web the Document contents are returned as a single formatted column on a single row. If you were to have run the same SQL statement from a SQL command-line, the document would be displayed in a "pretty format" as illustrated below.  This is just for reference, you do not need to perform this operation.*   
 
-  ![](./images/db-soda-06.png)
+  ![Query soda select result](./images/db-soda-06.png)
 
 11. A better method for understanding the document contents for the collection that you can use is the JSON\_DATAGUIDE function. The JSON\_DATAGUIDE function is not dependent upon SODA, and provides a powerful way to map the contents of the JSON document into columns that can be easily read and used in relational operations. JSON\_DATAGUIDE simplifies working with the NOSQL schema-less and schema evolution paradigms.
 
@@ -431,7 +430,7 @@ In this section you will connect to the Oracle database you provisioned in your 
 
 12. You should see the following **output** when you run the SQL:
 
-  ![](./images/db-soda-07.png)
+  ![Query soda dguide clob](./images/db-soda-07.png)
 
   Go here to find out more about ([JSON_DATAGUIDE](https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/JSON_DATAGUIDE.html#GUID-4CF32887-0F46-4925-8381-AE2B74343933))
 
@@ -440,26 +439,26 @@ In this section you will connect to the Oracle database you provisioned in your 
 13. The view can be described just like any other Oracle view:
 
   ````
-  desc auto_view ;
+  desc auto_view;
   ````
 
-14. You should see the following **output**when you run the SQL:
+14. You should see the following **output** when you run the SQL:
 
-  ![](./images/db-soda-08.png)
+  ![Query soda desc auto_view](./images/db-soda-08.png)
 
 
 15. You can now **query** the contents of the view.
 
   ````sql
-  select  "name", "diet", "scalar_string", "status"
-  from     auto_view
+  select "name", "diet", "scalar_string", "status"
+  from auto_view
   order by 1
   /
   ````
 
 16. You should see the following **output**:
 
-  ![](./images/db-soda-09.png)
+  ![Query soda select 2](./images/db-soda-09.png)
 
 
   The output from the query is a little confusing as you are seeing a row entry for each array element of the diet.  So in this case you can use the SQL *LISTAGG* function to format the output in a more meaningful way:
@@ -467,14 +466,14 @@ In this section you will connect to the Oracle database you provisioned in your 
   ````sql
   select "name",
          listagg("scalar_string", ',' ) within group (order by "scalar_string") diet
-  from   auto_view
+  from auto_view
   group by "name"
   order by 1;
   ````
 
 17. You should see the following **output**:
 
-  ![](./images/db-soda-10.png)
+  ![Query soda select 3](./images/db-soda-10.png)
 
 
 18. The final operation you will perform on the SODA collection is to drop the collection from your database.
@@ -484,15 +483,14 @@ In this section you will connect to the Oracle database you provisioned in your 
   The safest method to drop a Collection from inside the database is to use the SQL function    dbms\_soda.drop\_collection as follows:
 
   ````sql
-  select dbms_soda.drop_collection('sodacollection') "Status" from dual ;
+  select dbms_soda.drop_collection('sodacollection') "Status" from dual;
   ````
 
 19. You should see the following **output**:
 
-  ![](./images/db-soda-11.png)
+  ![Query soda select 4](./images/db-soda-11.png)
 
-  > *A Status of '1' means success. If you run the select statement more than once, it will return a '0' on the subsequent runs as there is no longer anything to drop.*
-
+  > *A Status of '**1**' means success. If you run the select statement more than once, it will return a '0' on the subsequent runs as there is no longer anything to drop.*
 
 _Congratulations, you have completed this lab on SODA in Autonomous Database._
 
