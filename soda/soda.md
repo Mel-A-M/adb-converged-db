@@ -2,13 +2,13 @@
 
 ## Introduction
 
-In this lab you will be introduced to using the Oracle SODA APIs for Python. But you should be aware that SODA is also available for Java, REST, C and Node.js.  
+In this lab you will be introduced to using the **Oracle SODA APIs for Python**. But you should be aware that SODA is also available for Java, REST, C and Node.js.  
 
 ## Objectives
 
 ### About Oracle SODA
 
-So what is exactly is **SODA**? It is best described as follows (taken from the Oracle documentation):
+So what is exactly **SODA**? It is best described as follows (taken from the Oracle documentation):
 
   “Simple Oracle Document Access (SODA) is a set of NoSQL-style APIs that let you create and store collections of documents (in particular JSON) in Oracle Database, retrieve them, and query them, without needing to know Structured Query Language (SQL) or how the documents are stored in the database.”
 
@@ -38,7 +38,7 @@ If you have downloaded the wallet for your database in a previous lab, skip to S
 
 ### Download the Wallet
 
-1. **Navigate** to the **Autonomous Database Details** page for your database. Select the **Copy** next to the OCID for your database.
+1. **Navigate** to the **Autonomous Database Details** page for your database. Select the **Copy** next to the **OCID** for your database.
 
   ![Get OCID Information](./images/adb-get-ocid.png)
 
@@ -77,6 +77,8 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
   ````
   python3 --version
   ````
+
+  ![Check python](./images/check-python.png)
   
 2. **Unzip** the contents of the wallet file into a directory that you will call **wallet**. The directory can be created automatically by  the unzip command.
 
@@ -181,11 +183,9 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
 
   If everything is configured correctly, you should see this output:
 
-<!-- Wrong screenshoot! -->
-![](./images/py-connect-03.png)
+  ![](./images/py-connect-04.png)
 
 
-<!-- Priscila up to here! -->
 ## TASK 3: Insert a SODA Collection into the Database
 
 Now that your environment is configured and you can connect to database from Python, you are ready to get started with SODA.  
