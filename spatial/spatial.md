@@ -212,7 +212,7 @@ To access data in the Object Storage you must enable your database user to authe
    ![Import command converged_tp Results](./images/import_command_converged_tp_results.png)
 
 
---> Priscila reviewing content<--
+<!-- Priscila reviewing content -->
 
 ## **TASK 3:** Connect to SQL Developer Web
 In the previous step you executed commands to **grant** the appspat user privileges and setup SQL Developer Web using **Rest Services (ORDS)**. You are now going to connect as this new user. 
