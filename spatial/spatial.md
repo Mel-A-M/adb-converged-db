@@ -1,7 +1,7 @@
 # Oracle Spatial
 
 ## Introduction
-This lab walks you through the steps of setting up the environment for Spatial lab and then takes you through. You can connect to the Oracle Database instance using any client of your choice. The instructions for this lab, document using **SQL Developer Web** and **sql*plus** in Cloud Shell.
+This lab walks you through the steps of setting up the environment for Spatial lab and then takes you through. You can connect to the Oracle Database instance using any client of your choice. The instructions for this lab, document using **SQL Developer Web** and **SQL*Plus** in Cloud Shell.
 
 ## Objectives
 
@@ -21,9 +21,9 @@ The data that indicates the Earth location (such as longitude and latitude) of t
 Oracle Spatial consists of the following:
 
 -	Schema (MDSYS)
--	A spatial indexing mechanism  	
+-	A Spatial indexing mechanism  	
 -	Operators, functions, and procedures
--	Native data type for vector data called SDO\_GEOMETRY(An Oracle table can contain one or more SDO\_GEOMETRY columns.)
+-	Native data type for vector data called SDO\_GEOMETRY (An Oracle table can contain one or more SDO\_GEOMETRY columns)
 
 
 ### Scenario
@@ -133,11 +133,16 @@ To access data in the Object Storage you must enable your database user to authe
    ```sql
    sqlplus admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp
    ```
+   The recomended option is:
+
+   ```sql
+   sqlplus admin/Oracle_12345@converged_tp
+   ```
 
    ![SQLPlus Admin Converged_tp](./images/sqlpus_admin_converged_tp.png)
 
    
-3. During the section '**Preparing the Data**' you prepared a `create_credential.sql` file. **Copy and paste** the contents of this into SQL*PLUS session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous step in this lab. 
+3. During the section '**Preparing the Data**' you prepared a `create_credential.sql` file. **Copy and paste** the contents of this into SQL*Plus session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous step in this lab. 
 
    ![Set create credential](../common-images/sqlplus-create-cred-admin.png)
 
@@ -161,7 +166,7 @@ To access data in the Object Storage you must enable your database user to authe
 
    ```
 
-5. You have **verified** that your wallet has been correctly configured by using SQL\*Plus and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for SQL Developer Web by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
+5. You have **verified** that your wallet has been correctly configured by using SQL\*Plus and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for **SQL Developer Web** by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
 
 6. **Quit** SQL\*PLUS.
 
@@ -205,47 +210,47 @@ To access data in the Object Storage you must enable your database user to authe
 
    ![Import command converged_tp](./images/import_command_converged_tp.png)
 
-   The import should take less than a minute to run. 
+   The import should take **less than a minute** to run. 
 
-6. 2 errors are expected in the output `ORA-31684: Object type USER:"APPSPAT" already exists` and `ORA-39083: Object type ROLE_GRANT failed to create with error: ORA-01924: role 'DBA' not granted or does not exist`
+6. **2 errors** are expected in the output `ORA-31684: Object type USER:"APPSPAT" already exists` and `ORA-39083: Object type ROLE_GRANT failed to create with error: ORA-01924: role 'DBA' not granted or does not exist`
 
    ![Import command converged_tp Results](./images/import_command_converged_tp_results.png)
 
 
-<!-- Priscila reviewing content -->
-
 ## **TASK 3:** Connect to SQL Developer Web
-In the previous step you executed commands to **grant** the appspat user privileges and setup SQL Developer Web using **Rest Services (ORDS)**. You are now going to connect as this new user. 
+
+In the previous step you executed commands to **grant** the appspat user privileges and setup **SQL Developer Web** using **Rest Services (ORDS)**. You are now going to connect as this new user. 
 
 1. On your **Database Details** screen select the **Tools** tab and select **Open Database Actions**.
 
-   ![](../common-images/open-dbactions.png)
+   ![Database Actions Dashboard](../common-images/open-dbactions.png)
 
 2. Enter the username `appspat` and select **Next**.
 
-   ![](./images/login-appspat-01.png)
+   ![appspat Login](./images/login-appspat-01.png)
 
-3. **Enter** the password for appspat `OracleLab1234` and **sign in**.
+3. **Enter** the password for appspat `OracleLab1234` and **Sign in**.
 
-   ![](./images/login-appspat-02.png)
+   ![appspat Login Password](./images/login-appspat-02.png)
 
 4. Under the **Development** region of the Database Actions page select the **SQL** tile.
 
-   ![](../common-images/start-sqldev-web.png)
+   ![Database Actions Dashboard - Development](../common-images/start-sqldev-web.png)
+
 
 ## **TASK 4:** Examining your Spatial data
 
-As part of the dataload you created the tables CUSTOMERS,WAREHOUSES_DTP and WAREHOUSES.
+As part of the **dataload** you created the tables CUSTOMERS,WAREHOUSES_DTP and WAREHOUSES.
 
-Examine one of these tables using SQL Developer Web.
+Examine one of these tables using **SQL Developer Web**.
 
-1. *Select* the **Customers** table in the list of tables, and right click, and select **Edit**.
+1. **Select** the **Customers** table in the list of tables, and right click, and select **Edit**.
 
-   ![](./images/examine-01.png)
+   ![Customers Table Edit](./images/examine-01.png)
 
 2. This opens the **Table Properties** window. You can see that the customer table has a column **CUST_GEO_LOCATION** which is of the special **SDO_GEOMETRY** data type to store the spatial data.
 
-   ![](./images/examine-02.png)
+   ![Customers Table Details](./images/examine-02.png)
 
 3. Before the spatial index was created in the original data load, entries were inserted into the **USER_SDO_GEOM_METADATA** view to provide information about dimensions associated with the data, for example.
 
@@ -264,73 +269,67 @@ Examine one of these tables using SQL Developer Web.
 
 **Here is a description of the items that were entered:**
 
-  - TABLE-NAME: Name of the table which contains the spatial data.
-  - COLUMN-NAME: Name of the SDO-GEOMETRY column which stores the spatial data.
-  - MDSYS.SDO-DIM-ARRAY: Constructor which holds the MDSYS.SDO-DIM-ELEMENT object,which in turn stores the extents of the spatial data  in each dimension (-180.0, 180.0), and a tolerance value (0.05). The tolerance is a round-off error value used by Oracle Spatial, and is in meters for longitude and latitude data. In this example, the tolerance is 5 mm.
-  - 4326: Spatial reference system id (SRID): a foreign key to an Oracle dictionary table  (MDSYS.CS-SRS) that contains all the supported coordinate systems. It is important to associate your customer's location to a coordinate system. In this example, 4326 corresponds to "Longitude / Latitude (WGS 84).".
+  - **TABLE-NAME**: Name of the table which contains the spatial data.
+  - **COLUMN-NAME**: Name of the **SDO-GEOMETRY** column which stores the spatial data.
+  - **MDSYS.SDO-DIM-ARRAY**: Constructor which holds the MDSYS.SDO-DIM-ELEMENT object,which in turn stores the extents of the spatial data  in each dimension (-180.0, 180.0), and a tolerance value (0.05). The tolerance is a round-off error value used by Oracle Spatial, and is in meters for longitude and latitude data. In this example, the tolerance is 5 mm.
+  - **4326**: Spatial reference system id (SRID): a foreign key to an Oracle dictionary table (MDSYS.CS-SRS) that contains all the supported coordinate systems. It is important to associate your customer's location to a coordinate system. In this example, 4326 corresponds to "Longitude / Latitude (WGS 84).".
 
-4. Select the **Indexes** item in the sidebar. You can see that there has been an index created called **CUSTOMERS_SIDX** .This index is on the CUSTOMER_SDO column. This type of index on spatial data was created using a command similar to `CREATE INDEX customers_sidx ON customers(CUST_GEO_LOCATION) indextype is mdsys.spatial_index;`
+4. Select the **Indexes** item in the sidebar. You can see that there has been an index created called **CUSTOMERS_SIDX**. This index is on the CUSTOMER_SDO column. This type of index on Spatial data was created using a command similar to `CREATE INDEX customers_sidx ON customers(CUST_GEO_LOCATION) indextype is mdsys.spatial_index;`
 
-   ![](./images/examine-03.png)
+   ![Index Details](./images/examine-03.png)
 
 5. Select **Close** to leave table properties without making any changes.
+
 
 ## **TASK 5:** Run Spatial Queries
 
 #### Query #1: Find the five customers closest to the warehouse whose warehouse name  is 'Ferndale Facility'
 
--	The SDO\_NN (**N**earest **N**eighbour) operator returns the SDO_NUM\_RES (number of results) value of the customers from the CUSTOMERS table who are closest to warehouse 3. The first argument to SDO\_NN (c.cust-geo-location this lab ) is the column to search. The second argument to SDO\_NN (w.wh\_geo\_location in this lab) is the location you want to find the neighbors nearest to. No assumptions should be made about the order of the returned results. For example, the first row returned is not guaranteed to be the customer closest to warehouse 3. If two or more customers are an equal distance from the warehouse, then either of the customers may be returned on subsequent calls to SDO\_NN.
+- **The SDO\_NN** (**N**earest **N**eighbour) operator returns the SDO_NUM\_RES (number of results) value of the customers from the CUSTOMERS table who are closest to warehouse 3. The first argument to SDO\_NN (c.cust-geo-location this lab ) is the column to search. The second argument to SDO\_NN (w.wh\_geo\_location in this lab) is the location you want to find the neighbors nearest to. No assumptions should be made about the order of the returned results. For example, the first row returned is not guaranteed to be the customer closest to warehouse 3. If two or more customers are an equal distance from the warehouse, then either of the customers may be returned on subsequent calls to SDO\_NN.
 
-- When using the SDO\_NUM\_RES parameter (limiting the number of results returned) ,  other constraints should be used cautiously in the WHERE clause. SDO\_NUM\_RES takes only proximity into account. For example, if you added a criterion to the WHERE clause because you wanted the five closest female customers, and four of the five closest customers are male, the query above would return one row. This behavior is specific to the SDO-NUM-RES parameter, and its results may not be what you are looking for. You will learn how to find the five closest female customers in the discussion of query 3.
+- When using the **SDO\_NUM\_RES** parameter (limiting the number of results returned), other constraints should be used cautiously in the WHERE clause. **SDO\_NUM\_RES** takes only proximity into account. For example, if you added a criterion to the WHERE clause because you wanted the five closest female customers, and four of the five closest customers are male, the query above would return one row. This behavior is specific to the SDO-NUM-RES parameter, and its results may not be what you are looking for. You will learn how to find the five closest female customers in the discussion of query 3.
 
 
    ```sql
-   SELECT
-   c.customer_id,
-   c.cust_last_name,
-   c.GENDER
-   FROM warehouses w,
-   customers c
+   SELECT c.customer_id, c.cust_last_name, c.GENDER
+   FROM warehouses w, customers c
    WHERE w.WAREHOUSE_NAME = 'Ferndale Facility'
    AND sdo_nn (c.cust_geo_location, w.wh_geo_location, 'sdo_num_res=5') = 'TRUE';
    ```
 
-   ![](./images/query-01.png)
+   ![Query 1 Example](./images/query-01.png)
 
 #### Query #2: Find the five customers closest to warehouse named 'Livonia Facility' and put the results in order of distance
 
 In this query you are not just looking for the Nearest Neighbour of your warehouse, but also calculating the distance. 
 
-- The SDO\_NN\_DISTANCE operator is an ancillary operator to the SDO\_NN operator; it can only be used within the SDO\_NN operator and not on its own. The argument for this operator is a number that matches the number specified as the last argument of SDO_NN; in this example it is 1. There is no hidden meaning to this argument, it is simply a tag. If SDO\_NN\_DISTANCE() is specified, you can order the results by distance and guarantee that the first row returned is the closest. If the data you are querying is stored as longitude and latitude, the default unit for SDO\_NN\_DISTANCE is meters.
+- The **SDO\_NN\_DISTANCE** operator is an ancillary operator to the SDO\_NN operator; it can only be used within the SDO\_NN operator and not on its own. The argument for this operator is a number that matches the number specified as the last argument of SDO_NN; in this example it is 1. There is no hidden meaning to this argument, it is simply a tag. If SDO\_NN\_DISTANCE() is specified, you can order the results by distance and guarantee that the first row returned is the closest. If the data you are querying is stored as longitude and latitude, the default unit for SDO\_NN\_DISTANCE is meters.
 
-- The SDO_NN operator also has a UNIT parameter that determines the unit of measure returned by SDO\_NN\_DISTANCE.
+- The **SDO_NN** operator also has a UNIT parameter that determines the unit of measure returned by SDO\_NN\_DISTANCE.
 
-- The ORDER BY DISTANCE clause ensures that the distances are returned in order, with the shortest distance first.
+- The **ORDER BY DISTANCE** clause ensures that the distances are returned in order, with the shortest distance first.
 
    ```sql
-   SELECT c.customer_id,
-   c.cust_last_name,
-   c.GENDER,   
+   SELECT c.customer_id, c.cust_last_name, c.GENDER,   
    round( sdo_nn_distance (1), 2) distance_in_miles 
-   FROM warehouses w,
-   customers c 
+   FROM warehouses w, customers c 
    WHERE w.WAREHOUSE_NAME = 'Livonia Facility' 
    AND sdo_nn (c.cust_geo_location, w.wh_geo_location, 'sdo_num_res=5  unit=mile', 1) = 'TRUE'
    ORDER BY distance_in_miles;
    ```
     
-   ![](./images/query-02.png)
+   ![Query 2 Example](./images/query-02.png)
 
 
 #### Query #3: Find the five female customers closest to warehouse named 'Livonia Facility', put the results in order of distance, and give the distance in miles
 
-- SDO\_BATCH\_SIZE is a tunable parameter that may affect your query's performance. If you do not set it, or set it to '0' then then it will calculate a batch size that is suitable for the result set size. However, the calculated batch size may not be optimal, and the calculation incurs some processing overhead. SDO\_NN internally calculates SDO_BATCH_SIZE  number of distances at a time. The initial batch of rows returned may not satisfy the constraints in the WHERE clause, so the number of rows specified by SDO\_BATCH\_SIZE is continuously returned until all the constraints in the WHERE clause are satisfied. You should choose a SDO\_BATCH\_SIZE that initially returns the number of rows likely to satisfy the constraints in your WHERE clause.
+- **SDO\_BATCH\_SIZE** is a tunable parameter that may affect your query's performance. If you do not set it, or set it to '0' then then it will calculate a batch size that is suitable for the result set size. However, the calculated batch size may not be optimal, and the calculation incurs some processing overhead. SDO\_NN internally calculates SDO_BATCH_SIZE number of distances at a time. The initial batch of rows returned may not satisfy the constraints in the WHERE clause, so the number of rows specified by SDO\_BATCH\_SIZE is continuously returned until all the constraints in the WHERE clause are satisfied. You should choose a SDO\_BATCH\_SIZE that initially returns the number of rows likely to satisfy the constraints in your WHERE clause.
 
-- The UNIT parameter used within the SDO_NN operator specifies the unit of measure of the SDO\_NN\_DISTANCE parameter. The default unit is the unit of measure associated with the data. For longitude and latitude data, the default is meters. The possible values for the UNIT parameter are documented in the table MDSYS.SDO_DIST_UNITS.
+- The **UNIT** parameter used within the SDO_NN operator specifies the UNIT of measure of the SDO\_NN\_DISTANCE parameter. The default UNIT is the unit of measure associated with the data. For longitude and latitude data, the default is meters. The possible values for the UNIT parameter are documented in the table MDSYS.SDO_DIST_UNITS.
 
-- c.gender = 'F' and rownum < 6 are the additional constraints in the WHERE clause to limit the results to people who are female,  and the  rownum < 6 clause is necessary to limit the number of results returned to fewer than 6. 
+- ***c.gender = 'F'*** and **ROWNUM < 6** are the additional constraints in the WHERE clause to limit the results to people who are female, and the ROWNUM < 6 clause is necessary to limit the number of results returned to fewer than 6. 
 
-- The ORDER BY DISTANCE\_IN\_MILES clause ensures that the distances are returned in order, with the shortest distance first and the distances measured in miles.
+- The **ORDER BY DISTANCE\_IN\_MILES** clause ensures that the distances are returned in order, with the shortest distance first and the distances measured in miles.
 
    ```sql
    SELECT c.customer_id,c.cust_last_name,c.GENDER, 
@@ -344,46 +343,40 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
    ORDER BY distance_in_miles;
    ```
 
-   ![](./images/query-03.png)
+   ![Query 3 Example](./images/query-03.png)
 
 
 #### Query #4: Find all the customers within 100 miles of warehouse named 'Livonia Facility'
 
-- The SDO\_WITHIN\_DISTANCE operator returns the customers from the customers table that are within 100 miles of warehouse 'Livonia Facility'. The first argument to SDO\_WITHIN\_DISTANCE (c.cust\_geo\_location) is the column to search. The second argument to SDO\_WITHIN\_DISTANCE (w.wh\_geo\_location)i s the location you want to determine the distances from. No assumptions should be made about the order of the returned results. For example, the first row returned is not guaranteed to be the customer closest to warehouse.
+- The **SDO\_WITHIN\_DISTANCE** operator returns the customers from the customers table that are within 100 miles of warehouse 'Livonia Facility'. The first argument to SDO\_WITHIN\_DISTANCE (c.cust\_geo\_location) is the column to search. The second argument to SDO\_WITHIN\_DISTANCE (w.wh\_geo\_location)i s the location you want to determine the distances from. No assumptions should be made about the order of the returned results. For example, the first row returned is not guaranteed to be the customer closest to warehouse.
 
-- The DISTANCE parameter used within the SDO\_WITHIN\_DISTANCE operator specifies the distance value; in this example it is 100.
+- The **DISTANCE** parameter used within the SDO\_WITHIN\_DISTANCE operator specifies the distance value; in this example it is 100.
 
-- The UNIT parameter used within the SDO\_WITHIN\_DISTANCE operator specifies the unit of measure of the DISTANCE parameter. The default unit is the unit of measure associated with the data. For longitude and latitude data, the default is meters; so in this lab you need to  specify the unit=miles.
+- The **UNIT** parameter used within the SDO\_WITHIN\_DISTANCE operator specifies the UNIT of measure of the DISTANCE parameter. The default UNIT is the unit of measure associated with the data. For longitude and latitude data, the default is meters; so in this lab you need to specify the unit=miles.
 
    ```sql
-   SELECT c.customer_id, 
-   c.cust_last_name,
-   c.GENDER 
-   FROM warehouses w,              
-   customers c 
-   WHERE   w.WAREHOUSE_NAME = 'Livonia Facility' 
+   SELECT c.customer_id, c.cust_last_name, c.GENDER 
+   FROM warehouses w, customers c 
+   WHERE w.WAREHOUSE_NAME = 'Livonia Facility' 
    AND sdo_within_distance (c.cust_geo_location,w.wh_geo_location,
    'distance = 100 unit=MILE') = 'TRUE';
    ```
 
-   ![](./images/query-04.png)
+   ![Query 4 Example](./images/query-04.png)
 
 
 #### Query #5: Find all the customers within 100 miles of warehouse named 'Livonia Facility', put the results in order of distance, and give the distance in miles.
 
-- The SDO\_GEOM.SDO\_DISTANCE function computes the exact distance between the customer's location and 'Livonia Facility'. The first argument to SDO\_GEOM.SDO\_DISTANCE (c.cust\_geo\_location) contains the customer's location whose distance from 'Livonia Facility' is to be computed. The second argument to SDO\_WITHIN\_DISTANCE (w.wh\_geo\_location) is the location of warehouse 'Livonia Facility', whose distance from the customer's location is to be computed.
+- The **SDO\_GEOM.SDO\_DISTANCE** function computes the exact distance between the customer's location and 'Livonia Facility'. The first argument to SDO\_GEOM.SDO\_DISTANCE (c.cust\_geo\_location) contains the customer's location whose distance from 'Livonia Facility' is to be computed. The second argument to SDO\_WITHIN\_DISTANCE (w.wh\_geo\_location) is the location of warehouse 'Livonia Facility', whose distance from the customer's location is to be computed.
 
-- The third argument to SDO\_GEOM.SDO\_DISTANCE (0.005) is the tolerance value. The tolerance is a round-off error value used by Oracle Spatial. The tolerance is in meters for longitude and latitude data. In this example, the tolerance is 5 mm.
+- The third argument to **SDO\_GEOM.SDO\_DISTANCE** (0.005) is the tolerance value. The tolerance is a round-off error value used by Oracle Spatial. The tolerance is in meters for longitude and latitude data. In this example, the tolerance is 5 mm.
 
-- The UNIT parameter used within the SDO\_GEOM.SDO\_DISTANCE parameter specifies the unit of measure of the distance computed by the SDO\_GEOM.SDO\_DISTANCE function. The default unit is the unit of measure associated with the data. For longitude and latitude data, the default is meters. In this example you are specifying miles.
+- The **UNIT** parameter used within the SDO\_GEOM.SDO\_DISTANCE parameter specifies the UNIT of measure of the distance computed by the SDO\_GEOM.SDO\_DISTANCE function. The default UNIT is the unit of measure associated with the data. For longitude and latitude data, the default is meters. In this example you are specifying miles.
 
-- The ORDER BY DISTANCE\_IN\_MILES clause ensures that the distances are returned in order, with the shortest distance first and the distances measured in miles.
+- The **ORDER BY DISTANCE\_IN\_MILES** clause ensures that the distances are returned in order, with the shortest distance first and the distances measured in miles.
 
    ```sql
-   SELECT    
-   c.customer_id,  
-   c.cust_last_name,
-   c.GENDER, 
+   SELECT c.customer_id, c.cust_last_name, c.GENDER, 
    round(sdo_geom.sdo_distance (c.cust_geo_location, w.wh_geo_location,.005,'unit=MILE'), 2) distance_in_miles
    FROM warehouses w, customers c
    WHERE  w.WAREHOUSE_NAME = 'Livonia Facility' 
@@ -392,14 +385,14 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
    ORDER BY distance_in_miles;
    ```
 
-   ![](./images/query-05.png)
+   ![Query 5 Example](./images/query-05.png)
 
 
 #### Query #6: Find all the customers inside a 30 min drive time polygons  
 
-- Drive Time polygons are simply the areas reachable from a location within an amount of time. They are used for things like placing new stores or office locations; i.e. locate a new office so that all our employees can reach our office within a given drive time. Or locate a new store with a drive time polygon containing new target customers and not cannibalizing another store location. The table WAREHOUSES_DTP has been populated with information for each warehouse, and the area that is within 30 minutes drive.
+- **Drive Time polygons** are simply the areas reachable from a location within an amount of time. They are used for things like placing new stores or office locations; i.e. locate a new office so that all our employees can reach our office within a given drive time. Or locate a new store with a drive time polygon containing new target customers and not cannibalizing another store location. The table WAREHOUSES_DTP has been populated with information for each warehouse, and the area that is within 30 minutes drive.
 
-- The SDO\_INSIDE  function returns 'TRUE'  if the the first argument  (a.cust_geo_location - where the customer is located ) is INSIDE the  geometry represented by the second parameter (b. geometry - the area that is within 30 minutes drive time of that warehouse) . 
+- The **SDO\_INSIDE** function returns 'TRUE'  if the the first argument  (a.cust_geo_location - where the customer is located) is INSIDE the  geometry represented by the second parameter (b. geometry - the area that is within 30 minutes drive time of that warehouse). 
 
   ```sql
   select customer_id, warehouse_name
@@ -408,7 +401,7 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
   and sdo_inside(a.cust_geo_location, b.geometry) = 'TRUE';
   ```
 
-   ![](./images/query-06.png)
+   ![Query 6 Example](./images/query-06.png)
 
 
 ### Learn More
