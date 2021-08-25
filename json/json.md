@@ -115,7 +115,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
   ![Create External Table](./images/create-external.png)
 
-## **TASK 4**: Load the JSON dump file into your database
+## TASK 4: Load the JSON dump file into your database
 
 1. **Create** your destination table `PURCHASE_ORDER` which will be used to contain JSON documents. The table has a column `PO_DOCUMENT` of type CLOB. The **IS JSON constraint** is applied to the column `PO_DOCUMENT`, ensuring that the column can store only well formed JSON documents. In Oracle there is no dedicated JSON data type. JSON documents are stored in the database using standard Oracle data types such as VARCHAR2, CLOB and BLOB. In order to ensure that the content of the column is valid JSON data, the new constraint IS JSON can be applied to a column. This constraint returns TRUE if the content of the column is well-formed, valid JSON and FALSE otherwise. **Copy** and **execute** the following statement using the **Run Script** button on the top of the page.
 
@@ -199,7 +199,7 @@ To create an **external table** using a file stored in Object Storage you will u
   
   ![Select PONumber=10001](./images/task4_insert_03.png)
 
-## **TASK 6**: Update a Record
+## TASK 6: Update a Record
 
 You can use Oracle SQL function `json-mergepatch` or PL/SQL object-type method `json-mergepatch()` to update specific portions of a JSON document. In both methods you provide a JSON Merge Patch document, which declaratively specifies the changes to make to a a specified JSON document. JSON Merge Patch is an IETF standard.    
 

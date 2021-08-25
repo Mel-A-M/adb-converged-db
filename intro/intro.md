@@ -36,7 +36,7 @@ Here's a video to help with signing up:[](youtube:4U-0SumNz6w)
 
 _At this point, you are ready to start learning! Please proceed._
 
-## **Acknowledgements**
+## Acknowledgements
 
 - **Author**: Melanie Ashworth-March, Oracle Solution Center
 - **Contributor**: Priscila Iruela, Victor Martin

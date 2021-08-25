@@ -42,7 +42,7 @@ To complete this lab, you need to have the following:
 
 **Estimated Lab Time**: 15 minutes.
 
-## **TASK 1**: Provision ATP
+## TASK 1: Provision ATP
 
 1. Go to **Menu** > **Oracle Database** > **Autonomous Transaction Processing**.
 
@@ -115,7 +115,7 @@ To complete this lab, you need to have the following:
 
 _At this point, you are ready to start learning! Please proceed._
 
-## **Acknowledgements**
+## Acknowledgements
 
 - **Author**: Melanie Ashworth-March, Oracle Solution Center
 - **Contributor**: Priscila Iruela, Victor Martin
