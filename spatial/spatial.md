@@ -8,13 +8,13 @@ This lab walks you through the steps of setting up the environment for Spatial l
 
 ### About Oracle Spatial
 
-**Oracle Spatial** is an integrated set of functions, procedures, data types, and data models that support spatial analytics. The spatial features enable spatial data to be stored, accessed, and analyzed quickly and efficiently in an Oracle database.
+**Oracle Spatial** is an integrated set of functions, procedures, data types, and data models that support Spatial analytics. The Spatial features enable Spatial data to be stored, accessed, and analyzed quickly and efficiently in an Oracle database.
 
-Oracle Spatial is designed to make spatial data management easier and more natural to users of location-enabled applications and geographic information system (GIS) applications. Once spatial data is stored in an Oracle database, it can be easily manipulated, retrieved, and related to all other data stored in the database.
+Oracle Spatial is designed to make Spatial data management easier and more natural to users of location-enabled applications and geographic information system (GIS) applications. Once Spatial data is stored in an Oracle database, it can be easily manipulated, retrieved, and related to all other data stored in the database.
 
-A common example of spatial data can be seen in a road map. A road map is a two-dimensional object that contains points, lines, and polygons that can represent cities, roads, and political boundaries such as states or provinces. A road map is a visualization of geographic information.
+A common example of Spatial data can be seen in a road map. A road map is a two-dimensional object that contains points, lines, and polygons that can represent cities, roads, and political boundaries such as states or provinces. A road map is a visualization of geographic information.
 
-The data that indicates the Earth location (such as longitude and latitude) of these rendered objects is the spatial data. When the map is rendered, this spatial data is used to project the locations of the objects on a two-dimensional piece of paper.
+The data that indicates the Earth location (such as longitude and latitude) of these rendered objects is the Spatial data. When the map is rendered, this Spatial data is used to project the locations of the objects on a two-dimensional piece of paper.
 
 [![Spatial and Graphn - Now Included in Oracle Database](https://img.youtube.com/vi/Q2jm93Rm95g/hqdefault.jpg)](https://youtu.be/Q2jm93Rm95g)
 
@@ -31,7 +31,7 @@ MyCompany has several major warehouses. It needs to locate its customers who are
 
 We will be using three tables – CUSTOMERS, WAREHOUSES and WAREHOUSES\_DTP.
 
-Each table stores location using Oracle's native spatial data type, SDO\_GEOMETRY. A location can be stored as a point in an SDO\_GEOMETRY column of a table. The customer's location is associated with longitude and latitude values on the Earth's surface—for example, -63.13631, 52.485426.
+Each table stores location using Oracle's native Spatial data type, SDO\_GEOMETRY. A location can be stored as a point in an SDO\_GEOMETRY column of a table. The customer's location is associated with longitude and latitude values on the Earth's surface—for example, -63.13631, 52.485426.
 
 **Estimated Lab Time:** 30 minutes
 
@@ -248,11 +248,11 @@ Examine one of these tables using **SQL Developer Web**.
 
    ![Customers Table Edit](./images/examine-01.png)
 
-2. This opens the **Table Properties** window. You can see that the customer table has a column **CUST_GEO_LOCATION** which is of the special **SDO_GEOMETRY** data type to store the spatial data.
+2. This opens the **Table Properties** window. You can see that the customer table has a column **CUST_GEO_LOCATION** which is of the special **SDO_GEOMETRY** data type to store the Spatial data.
 
    ![Customers Table Details](./images/examine-02.png)
 
-3. Before the spatial index was created in the original data load, entries were inserted into the **USER_SDO_GEOM_METADATA** view to provide information about dimensions associated with the data, for example.
+3. Before the Spatial index was created in the original data load, entries were inserted into the **USER_SDO_GEOM_METADATA** view to provide information about dimensions associated with the data, for example.
 
    ```sql
    insert into user_sdo_geom_metadata
@@ -269,9 +269,9 @@ Examine one of these tables using **SQL Developer Web**.
 
 **Here is a description of the items that were entered:**
 
-  - **TABLE-NAME**: Name of the table which contains the spatial data.
-  - **COLUMN-NAME**: Name of the **SDO-GEOMETRY** column which stores the spatial data.
-  - **MDSYS.SDO-DIM-ARRAY**: Constructor which holds the MDSYS.SDO-DIM-ELEMENT object,which in turn stores the extents of the spatial data  in each dimension (-180.0, 180.0), and a tolerance value (0.05). The tolerance is a round-off error value used by Oracle Spatial, and is in meters for longitude and latitude data. In this example, the tolerance is 5 mm.
+  - **TABLE-NAME**: Name of the table which contains the Spatial data.
+  - **COLUMN-NAME**: Name of the **SDO-GEOMETRY** column which stores the Spatial data.
+  - **MDSYS.SDO-DIM-ARRAY**: Constructor which holds the MDSYS.SDO-DIM-ELEMENT object, which in turn stores the extents of the Spatial data  in each dimension (-180.0, 180.0), and a tolerance value (0.05). The tolerance is a round-off error value used by Oracle Spatial, and is in meters for longitude and latitude data. In this example, the tolerance is 5 mm.
   - **4326**: Spatial reference system id (SRID): a foreign key to an Oracle dictionary table (MDSYS.CS-SRS) that contains all the supported coordinate systems. It is important to associate your customer's location to a coordinate system. In this example, 4326 corresponds to "Longitude / Latitude (WGS 84).".
 
 4. Select the **Indexes** item in the sidebar. You can see that there has been an index created called **CUSTOMERS_SIDX**. This index is on the CUSTOMER_SDO column. This type of index on Spatial data was created using a command similar to `CREATE INDEX customers_sidx ON customers(CUST_GEO_LOCATION) indextype is mdsys.spatial_index;`
