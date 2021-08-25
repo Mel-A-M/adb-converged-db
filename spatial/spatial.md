@@ -33,7 +33,7 @@ We will be using three tables – CUSTOMERS, WAREHOUSES and WAREHOUSES\_DTP.
 
 Each table stores location using Oracle's native Spatial data type, SDO\_GEOMETRY. A location can be stored as a point in an SDO\_GEOMETRY column of a table. The customer's location is associated with longitude and latitude values on the Earth's surface—for example, -63.13631, 52.485426.
 
-**Estimated Lab Time:** 30 minutes
+**Estimated Lab Time:** 30 minutes.
 
 ## **TASK 1**: Prepare your environment
 
@@ -128,7 +128,7 @@ To access data in the Object Storage you must enable your database user to authe
 
    ![Set TNS Admin](../common-images/set-tns-admin.png)
 
-2. **Connect** using **SQL*Plus command line** from your cloud shell prompt, using your **admin** password instead of YOUR-ADMIN-PASSWORD (We have suggested `Oracle_12345`) and your database name instead of YOUR-DB-NAME (We have suggested `converged_tp`).
+2. **Connect** using **SQL*Plus** command line from your cloud shell prompt, using your **admin** password instead of YOUR-ADMIN-PASSWORD (We have suggested `Oracle_12345`) and your database name instead of YOUR-DB-NAME (We have suggested `converged_tp`).
 
    ```sql
    sqlplus admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp
@@ -142,7 +142,7 @@ To access data in the Object Storage you must enable your database user to authe
    ![SQLPlus Admin Converged_tp](./images/sqlpus_admin_converged_tp.png)
 
    
-3. During the section '**Preparing the Data**' you prepared a `create_credential.sql` file. **Copy and paste** the contents of this into SQL*Plus session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous step in this lab. 
+3. During the section '**Preparing the Data**' you prepared a `create_credential.sql` file. **Copy and paste** the contents of this into **SQL*Plus** session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous step in this lab. 
 
    ![Set create credential](../common-images/sqlplus-create-cred-admin.png)
 
@@ -166,9 +166,9 @@ To access data in the Object Storage you must enable your database user to authe
 
    ```
 
-5. You have **verified** that your wallet has been correctly configured by using SQL\*Plus and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for **SQL Developer Web** by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
+5. You have **verified** that your wallet has been correctly configured by using **SQL*Plus** and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for **SQL Developer Web** by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
 
-6. **Quit** SQL\*PLUS.
+6. **Quit** SQL*Plus.
 
    ```
    quit

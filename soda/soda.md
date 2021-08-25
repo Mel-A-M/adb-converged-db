@@ -30,7 +30,7 @@ The Document model is completely schema-less. In the Schema-less approach to cre
 
 One last thing about SODA. It is important to understand that SODA is NOT mandatory when working with JSON and the Oracle Database. However SODA provides a simple solution to bridging the programing gap between the NOSQL model and the relational model.
 
-**Estimated Lab Time**: 30 Minutes.
+**Estimated Lab Time**: 30 minutes.
 
 ## TASK 1: Prepare your environment
 

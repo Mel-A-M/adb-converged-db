@@ -26,7 +26,7 @@ We will cover the following labs during this workshop:
 - Lab: Spatial
 - Lab: XML
 
-You will also use Oracle SQL Developer Web to help execute the programs associated with the lab.
+You will also use Oracle **SQL Developer Web** to help execute the programs associated with the lab.
 
 ## Prerequisites
 
