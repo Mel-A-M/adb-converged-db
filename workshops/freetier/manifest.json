@@ -13,13 +13,13 @@
       "filename": "https://raw.githubusercontent.com/oracle/learning-library/master/common/labs/cloud-login/pre-register-free-tier-account.md"
     },
     {
-      "title": "Provisioning",
-      "description": "Provision of Autonomous Database",
+      "title": "Provisioning Autonomous Database",
+      "description": "Provisioning of Autonomous Database",
       "filename": "../../provisioning/provisioning.md"
     },
     {
-      "title": "Preparing the data",
-      "description": "Uploading the required test data and creating auth token",
+      "title": "Preparing the data source into Object Storage",
+      "description": "Preparing the data source into Object Storage and creating auth token",
       "filename": "../../upload-data/upload-data.md"
     },
     {

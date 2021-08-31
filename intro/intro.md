@@ -12,6 +12,8 @@ By providing support for all of these data types, a Converged Database can run a
 
 **Oracle Autonomous Database** is an excellent example of a converged database, as it provides support for Machine Learning, Blockchain, Graph, Spatial, JSON, REST, Events, Editions, and IoT Streaming as part of the core database at no additional cost. It allows you to support many diverse projects using a single platform, significantly reducing complexity and management overhead, while minimizing risk.
 
+You don't need to manage and maintain multiple systems or worry about  having to provide unified security across them. To learn more, see this [blog](https://blogs.oracle.com/database/many-single-purpose-databases-versus-a-converged-database).
+
 **Estimated Lab Time**: 2 hours.
 
 ## Objectives
@@ -20,7 +22,7 @@ We will cover the following labs during this workshop:
 
 - Lab: Getting Started on the Cloud
 - Lab: Provisioning Autonomous Database
-- Lab: Prepare the data
+- Lab: Preparing the data source into Object Storage
 - Lab: JSON
 - Lab: SODA
 - Lab: Spatial

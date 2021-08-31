@@ -1,4 +1,4 @@
-# Provisioning an Autonomous Database
+# Provisioning Autonomous Database
 
 ![ADB Banner](images/adb_banner.png)
 
