@@ -353,7 +353,7 @@ Now that your environment is configured and you can connect to database from Pyt
 
 You are now ready to switch gears and view the SODA collection from the viewpoint of the Oracle database.
 
-## TASK 4: Viewing your SODA Collection from the Database
+## TASK 4: View your SODA Collection from the Database
 
 In this section you will connect to the Oracle database you provisioned in your previous lab. This is the database environment that you configured your Python programs to connect to.
 
