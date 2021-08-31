@@ -238,7 +238,7 @@ In the previous step you executed commands to **grant** the appspat user privile
    ![Database Actions Dashboard - Development](../common-images/start-sqldev-web.png)
 
 
-## TASK 4: Examining your Spatial data
+## TASK 4: Examine your Spatial data
 
 As part of the **dataload** you created the tables CUSTOMERS, WAREHOUSES_DTP and WAREHOUSES.
 
