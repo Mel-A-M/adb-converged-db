@@ -1,10 +1,10 @@
 {
-  "workshoptitle": "Converged over Autonomous Database",
+  "workshoptitle": "Converged Functionality of Oracle Autonomous Database Workshop",
   "help": "livelabs-help-db_us@oracle.com",
   "tutorials": [
     {
       "title": "Introduction",
-      "description": "Introduction to Converged concepts.",
+      "description": "Introduction to Converged concepts",
       "filename": "../../intro/intro.md"
     },
     {
@@ -14,7 +14,7 @@
     },
     {
       "title": "Provisioning",
-      "description": "Provision of Autonomous Database.",
+      "description": "Provision of Autonomous Database",
       "filename": "../../provisioning/provisioning.md"
     },
     {
