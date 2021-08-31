@@ -141,7 +141,7 @@ To create an **external table** using a file stored in Object Storage you will u
   /
   ```
 
-## TASK 5: Insert a record
+## TASK 5: Insert a Record
 
 1. **Take a count** of the rows in your **purchase_order table**. Your number returned should vary. **Execute** the following statement using the **Run Statement** button on the top of the page.
 

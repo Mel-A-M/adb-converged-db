@@ -1,4 +1,4 @@
-# Load the source data into Object Storage
+# Preparing the data source into Object Storage
 
 ## Introduction
 
