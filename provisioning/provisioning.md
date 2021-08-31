@@ -4,10 +4,11 @@
 
 ## Introduction
 
-This lab walks you through the steps to get started using the **Oracle Autonomous Database** on Oracle Cloud. There are two types of workloads:
+This lab walks you through the steps to get started using the **Oracle Autonomous Database** on Oracle Cloud. There are three types of workloads:
 
 - Autonomous Data Warehouse (ADW)
 - Autonomous Transaction Processing (ATP)
+- Autonomous JSON Database (AJD)
 
 In this lab, you will provision a new **Autonomous Transaction Processing (ATP)** instance.
 
@@ -19,14 +20,14 @@ Let check the most important characteristics of **Oracle Autonomous Databases**.
 
 **Self-securing**
 - Automate data protection and security.
-- Protect sensitive and regulated data automatically, patch your database for security vulnerabilities, and prevent unauthorized access—all with Oracle Autonomous Database.
+- Protect sensitive and regulated data automatically, patch your database for security vulnerabilities, and prevent unauthorized access-all with Oracle Autonomous Database.
 
 **Self-repairing**
 - Automate failure detection, failover, and repair.
 - Detect and protect from system failures and user errors automatically and provide failover to standby databases with zero data loss.
 - Perfect for Developers!
 
-*Note: While this lab uses ATP, the steps are identical for creating an ADW database.*
+> Note: While this lab uses ATP, the steps are identical for creating an ADW database.*
 
 ## Objectives
 
@@ -68,7 +69,7 @@ To complete this lab, you need to have the following:
 
 4. Fill the next part of the provisioning form with the following values.
 
-   - Always Free: Turn it `on`, but it will work if you leave it `off` like in the screenshot.
+   - Always Free: Turn it `on`. For this workshop it must be `off` like in the screenshot.
    
    You will have visible the **Always Free** logo next to the name of your database:
 

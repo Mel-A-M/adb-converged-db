@@ -52,7 +52,7 @@ If you have downloaded the wallet for your database in a previous lab, skip to S
 
   ````
   cd ~
-  oci db autonomous-database generate-wallet --password <your admin password> --file  converged-wallet.zip --autonomous-database-id <your ocid>
+  oci db autonomous-database generate-wallet --password <your admin password> --file  converged-wallet.zip --autonomous-database-id <ocid of your atp>
   ````
   
   ![Generate Wallet](./images/generate-wallet.png)
@@ -168,11 +168,14 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
   print("\n")
   ````
 
-  > *Note*: You do not need to modify any lines of code in this file.
+  > Note: You do not need to modify any lines of code in this file.
 
   About this program:
+
     - The first two lines load the cx\_Oracle extension along with the connection information from the file we created in our previous step.
+    
     - We use the third line of code to pass the connection information to the program.
+    
     - The final line prints the database version.
 
 11. **Enter** the following to run the program:
@@ -292,7 +295,7 @@ Now that your environment is configured and you can connect to database from Pyt
 
     - The **diet** field is an array of values.
 
-    - The fourth document being inserted includes an additional field that is not in any prior documents. This would be problematic in the relational model as a column would need to pre-exist for this insert to succeed.  In SODA this change can happen on the fly as it supports *schema-evolution* natively.
+    - The fourth document being inserted includes an additional field that is not in any prior documents. This would be problematic in the relational model as a column would need to pre-exist for this insert to succeed.  In SODA this change can happen on the fly as it supports `schema-evolution` natively.
 
 5. **Save** the changes and **run** the program as follows:
 
@@ -358,15 +361,15 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   ![Database Dashboard](../common-images/hamburger-menu.png)
 
-2. **Click** on the **Display Name**.
+2. **Click** on the Display Name - **converged**.
 
-  ![Database Converged](../common-images/select_database_converged.png)
+  ![Database Converged](./images/select_database_converged.png)
   
 3. On the Autonomous Database Details page click on the **Tools** tab, select **Open Database Actions**, a new browser will open up:
 
   ![Database Actions Dashboard](./images/open-dbactions.png)
 
-4. **Login** with the **admin** user using your admin user **password**:`Oracle_12345`.
+4. **Login** with the **admin** user using your admin user **password**: `Oracle_12345`.
 
   ![Admin Login Password](./images/db-soda-01.png)
 
@@ -374,7 +377,7 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   ![Database Actions Dashboard - Development](./images/db-soda-02.png)
 
-6. In the first part of this lab you created a collection in python called "**sodacollection**".  This object did not previously exist in the database, but the first SODA insert operation created this automatically for you.
+6. In the first part of this lab you created a collection in python called `sodacollection`.  This object did not previously exist in the database, but the first SODA insert operation created this automatically for you.
 
   The collection appears in the database as a table. You can see the table's columns described in the pane on the left hand side of the screen:
 
@@ -384,7 +387,7 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   ````sql
   desc sodacollection
-  select * from sodacollection ;
+  select * from sodacollection;
   ````
 
 8. You should see the following **output**:
@@ -401,7 +404,7 @@ In this section you will connect to the Oracle database you provisioned in your 
          created_on,
          version,
          json_serialize(json_document returning varchar2 pretty) pretty_js
-  from   sodacollection
+  from sodacollection
   /
   ````
 
@@ -409,22 +412,22 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   ![Query soda select](./images/db-soda-05.png)
 
-  > *NOTE:  The json_serialize operation is returned using pretty format. If you use the Run Query button in SQLDeveloper Web the Document contents are returned as a single formatted column on a single row. If you were to have run the same SQL statement from a SQL command-line, the document would be displayed in a "pretty format" as illustrated below.  This is just for reference, you do not need to perform this operation.*   
+  > Note: The json_serialize operation is returned using pretty format. If you use the Run Query button in SQLDeveloper Web the Document contents are returned as a single formatted column on a single row. If you were to have run the same SQL statement from a SQL command-line, the document would be displayed in a "pretty format" as illustrated below.  This is just for reference, you do not need to perform this operation.
 
   ![Query soda select result](./images/db-soda-06.png)
 
 11. A better method for understanding the document contents for the collection that you can use is the JSON\_DATAGUIDE function. The JSON\_DATAGUIDE function is not dependent upon SODA, and provides a powerful way to map the contents of the JSON document into columns that can be easily read and used in relational operations. JSON\_DATAGUIDE simplifies working with the NOSQL schema-less and schema evolution paradigms.
 
-  **Run** the following SQL statements to create a view called '**auto_view**' and populate it with information about your sodacollection.
+  **Run** the following SQL statements to create a view called `auto_view` and populate it with information about your sodacollection.
 
   ````sql
-  declare dguide clob ;
+  declare dguide clob;
   
   begin
      select json_dataguide(json_document, DBMS_JSON.FORMAT_HIERARCHICAL)
-     into   dguide
-     from   sodacollection ;
-     dbms_json.create_view('auto_view', 'sodacollection', 'json_document', dguide ) ;
+     into dguide
+     from sodacollection ;
+     dbms_json.create_view('auto_view','sodacollection','json_document', dguide);
   end ;
   ````
 
@@ -432,9 +435,9 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   ![Query soda dguide clob](./images/db-soda-07.png)
 
-  Go here to find out more about ([JSON_DATAGUIDE](https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/JSON_DATAGUIDE.html#GUID-4CF32887-0F46-4925-8381-AE2B74343933))
+  Go here to find out more about ([JSON_DATAGUIDE](https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/JSON_DATAGUIDE.html#GUID-4CF32887-0F46-4925-8381-AE2B74343933)).
 
-  In addition to using JSON\_DATAGUIDE to map the JSON document contents to columns, the operation also created a view called *auto_view* so you can access the data more seamlessly moving forward.
+  In addition to using JSON\_DATAGUIDE to map the JSON document contents to columns, the operation also created a view called `auto_view` so you can access the data more seamlessly moving forward.
 
 13. The view can be described just like any other Oracle view:
 
@@ -461,7 +464,7 @@ In this section you will connect to the Oracle database you provisioned in your 
   ![Query soda select 2](./images/db-soda-09.png)
 
 
-  The output from the query is a little confusing as you are seeing a row entry for each array element of the diet.  So in this case you can use the SQL *LISTAGG* function to format the output in a more meaningful way:
+  The output from the query is a little confusing as you are seeing a row entry for each array element of the diet. So in this case you can use the SQL `LISTAGG` function to format the output in a more meaningful way:
 
   ````sql
   select "name",
@@ -478,9 +481,9 @@ In this section you will connect to the Oracle database you provisioned in your 
 
 18. The final operation you will perform on the SODA collection is to drop the collection from your database.
 
-  It is important to note that you should not simply issue a "drop table" operation on the underlying table holding the collection as there is hidden metadata associated with the collection and this should be removed in a clean manner.  
+  It is important to note that you should not simply issue a `drop table` operation on the underlying table holding the collection as there is hidden metadata associated with the collection and this should be removed in a clean manner.  
 
-  The safest method to drop a Collection from inside the database is to use the SQL function    dbms\_soda.drop\_collection as follows:
+  The safest method to drop a Collection from inside the database is to use the SQL function dbms\_soda.drop\_collection as follows:
 
   ````sql
   select dbms_soda.drop_collection('sodacollection') "Status" from dual;
@@ -490,13 +493,13 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   ![Query soda select 4](./images/db-soda-11.png)
 
-  > *A Status of '**1**' means success. If you run the select statement more than once, it will return a '0' on the subsequent runs as there is no longer anything to drop.*
+  > Note: A Status of '**1**' means success. If you run the select statement more than once, it will return a '0' on the subsequent runs as there is no longer anything to drop.
 
 _Congratulations, you have completed this lab on SODA in Autonomous Database._
 
 ### Learn More
-- [Oracle Online documentation for SODA ](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/adsdi/overview-soda.html)
-- [Blog: How to Use JSON, SODA, Python and Oracle Autonomous JSON DB](https://seanstacey.org/part-1-using-json-soda-and-python-with-oracle-database-and-autonomous-json-database/2020/10/)
+- [Oracle Online documentation for SODA ](https://docs.oracle.com/en/database/oracle/simple-oracle-document-access/adsdi/overview-soda.html).
+- [Blog: How to Use JSON, SODA, Python and Oracle Autonomous JSON DB](https://seanstacey.org/part-1-using-json-soda-and-python-with-oracle-database-and-autonomous-json-database/2020/10/).
 
 ## Acknowledgements
 

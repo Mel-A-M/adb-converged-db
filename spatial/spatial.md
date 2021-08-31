@@ -81,7 +81,7 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
    
    ![Unzip Wallet](../common-images/unzip-wallet.png)
 
-2. Next you need to modify the **sqlnet.ora** file located in the wallet directory to include the location of the wallet contents (.e.g the directory holding your tnsnames.ora). If you are unsure of the full directory name and path, you can cut-and-paste this from the output of the **pwd** operation.
+2. Next you need to modify the **sqlnet.ora** file located in the wallet directory to include the location of the wallet contents (e.g the directory holding your tnsnames.ora). If you are unsure of the full directory name and path, you can cut-and-paste this from the output of the **pwd** operation.
 
    ````
    cd ~/wallet
@@ -199,7 +199,7 @@ To access data in the Object Storage you must enable your database user to authe
 
    - YOUR-DB-NAME: replace with your database nam e, and make sure you are connecting to the _high service (We have suggested `converged_tp`)
 
-   - YOUR-FILE-URI: The URI for the dump file stored in your lab bucket as noted in the previous step.
+   - YOUR-FILE-URI: The URI for the dump file stored in your lab bucket as noted in the previous step
 
    ```
    impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp \
@@ -212,7 +212,7 @@ To access data in the Object Storage you must enable your database user to authe
 
    The import should take **less than a minute** to run. 
 
-6. **2 errors** are expected in the output `ORA-31684: Object type USER:"APPSPAT" already exists` and `ORA-39083: Object type ROLE_GRANT failed to create with error: ORA-01924: role 'DBA' not granted or does not exist`
+6. **2 errors** are expected in the output `ORA-31684: Object type USER:"APPSPAT" already exists` and `ORA-39083: Object type ROLE_GRANT failed to create with error: ORA-01924: role 'DBA' not granted or does not exist`.
 
    ![Import command converged_tp Results](./images/import_command_converged_tp_results.png)
 
@@ -240,7 +240,7 @@ In the previous step you executed commands to **grant** the appspat user privile
 
 ## TASK 4: Examining your Spatial data
 
-As part of the **dataload** you created the tables CUSTOMERS,WAREHOUSES_DTP and WAREHOUSES.
+As part of the **dataload** you created the tables CUSTOMERS, WAREHOUSES_DTP and WAREHOUSES.
 
 Examine one of these tables using **SQL Developer Web**.
 
@@ -248,11 +248,11 @@ Examine one of these tables using **SQL Developer Web**.
 
    ![Customers Table Edit](./images/examine-01.png)
 
-2. This opens the **Table Properties** window. You can see that the customer table has a column **CUST_GEO_LOCATION** which is of the special **SDO_GEOMETRY** data type to store the Spatial data.
+2. This opens the **Table Properties** window. You can see that the customer table has a column **CUST\_GEO\_LOCATION** which is of the special **SDO\_GEOMETRY** data type to store the Spatial data.
 
    ![Customers Table Details](./images/examine-02.png)
 
-3. Before the Spatial index was created in the original data load, entries were inserted into the **USER_SDO_GEOM_METADATA** view to provide information about dimensions associated with the data, for example.
+3. Before the Spatial index was created in the original data load, entries were inserted into the `USER_SDO_GEOM_METADATA` view to provide information about dimensions associated with the data, for example.
 
    ```sql
    insert into user_sdo_geom_metadata
@@ -270,11 +270,11 @@ Examine one of these tables using **SQL Developer Web**.
 **Here is a description of the items that were entered:**
 
   - **TABLE-NAME**: Name of the table which contains the Spatial data.
-  - **COLUMN-NAME**: Name of the **SDO-GEOMETRY** column which stores the Spatial data.
-  - **MDSYS.SDO-DIM-ARRAY**: Constructor which holds the MDSYS.SDO-DIM-ELEMENT object, which in turn stores the extents of the Spatial data  in each dimension (-180.0, 180.0), and a tolerance value (0.05). The tolerance is a round-off error value used by Oracle Spatial, and is in meters for longitude and latitude data. In this example, the tolerance is 5 mm.
-  - **4326**: Spatial reference system id (SRID): a foreign key to an Oracle dictionary table (MDSYS.CS-SRS) that contains all the supported coordinate systems. It is important to associate your customer's location to a coordinate system. In this example, 4326 corresponds to "Longitude / Latitude (WGS 84).".
+  - **COLUMN-NAME**: Name of the `SDO_GEOMETRY` column which stores the Spatial data.
+  - **MDSYS.SDO\_DIM_ARRAY**: Constructor which holds the `MDSYS.SDO_DIM_ELEMENT` object, which in turn stores the extents of the Spatial data  in each dimension (-180.0, 180.0), and a tolerance value (0.05). The tolerance is a round-off error value used by Oracle Spatial, and is in meters for longitude and latitude data. In this example, the tolerance is 5 mm.
+  - **4326**: Spatial reference system id (SRID): a foreign key to an Oracle dictionary table (`MDSYS.CS_SRS`) that contains all the supported coordinate systems. It is important to associate your customer's location to a coordinate system. In this example, 4326 corresponds to "Longitude / Latitude (WGS 84).".
 
-4. Select the **Indexes** item in the sidebar. You can see that there has been an index created called **CUSTOMERS_SIDX**. This index is on the CUSTOMER_SDO column. This type of index on Spatial data was created using a command similar to `CREATE INDEX customers_sidx ON customers(CUST_GEO_LOCATION) indextype is mdsys.spatial_index;`
+4. Select the **Indexes** item in the sidebar. You can see that there has been an index created called **CUSTOMERS\_SIDX**. This index is on the CUSTOMER_SDO column. This type of index on Spatial data was created using a command similar to `CREATE INDEX customers_sidx ON customers(CUST_GEO_LOCATION) indextype is mdsys.spatial_index;`
 
    ![Index Details](./images/examine-03.png)
 
@@ -323,11 +323,11 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 
 #### Query #3: Find the five female customers closest to warehouse named 'Livonia Facility', put the results in order of distance, and give the distance in miles
 
-- **SDO\_BATCH\_SIZE** is a tunable parameter that may affect your query's performance. If you do not set it, or set it to '0' then then it will calculate a batch size that is suitable for the result set size. However, the calculated batch size may not be optimal, and the calculation incurs some processing overhead. SDO\_NN internally calculates SDO_BATCH_SIZE number of distances at a time. The initial batch of rows returned may not satisfy the constraints in the WHERE clause, so the number of rows specified by SDO\_BATCH\_SIZE is continuously returned until all the constraints in the WHERE clause are satisfied. You should choose a SDO\_BATCH\_SIZE that initially returns the number of rows likely to satisfy the constraints in your WHERE clause.
+- **SDO\_BATCH\_SIZE** is a tunable parameter that may affect your query's performance. If you do not set it, or set it to '0' then then it will calculate a batch size that is suitable for the result set size. However, the calculated batch size may not be optimal, and the calculation incurs some processing overhead. SDO\_NN internally calculates SDO\_BATCH\_SIZE number of distances at a time. The initial batch of rows returned may not satisfy the constraints in the WHERE clause, so the number of rows specified by SDO\_BATCH\_SIZE is continuously returned until all the constraints in the WHERE clause are satisfied. You should choose a SDO\_BATCH\_SIZE that initially returns the number of rows likely to satisfy the constraints in your WHERE clause.
 
-- The **UNIT** parameter used within the SDO_NN operator specifies the UNIT of measure of the SDO\_NN\_DISTANCE parameter. The default UNIT is the unit of measure associated with the data. For longitude and latitude data, the default is meters. The possible values for the UNIT parameter are documented in the table MDSYS.SDO_DIST_UNITS.
+- The **UNIT** parameter used within the SDO\_NN operator specifies the UNIT of measure of the SDO\_NN\_DISTANCE parameter. The default UNIT is the unit of measure associated with the data. For longitude and latitude data, the default is meters. The possible values for the UNIT parameter are documented in the table MDSYS.SDO\_DIST\_UNITS.
 
-- ***c.gender = 'F'*** and **ROWNUM < 6** are the additional constraints in the WHERE clause to limit the results to people who are female, and the ROWNUM < 6 clause is necessary to limit the number of results returned to fewer than 6. 
+- **c.gender = 'F'** and **ROWNUM < 6** are the additional constraints in the WHERE clause to limit the results to people who are female, and the ROWNUM < 6 clause is necessary to limit the number of results returned to fewer than 6. 
 
 - The **ORDER BY DISTANCE\_IN\_MILES** clause ensures that the distances are returned in order, with the shortest distance first and the distances measured in miles.
 

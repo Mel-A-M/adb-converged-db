@@ -26,7 +26,7 @@ To complete this lab, you need to have the following:
 
    ![Bucket Menu](../common-images/object-storage-01.png)
 
-2. Click **Create Bucket**. Be sure you have select the same compartment where you have installed the Database in the previous lab. The default compartment is **root**, for the lab purpose, you can use `root`.
+2. Click **Create Bucket**. Be sure you have selected the same compartment where you have installed the Database in the previous lab. The default compartment is **root**, for the lab purpose, you can use `root`.
 
    ![bucket Create Button](images/create-bucket-01.png)
 
@@ -50,7 +50,7 @@ To complete this lab, you need to have the following:
 
 1. **Download** and **save** the following files to your local computer. 
    
-   - [export_spatial22Sep2020.dmp](files/export_spatial22Sep202.dmp) 
+   - [export_spatial22Sep2020.dmp](files/export_spatial22Sep2020.dmp) 
    - [PurchaseOrders.dmp](files/PurchaseOrders.dmp)
    - [xmlfile.xml](files/xmlfile.xml)
 

@@ -29,7 +29,7 @@ Oracle XML DB also supports the SQL/XML standard, which allows SQL-centric devel
 
 Oracle XML DB allows an organization to manage XML content in the same way that ii manages traditional relational data. This allows organizations to save costs and improve return on investment by using a single platform to manage and secure all of their mission critical data. Oracle XML DB was first released with Oracle 9iR2, and it has been enhanced in each subsequent major release of the database.
 
-There are some limitations on the usage of XML in Autonomous Database. See the documentation [here](https://docs.oracle.com/en/cloud/paas/autonomous-database/atpdg/experienced-database-users.html)
+There are some limitations on the usage of XML in Autonomous Database. See the documentation [here](https://docs.oracle.com/en/cloud/paas/autonomous-database/atpdg/experienced-database-users.html).
 
 **Expected Lab Duration**: 30 minutes.
 
@@ -56,7 +56,7 @@ There are some limitations on the usage of XML in Autonomous Database. See the d
 
 1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. 
 
-  > Do not copy and paste the example script below.
+  > Note: Do not copy and paste the example script below.
 
   ![Create credential SQL](./images/create-cred.png)
 
@@ -64,7 +64,7 @@ There are some limitations on the usage of XML in Autonomous Database. See the d
 
 ## TASK 3: Create an External Table on the file.
 
-To create an **external table** using a file stored in Object Storage you will use the **DBMS_CLOUD.CREATE_EXTERNAL_TABLE procedure**.
+To create an **external table** using a file stored in Object Storage you will use the `DBMS_CLOUD.CREATE_EXTERNAL_TABLE` procedure.
 
 1. **Locate** the file URI (URL Path) for your JSON files. Go to **Menu** > **Storage** > **Object Storage & Archive** > **Buckets**.
 
@@ -76,11 +76,11 @@ To create an **external table** using a file stored in Object Storage you will u
 
 3. On the **Bucket details** screen **Click** on the **Action menu** (the 3 dots menu) next to the file **xmlfile.xml**. Select **View Object Details**.
    
-  ![Get Object Details](images/get-object-details.png)
+  ![Get Object Details](./images/get-obj-details.png)
 
 4. On the **Object Details** dialog note the value for the **URL Path (URI)**.
 
-   ![Object Details](images/obj-details.png)
+   ![Object Details](./images/obj-details.png)
 
 5. Use the **URI** from the previous step in this SQL, **replacing** the text `FILE_URL_HERE` with the URI from your tenancy. **Execute** this SQL using the **Run Script** button on the top of the page.
 
@@ -99,15 +99,15 @@ To create an **external table** using a file stored in Object Storage you will u
 
    The parameters you are providing are as follows:
 
-   - **table_name**: This will be the new table's name.
+   - **table\_name**: This will be the new table's name.
 
-   - **credential_name**: This is the credential that has access to the Object Storage location. This  credential and name was created as part of STEP 2 of this Lab.
+   - **credential\_name**: This is the credential that has access to the Object Storage location. This  credential and name was created as part of STEP 2 of this Lab.
 
-   - **file_uri_list**: This is the file location. It can be specified in several formats see the  [documentation](.https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats. html) for details.
+   - **file\_uri\_list**: This is the file location. It can be specified in several formats see the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
 
-   - **format**: This describes the format for the data in the file. In this example you are   specifying a rejectlimit, but you could also specify record separators and other information  depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/  paas/autonomous-database/adbsa/format-options.html) for more details on the available formats.
+   - **format**: This describes the format for the data in the file. In this example you are specifying a rejectlimit, but you could also specify record separators and other information  depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/format-options.html) for more details on the available formats.
 
-   - **column_list**: A comma-delimited list of column names and data types for the external table.
+   - **column\_list**: A comma-delimited list of column names and data types for the external table.
 
    ![Create External Table](./images/external_table_01.png)
 
@@ -138,7 +138,7 @@ To create an **external table** using a file stored in Object Storage you will u
 1. Let us take a **count** of the rows we have currently in the table in the database and then do a insert. The source external table had **1 row**.
 
    ```sql
-   SELECT Count(*) FROM  xpurchase p;
+   SELECT Count(*) FROM xpurchase p;
    ```
 
 2. Download the SQL for the insert statement from [xml-insert.sql](files/xml-insert.sql). Copy and paste the full statement into **SQL Developer Web**.
@@ -148,7 +148,7 @@ To create an **external table** using a file stored in Object Storage you will u
    This should return 1 more row !
    
    ```sql
-   SELECT Count(*) FROM  xpurchase p;
+   SELECT Count(*) FROM xpurchase p;
    ```
 
 ## TASK 6: Update values in the XML table

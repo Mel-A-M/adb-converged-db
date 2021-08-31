@@ -4,7 +4,7 @@
 
 This lab will show how **JSON** data can be stored and manipulated in the **Autonomous Database**. 
 
-**Oracle Autonomous JSON Database** is Oracle Autonomous Transaction Processing, but specialized for developing NoSQL-style applications that use **JavaScript Object Notation (JSON)** documents. You can promote an Autonomous JSON Database service to an Autonomous Transaction Processing service if you need to have the need to store larger data set.           
+**Oracle Autonomous JSON Database** is Oracle Autonomous Transaction Processing, but specialized for developing NoSQL-style applications that use **JavaScript Object Notation (JSON)** documents. You can promote an Autonomous JSON Database service to an Autonomous Transaction Processing service if you need to store larger data set.           
 
 ## Objectives
 
@@ -20,7 +20,7 @@ There are three main parts to this lab.
 
 **JSON datatypes** are supported in **Oracle Autonomous Database and Oracle Database 19c**. JSON data can be used in Oracle Databases in similar ways. Unlike relational data, it can be stored, indexed, and queried without any need for a schema that defines the data. Oracle Database supports JSON natively with relational database features, including transactions, indexing, declarative querying, and views.
 
-It's likely we want to send and receive JSON documents to and from and our database, and store them in tables. Oracle Database has a huge amount of functionality that makes this easy.
+It's likely we want to send and receive JSON documents to and from our database, and store them in tables. Oracle Database has a huge amount of functionality that makes this easy.
 
 Oracle database provides a comprehensive implementation of SQL, for both analytics and batch processing. JSON held in the Oracle Database can be directly accessed via SQL, without the need to convert it into an intermediary form. JSON collections can be joined to other JSON collections or to relational tables using standard SQL queries.
 
@@ -61,7 +61,7 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
 1. During the section **Preparing the Data** on Load the source data into Object Storage Lab, you prepared a `create_credential.sql` file. **Copy and paste** the content of this into **SQL Developer Web** and **execute** using the **Run Script** button on the top of the page. 
 
-  > Do not copy and paste the example script below.
+  > Note: Do not copy and paste the example script below.
 
   ![Create credential SQL](./images/create-cred.png)
 
@@ -69,7 +69,7 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
 ## TASK 3: Create an External Table on the file
 
-To create an **external table** using a file stored in Object Storage you will use the **DBMS_CLOUD.CREATE_EXTERNAL_TABLE procedure**.
+To create an **external table** using a file stored in Object Storage you will use the `DBMS_CLOUD.CREATE_EXTERNAL_TABLE` procedure.
 
 1. **Locate** the file URI (URL Path) for your JSON files. Go to **Menu** > **Storage** > **Object Storage & Archive** > **Buckets**.
 
@@ -103,13 +103,13 @@ To create an **external table** using a file stored in Object Storage you will u
 
   The parameters you are providing are as follows:
 
-  - **table_name**: This will be the new table's name.
+  - **table\_name**: This will be the new table's name.
 
-  - **credential_name**: This is the credential that has access to the Object Storage location. This  credential and name was created as part of STEP 2 of this Lab.
+  - **credential\_name**: This is the credential that has access to the Object Storage location. This  credential and name was created as part of STEP 2 of this Lab.
 
-  - **file_uri_list**: This is the file location. It can be specified in several formats see the  [documentation](.https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats. html) for details.
+  - **file\_uri\_list**: This is the file location. It can be specified in several formats see the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
 
-  - **format**: This describes the format for the data in the file. In this example you are   specifying a rejectlimit, but you could also specify record separators and other information  depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/  paas/autonomous-database/adbsa/format-options.html) for more details on the available formats.
+  - **format**: This describes the format for the data in the file. In this example you are specifying a rejectlimit, but you could also specify record separators and other information  depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbdu/format-parameter.html) for more details on the available formats.
 
   - **column_list**: A comma-delimited list of column names and data types for the external table.
 
@@ -117,7 +117,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
 ## TASK 4: Load the JSON dump file into your database
 
-1. **Create** your destination table `PURCHASE_ORDER` which will be used to contain JSON documents. The table has a column `PO_DOCUMENT` of type CLOB. The **IS JSON constraint** is applied to the column `PO_DOCUMENT`, ensuring that the column can store only well formed JSON documents. In Oracle there is no dedicated JSON data type. JSON documents are stored in the database using standard Oracle data types such as VARCHAR2, CLOB and BLOB. In order to ensure that the content of the column is valid JSON data, the new constraint IS JSON can be applied to a column. This constraint returns TRUE if the content of the column is well-formed, valid JSON and FALSE otherwise. **Copy** and **execute** the following statement using the **Run Script** button on the top of the page.
+1. **Create** your destination table `PURCHASE_ORDER` which will be used to contain JSON documents. The table has a column `PO_DOCUMENT` of type CLOB. The **IS JSON constraint** is applied to the column `PO_DOCUMENT`, ensuring that the column can store only well formed JSON documents. Up to version 21c, in Oracle there was no dedicated JSON data type. JSON documents were stored in the database using standard Oracle data types such as VARCHAR2, CLOB and BLOB. In order to ensure that the content of the column is valid JSON data, the new constraint IS JSON can be applied to a column. This constraint returns TRUE if the content of the column is well-formed, valid JSON and FALSE otherwise. **Copy** and **execute** the following statement using the **Run Script** button on the top of the page.
 
   ```sql
   create table PURCHASE_ORDER
@@ -143,7 +143,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
 ## TASK 5: Insert a record
 
-1. **Take a count** of the rows in your **purchase_order table**. Your number returned should vary. **Execute** the following statement using the **Run Script** button on the top of the page.
+1. **Take a count** of the rows in your **purchase_order table**. Your number returned should vary. **Execute** the following statement using the **Run Statement** button on the top of the page.
 
   ```sql
   select count(*) from purchase_order;
@@ -151,7 +151,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
   ![Select count SQL](./images/task4_insert_01.png)  
   
-2. **Insert a record**. This new record will have a PONumber of 10001, and will contain 2 items. **Execute** the following statement using the **Run Script** button on the top of the page.
+2. **Insert a record**. This new record will have a PONumber of 10001, and will contain 2 items. **Execute** the following statement using the **Run Statement** button on the top of the page.
 
   ```sql
   INSERT INTO purchase_order
@@ -191,7 +191,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
   ![Insert PONumber of 10001](./images/task4_insert_02.png)
 
-3. **Verify** your insert by selecting the information for PONumber 10001. Please **copy** the **ID** for your record (highlighted in red in the screenshot) and **Save** it. This value WILL NOT MATCH the one in the screenshot. You will use this **ID** in the update section of the lab. **Execute** the following statement using the **Run Script** button on the top of the page.
+3. **Verify** your insert by selecting the information for PONumber 10001. Please **copy** the **ID** for your record (highlighted in red in the screenshot) and **Save** it. This value WILL NOT MATCH the one in the screenshot. You will use this **ID** in the update section of the lab. **Execute** the following statement using the **Run Statement** button on the top of the page.
     
   ```sql
   Select id from purchase_order j where j.po_document.PONumber=10001;
@@ -203,7 +203,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
 You can use Oracle SQL function `json-mergepatch` or PL/SQL object-type method `json-mergepatch()` to update specific portions of a JSON document. In both methods you provide a JSON Merge Patch document, which declaratively specifies the changes to make to a a specified JSON document. JSON Merge Patch is an IETF standard.    
 
-1. **Copy** the following update statement and **substitute the ID** you saved from the previous step in where it says `ID_copied_from_previous_step`. **Execute** the following statement using the **Run Script** button on the top of the page.
+1. **Copy** the following update statement and **substitute the ID** you saved from the previous step in where it says `ID_copied_from_previous_step`. **Execute** the following statement using the **Run Statement** button on the top of the page.
 
   ```sql
   update purchase_order
@@ -222,7 +222,7 @@ You can use Oracle SQL function `json-mergepatch` or PL/SQL object-type method `
 
 The Oracle database allows a simple ‘dotted’ notation to be used to perform a limited set of operations on columns containing JSON. In order to use the dotted notation, a table alias must be assigned to the table in the FROM clause, and any reference to the JSON column must be prefixed with the assigned alias. All data is returned as VARCHAR2(4000). 
 
-1. Let us look at customers who **ordered products** from a specific location, **South San Francisco**. **Execute** the following statement using the **Run Script** button on the top of the page.
+1. Let us look at customers who **ordered products** from a specific location, **South San Francisco**. **Execute** the following statement using the **Run Statement** button on the top of the page.
 
   ```sql
   select j.PO_DOCUMENT.Reference,
@@ -246,7 +246,7 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
   ```
   ![Example Query 2](./images/task6_query_02.png)
 
-3. Next, find the customers who all are purchased a specific products **based on a PONumber**. The `JSON_TABLE` operator uses a set of JSON path expressions to map content from a JSON document into columns in a virtual table, which you can also think of as an inline view.  Once the contents of the JSON document have been exposed as columns, all of the power of SQL can be brought to bear on the content of the  JSON document. 
+3. Next, find the customers who all are purchased specific products **based on a PONumber**. The `JSON_TABLE` operator uses a set of JSON path expressions to map content from a JSON document into columns in a virtual table, which you can also think of as an inline view.  Once the contents of the JSON document have been exposed as columns, all of the power of SQL can be brought to bear on the content of the  JSON document. 
 
   ```sql
    select D.* from PURCHASE_ORDER p,
@@ -302,13 +302,13 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
 5. You can create relational views on JSON data, allowing the full power of SQL to be applied to the JSON content, without requiring any knowledge of the structure of the JSON or how to manipulate JSON using SQL. 
 
-  Your users have a new query that they want to run regularly. They want to get information about orders that meet the critieria:
+    Your users have a new query that they want to run regularly. They want to get information about orders that meet the criteria:
 
-  - Ordered by a specific requester
-  - Minimum 7 items in each order
-  - Unit price minimum $25 in each order
+    - Ordered by a specific requester
+    - Minimum 7 items in each order
+    - Unit price minimum $25 in each order
 
-  To accomplish this you will create two relational views. 
+    To accomplish this you will create two relational views. 
 
 6. **Create view** `PURCHASE_ORDER_MASTER_VIEW`. This view selects the summary information about the order, including the **PONumber**, and the Shipping information.
 
@@ -337,6 +337,7 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
        	INSTRUCTIONS VARCHAR2(2048 CHAR) PATH '$.SpecialInstructions'
   ) m ;
   ```
+  ![Example Query 6](./images/task6_query_06_2.png)
 
 7. **Create view** `PURCHASE_ORDER_DETAIL_VIEW`. This view contains nested information related to the **Items on the order**. 
 
@@ -375,6 +376,8 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
        )
   ) d;
   ```
+
+  ![Example Query 7](./images/task6_query_07_2.png)
 
 8. **Query** `PURCHASE_ORDER_DETAIL_VIEW` to find **Purchase Orders** that meet the criteria and were ordered by 'Stephen King'.
 
