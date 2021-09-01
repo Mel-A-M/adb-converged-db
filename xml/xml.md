@@ -62,7 +62,7 @@ There are some limitations on the usage of XML in Autonomous Database. See the d
 
   You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous step in this lab. 
 
-## TASK 3: Create an External Table on the file.
+## TASK 3: Create an External Table on the file
 
 To create an **external table** using a file stored in Object Storage you will use the `DBMS_CLOUD.CREATE_EXTERNAL_TABLE` procedure.
 
