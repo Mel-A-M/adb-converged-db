@@ -1,9 +1,11 @@
 # Oracle Spatial
 
+![Spatial Banner](images/spatial_banner.png)
+
 ## Introduction
 This lab walks you through the steps of setting up the environment for Spatial lab and then takes you through. You can connect to the Oracle Database instance using any client of your choice. The instructions for this lab, document using **SQL Developer Web** and **SQL*Plus** in Cloud Shell.
 
-## Objectives
+### Objectives
 
 
 ### About Oracle Spatial
@@ -16,7 +18,7 @@ A common example of Spatial data can be seen in a road map. A road map is a two-
 
 The data that indicates the Earth location (such as longitude and latitude) of these rendered objects is the Spatial data. When the map is rendered, this Spatial data is used to project the locations of the objects on a two-dimensional piece of paper.
 
-[![Spatial and Graphn - Now Included in Oracle Database](https://img.youtube.com/vi/Q2jm93Rm95g/hqdefault.jpg)](https://youtu.be/Q2jm93Rm95g)
+[Spatial and Graph](youtube:Q2jm93Rm95g)
 
 Oracle Spatial consists of the following:
 
@@ -53,10 +55,11 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
 
 3. **Replace** **YOUR-OCID-HERE** in the command below with the **OCID** for your database. You will be setting the wallet password to the same value as the ADB admin password for ease of use. This is not a recommended practice and just used for the purposes of this lab. The wallet will be created with the name `converged-wallet.zip`.
 
-   ````
-   cd ~
-   oci db autonomous-database generate-wallet --password Oracle_12345 --file converged-wallet.zip --autonomous-database-id YOUR-OCID-HERE
-   ````
+   ```
+   <copy>
+   cd ~ && oci db autonomous-database generate-wallet --password Oracle_12345 --file converged-wallet.zip --autonomous-database-id YOUR-OCID-HERE
+   </copy>
+   ```
 
    ![Generate Wallet](../common-images/generate-wallet.png)
 
@@ -64,9 +67,11 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
 
 4. Enter the ls (list) command in your cloudshell below to verify the **converged-wallet.zip** was created
 
-   ````
+   ```
+   <copy>
    ls
-   ````
+   </copy>
+   ```
 
   ![Check Wallet Downloaded](../common-images/check-wallet.png)
 
@@ -74,27 +79,31 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
 
 1. Use the **unzip** command below to unzip the contents of the wallet file into a directory that you will call **wallet**. The directory will  be created automatically by  the unzip command.
 
-   ````
-   cd ~
-   unzip -d wallet converged-wallet.zip
-   ````
+   ```
+   <copy>
+   cd ~ && unzip -d wallet converged-wallet.zip
+   </copy>
+   ```
    
    ![Unzip Wallet](../common-images/unzip-wallet.png)
 
 2. Next you need to modify the **sqlnet.ora** file located in the wallet directory to include the location of the wallet contents (e.g the directory holding your tnsnames.ora). If you are unsure of the full directory name and path, you can cut-and-paste this from the output of the **pwd** operation.
 
-   ````
-   cd ~/wallet
-   pwd
-   ````
+   ```
+   <copy>
+   cd ~/wallet && pwd
+   </copy>
+   ```
 
    ![Wallet pwd](../common-images/wallet-pwd.png)
 
 3. **Edit** the contents of the **sqlnet.ora** file.
 
-   ````
+   ```
+   <copy>
    vi sqlnet.ora
-   ````
+   </copy>
+   ```
    ​Change the first line in the sqlnet.ora file to use your directory name as it appears in your Oracle Cloud Shell prompt:
 
    *OLD:* `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="?/network/admin")))`
@@ -107,9 +116,11 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
 
 4. **Change** directory back to your home Directory.
 
-   ````
+   ```
+   <copy>
    cd ..
-   ````
+   </copy>
+   ```
 
 ## TASK 2: Load the data
 
@@ -122,21 +133,27 @@ To access data in the Object Storage you must enable your database user to authe
 1. In **cloud shell**, set the TNS_ADMIN environment variable to your **wallet** directory. The tilde `~` symbol is a shortcut for your home directory path. 
 
    ```
-   export TNS_ADMIN=~/wallet
-   echo $TNS_ADMIN
+   <copy>
+   export TNS_ADMIN=~/wallet && echo $TNS_ADMIN
+   </copy>
    ```
 
    ![Set TNS Admin](../common-images/set-tns-admin.png)
 
 2. **Connect** using **SQL*Plus** command line from your cloud shell prompt, using your **admin** password instead of YOUR-ADMIN-PASSWORD (We have suggested `Oracle_12345`) and your database name instead of YOUR-DB-NAME (We have suggested `converged_tp`).
 
-   ```sql
-   sqlplus admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp
    ```
+   <copy>
+   sqlplus admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp
+   </copy>
+   ```
+
    The recomended option is:
 
-   ```sql
+   ```
+   <copy>
    sqlplus admin/Oracle_12345@converged_tp
+   </copy>
    ```
 
    ![SQLPlus Admin Converged_tp](./images/sqlpus_admin_converged_tp.png)
@@ -148,7 +165,8 @@ To access data in the Object Storage you must enable your database user to authe
 
 4. **Prepare** the destination schema for your imported data. In **SQL*Plus** execute the following commands
 
-   ```sql
+   ```
+   <copy>
    create user appspat identified by OracleLab1234;
    grant dwrole to appspat;
    alter user appspat quota unlimited on data;
@@ -163,7 +181,7 @@ To access data in the Object Storage you must enable your database user to authe
          COMMIT;
        END;
        /
-
+   </copy>
    ```
 
 5. You have **verified** that your wallet has been correctly configured by using **SQL*Plus** and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for **SQL Developer Web** by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
@@ -171,7 +189,9 @@ To access data in the Object Storage you must enable your database user to authe
 6. **Quit** SQL*Plus.
 
    ```
+   <copy>
    quit
+   </copy>
    ```
 
 ### Running impdp
@@ -202,10 +222,9 @@ To access data in the Object Storage you must enable your database user to authe
    - YOUR-FILE-URI: The URI for the dump file stored in your lab bucket as noted in the previous step
 
    ```
-   impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp \
-   credential=lab_bucket_cred  \
-   directory=data_pump_dir \
-   dumpfile=YOUR-FILE-URI 
+   <copy>
+   impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp credential=lab_bucket_cred directory=data_pump_dir dumpfile=YOUR-FILE-URI 
+   </copy>
    ```
 
    ![Import command converged_tp](./images/import_command_converged_tp.png)
@@ -227,9 +246,22 @@ In the previous step you executed commands to **grant** the appspat user privile
 
 2. Enter the username `appspat` and select **Next**.
 
+   ```
+   <copy>
+   appspat
+   </copy>
+   ```
+   
+
    ![appspat Login](./images/login-appspat-01.png)
 
 3. **Enter** the password for appspat `OracleLab1234` and **Sign in**.
+
+   ```
+   <copy>
+   OracleLab1234
+   </copy>
+   ```
 
    ![appspat Login Password](./images/login-appspat-02.png)
 
@@ -254,7 +286,8 @@ Examine one of these tables using **SQL Developer Web**.
 
 3. Before the Spatial index was created in the original data load, entries were inserted into the `USER_SDO_GEOM_METADATA` view to provide information about dimensions associated with the data, for example.
 
-   ```sql
+   ```
+   <copy>
    insert into user_sdo_geom_metadata
    (TABLE_NAME,
         COLUMN_NAME,
@@ -265,6 +298,7 @@ Examine one of these tables using **SQL Developer Web**.
    MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', -180, 180, 0.05),
                   MDSYS.SDO_DIM_ELEMENT('Y', -90, 90, 0.05)),
    4326);
+   </copy>
    ```
 
 **Here is a description of the items that were entered:**
@@ -290,11 +324,13 @@ Examine one of these tables using **SQL Developer Web**.
 - When using the **SDO\_NUM\_RES** parameter (limiting the number of results returned), other constraints should be used cautiously in the WHERE clause. **SDO\_NUM\_RES** takes only proximity into account. For example, if you added a criterion to the WHERE clause because you wanted the five closest female customers, and four of the five closest customers are male, the query above would return one row. This behavior is specific to the SDO-NUM-RES parameter, and its results may not be what you are looking for. You will learn how to find the five closest female customers in the discussion of query 3.
 
 
-   ```sql
+   ```
+   <copy>
    SELECT c.customer_id, c.cust_last_name, c.GENDER
    FROM warehouses w, customers c
    WHERE w.WAREHOUSE_NAME = 'Ferndale Facility'
    AND sdo_nn (c.cust_geo_location, w.wh_geo_location, 'sdo_num_res=5') = 'TRUE';
+   </copy>
    ```
 
    ![Query 1 Example](./images/query-01.png)
@@ -309,13 +345,15 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 
 - The **ORDER BY DISTANCE** clause ensures that the distances are returned in order, with the shortest distance first.
 
-   ```sql
+   ```
+   <copy>
    SELECT c.customer_id, c.cust_last_name, c.GENDER,   
    round( sdo_nn_distance (1), 2) distance_in_miles 
    FROM warehouses w, customers c 
    WHERE w.WAREHOUSE_NAME = 'Livonia Facility' 
    AND sdo_nn (c.cust_geo_location, w.wh_geo_location, 'sdo_num_res=5  unit=mile', 1) = 'TRUE'
    ORDER BY distance_in_miles;
+   </copy>
    ```
     
    ![Query 2 Example](./images/query-02.png)
@@ -331,7 +369,8 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 
 - The **ORDER BY DISTANCE\_IN\_MILES** clause ensures that the distances are returned in order, with the shortest distance first and the distances measured in miles.
 
-   ```sql
+   ```
+   <copy>
    SELECT c.customer_id,c.cust_last_name,c.GENDER, 
    round( sdo_nn_distance(1), 2) distance_in_miles
    FROM warehouses w,   customers c
@@ -341,6 +380,7 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
    AND c.GENDER = 'F'
    AND rownum < 6
    ORDER BY distance_in_miles;
+   </copy>
    ```
 
    ![Query 3 Example](./images/query-03.png)
@@ -354,12 +394,14 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 
 - The **UNIT** parameter used within the SDO\_WITHIN\_DISTANCE operator specifies the UNIT of measure of the DISTANCE parameter. The default UNIT is the unit of measure associated with the data. For longitude and latitude data, the default is meters; so in this lab you need to specify the unit=miles.
 
-   ```sql
+   ```
+   <copy>
    SELECT c.customer_id, c.cust_last_name, c.GENDER 
    FROM warehouses w, customers c 
    WHERE w.WAREHOUSE_NAME = 'Livonia Facility' 
    AND sdo_within_distance (c.cust_geo_location,w.wh_geo_location,
    'distance = 100 unit=MILE') = 'TRUE';
+   </copy>
    ```
 
    ![Query 4 Example](./images/query-04.png)
@@ -375,7 +417,8 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 
 - The **ORDER BY DISTANCE\_IN\_MILES** clause ensures that the distances are returned in order, with the shortest distance first and the distances measured in miles.
 
-   ```sql
+   ```
+   <copy>
    SELECT c.customer_id, c.cust_last_name, c.GENDER, 
    round(sdo_geom.sdo_distance (c.cust_geo_location, w.wh_geo_location,.005,'unit=MILE'), 2) distance_in_miles
    FROM warehouses w, customers c
@@ -383,6 +426,7 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
    and
    sdo_within_distance (c.cust_geo_location, w.wh_geo_location, 'distance = 100 unit=MILE') = 'TRUE'
    ORDER BY distance_in_miles;
+   </copy>
    ```
 
    ![Query 5 Example](./images/query-05.png)
@@ -394,11 +438,13 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 
 - The **SDO\_INSIDE** function returns 'TRUE'  if the the first argument  (a.cust_geo_location - where the customer is located) is INSIDE the  geometry represented by the second parameter (b. geometry - the area that is within 30 minutes drive time of that warehouse). 
 
-  ```sql
+  ```
+  <copy>
   select customer_id, warehouse_name
   from customers a, warehouses_dtp b
   where b.drive_time_min = 30
   and sdo_inside(a.cust_geo_location, b.geometry) = 'TRUE';
+  </copy>
   ```
 
    ![Query 6 Example](./images/query-06.png)

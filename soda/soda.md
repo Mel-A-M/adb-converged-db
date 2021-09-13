@@ -1,10 +1,12 @@
 # Oracle SODA
 
+![Soda Banner](images/soda_banner.png)
+
 ## Introduction
 
 In this lab you will be introduced to using the **Oracle SODA APIs for Python**. But you should be aware that SODA is also available for Java, REST, C and Node.js.  
 
-## Objectives
+### Objectives
 
 ### About Oracle SODA
 
@@ -50,9 +52,10 @@ If you have downloaded the wallet for your database in a previous lab, skip to S
 
 3. **Use** your **autonomous\_database\_ocid** to create the **Oracle Wallet**. You will be setting the wallet **password** to the same value as the ADB `admin` password for ease of use. This is not a recommended practice and just used for the purposes of this lab. The password that we used is: `Oracle_12345`. You will give the downloaded file the name **'converged-wallet.zip'**.
 
-  ````
-  cd ~
-  oci db autonomous-database generate-wallet --password <your admin password> --file  converged-wallet.zip --autonomous-database-id <ocid of your atp>
+  ```
+  <copy>
+  oci db autonomous-database generate-wallet --password Oracle_12345 --file  converged-wallet.zip --autonomous-database-id <ocid_of_your_atp>
+  </copy>
   ````
   
   ![Generate Wallet](./images/generate-wallet.png)
@@ -62,7 +65,9 @@ If you have downloaded the wallet for your database in a previous lab, skip to S
 4. **Enter** the list command in your **Cloud Shell** below to verify the **converged-wallet.zip** was created.
 
   ````
+  <copy>
   ls
+  </copy>
   ````
   ![Check Wallet Downloaded](../common-images/check-wallet.png)
 
@@ -75,7 +80,9 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
 1. As a first step let us **verify** that **Python3** is installed. If you are not already logged into Oracle Cloud please do so and restart **Oracle Cloud Shell**. At the Cloud Shell prompt enter the following to see the version:
 
   ````
+  <copy>
   python3 --version
+  </copy>
   ````
 
   ![Check python](./images/check-python.png)
@@ -83,25 +90,38 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
 2. **Unzip** the contents of the wallet file into a directory that you will call **wallet**. The directory can be created automatically by  the unzip command.
 
   ````
+  <copy>
   unzip -d wallet converged-wallet.zip
+  </copy>
   ````
 
   ![Unzip Wallet](./images/unzip-wallet.png)
 
 3. Next you need to **modify** the **sqlnet.ora** file located in the wallet directory to include the location of the **wallet contents**.
 
-  If you are unsure of the full directory name and path,  you can cut-and-paste this from the output of the **pwd** operation.
+  If you are unsure of the full directory name and path.
 
   ````
+  <copy>
   cd ~/wallet
+  </copy>
+  ````
+
+  You can cut-and-paste this from the output of the **pwd** operation.
+
+  ````
+  <copy>
   pwd
+  </copy>
   ````
   ![Wallet pwd](./images/wallet-pwd.png)
 
 4. **Edit** the contents of the **sqlnet.ora** file using **vi**.
 
   ````
+  <copy>
   vi sqlnet.ora
+  </copy>
   ````
 
 5. **Change** the first line in the sqlnet.ora file to use your directory name as it appears in your **Oracle Cloud Shell prompt**:
@@ -117,7 +137,9 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
 6. **Change directory** back to your **home Directory**.
 
   ````
+  <copy>
   cd ..
+  </copy>
   ````
 
 7. For the next step you will **create a file to store our connection information**. You will then use this file with any additional python programs moving forward in this lab. Placing your connection settings in a separate file makes the database connections much more seamless to use.  
@@ -125,63 +147,64 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
   **Create** a file called **myConnection.py**, using **vi**. 
 
   ````
+  <copy>
   vi myConnection.py
+  </copy>
   ````
 
 8. **Copy** the text below but remember to **edit** the **os.environ** line to match your **wallet location**: 
 
-  ````
-  import os
-  os.environ['TNS_ADMIN'] = '/home/your-directory-name-here/wallet'
+    ````
+    <copy>
+    import os
+    os.environ['TNS_ADMIN'] = '/home/your-directory-name-here/wallet'
 
-  # Username
-  usrnm="admin"
-  # Password
-  psswd="<your admin password>"
-  # Data Source Name
-  dsn= "converged_tp"
-  ````
+    # Username
+    usrnm="admin"
+    # Password
+    psswd="<your admin password>"
+    # Data Source Name
+    dsn= "converged_tp"
+    </copy>
+    ````
 
-  The contents of the file we have created:
-
+    The contents of the file we have created:
     - The first two lines permit us to set a *TNS_ADMIN* environment variable. Make sure to enter your own directory location for the wallet.
-
     - `usrnm=` You can leave this as is to use the admin user for this lab.
-
     - `passwd=` Supply the password for your admin user here. The password that we used is: `Oracle_12345`.
-
     - `dsn=` Provide the name for your database connection.  This is the name of the Autonomous Database for this lab. We have used **converged**, just in case, you have followed our recomendations. We are appending the *_tp* suffix for a transaction processing service. You can also locate this from the *tnsnames.ora* file located in your wallet directory.  
 
-  ![myConnection.py file](./images/py-connect-03_new.png)
+    ![myConnection.py file](./images/py-connect-03_new.png)
 
 9. You are now ready to create your **first python program** to connect to the Autonomous Database using cx\_Oracle 8. **cx\_Oracle** is a Python extension that enables connectivity to an Oracle Database.  
 
 10. **Create** a file called **soda1.py** and **enter** the following lines:
 
-  ````
-  import cx_Oracle
-  import myConnection
+    ````
+    <copy>
+    import cx_Oracle
+    import myConnection
 
-  connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
+    connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
 
-  print("Database version:", connection.version)
-  print("\n")
-  ````
+    print("Database version:", connection.version)
+    print("\n")
+    </copy>
+    ````
 
-  > Note: You do not need to modify any lines of code in this file.
+    > Note: You do not need to modify any lines of code in this file.
 
-  About this program:
-
+    About this program:
     - The first two lines load the cx\_Oracle extension along with the connection information from the file we created in our previous step.
-    
     - We use the third line of code to pass the connection information to the program.
-    
     - The final line prints the database version.
 
 11. **Enter** the following to run the program:
 
   ````
+  <copy>
   python3 soda1.py
+  </copy>
   ````
 
   If everything is configured correctly, you should see this output:
@@ -196,6 +219,7 @@ Now that your environment is configured and you can connect to database from Pyt
 1. **Create** a new file called **soda2.py** and **enter** the following lines and **save** the file:
 
   ````
+  <copy>
   import cx_Oracle
   import myConnection
   connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
@@ -231,12 +255,15 @@ Now that your environment is configured and you can connect to database from Pyt
   # Close the database connection
   connection.close()
   print("\n")
+  </copy>
   ````
 
 2. **Save** the changes and run the program as follows:
 
   ```
+  <copy>
   python3 soda2.py
+  </copy>
   ```
   
   If everything is configured correctly, you should see this output:
@@ -252,6 +279,7 @@ Now that your environment is configured and you can connect to database from Pyt
 3. **Create** a new file called **soda3.py** and **enter** the following lines and **save** the file:
 
   ````
+  <copy>
   import cx_Oracle
   import myConnection
   connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
@@ -287,6 +315,7 @@ Now that your environment is configured and you can connect to database from Pyt
   # Close the database connection
   connection.close()
   print("\n")
+  </copy>
   ````
 
 4. This program will insert four additional documents into your existing collection called   **sodacollection**. Some additional things to consider:
@@ -300,7 +329,9 @@ Now that your environment is configured and you can connect to database from Pyt
 5. **Save** the changes and **run** the program as follows:
 
   ````
+  <copy>
   python3 soda3.py
+  </copy>
   ````
 
   If everything is configured correctly, you should see this output:
@@ -312,6 +343,7 @@ Now that your environment is configured and you can connect to database from Pyt
 6. **Create** a new file called **soda4.py** and **enter** the following lines and **save** the file:
 
   ````
+  <copy>
   import cx_Oracle
   import myConnection
   connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
@@ -335,6 +367,7 @@ Now that your environment is configured and you can connect to database from Pyt
   # Close the database connection
   connection.close()
   print("\n")
+  </copy>
   ````
 
   In this program you are performing a **QBE** against the collection to find all the whales with a diet that includes plankton.  To perform this the program is using a soda operation to filter based on the string/element including the search term ("plankton" in this case).
@@ -342,7 +375,9 @@ Now that your environment is configured and you can connect to database from Pyt
 7. **Save** the changes and **run** the program as follows:
 
   ```
+  <copy>
   python3 soda4.py
+  </copy>
   ```
 
   If everything is configured correctly, you should see this output:
@@ -385,9 +420,11 @@ In this section you will connect to the Oracle database you provisioned in your 
 
 7. The **table** can be queried just as any other table in an Oracle database. You can query the contents displayed in the following example:
 
-  ````sql
+  ````
+  <copy>
   desc sodacollection
   select * from sodacollection;
+  </copy>
   ````
 
 8. You should see the following **output**:
@@ -399,13 +436,15 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   In the JSON lab you have seen how to query the document contents of a BLOB holding a JSON document using the json_serialize function. You can see how this operation works with this data sample by entering the following SQL code:
 
-  ````sql
+  ````
+  <copy>
   select id,
          created_on,
          version,
          json_serialize(json_document returning varchar2 pretty) pretty_js
   from sodacollection
   /
+  </copy>
   ````
 
 10. You should see the following **output**:
@@ -420,7 +459,8 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   **Run** the following SQL statements to create a view called `auto_view` and populate it with information about your sodacollection.
 
-  ````sql
+  ````
+  <copy>
   declare dguide clob;
   
   begin
@@ -429,6 +469,7 @@ In this section you will connect to the Oracle database you provisioned in your 
      from sodacollection ;
      dbms_json.create_view('auto_view','sodacollection','json_document', dguide);
   end ;
+  </copy>
   ````
 
 12. You should see the following **output** when you run the SQL:
@@ -442,7 +483,9 @@ In this section you will connect to the Oracle database you provisioned in your 
 13. The view can be described just like any other Oracle view:
 
   ````
+  <copy>
   desc auto_view;
+  </copy>
   ````
 
 14. You should see the following **output** when you run the SQL:
@@ -452,11 +495,13 @@ In this section you will connect to the Oracle database you provisioned in your 
 
 15. You can now **query** the contents of the view.
 
-  ````sql
+  ````
+  <copy>
   select "name", "diet", "scalar_string", "status"
   from auto_view
   order by 1
   /
+  </copy>
   ````
 
 16. You should see the following **output**:
@@ -466,12 +511,14 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   The output from the query is a little confusing as you are seeing a row entry for each array element of the diet. So in this case you can use the SQL `LISTAGG` function to format the output in a more meaningful way:
 
-  ````sql
+  ````
+  <copy>
   select "name",
          listagg("scalar_string", ',' ) within group (order by "scalar_string") diet
   from auto_view
   group by "name"
   order by 1;
+  </copy>
   ````
 
 17. You should see the following **output**:
@@ -485,8 +532,10 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   The safest method to drop a Collection from inside the database is to use the SQL function dbms\_soda.drop\_collection as follows:
 
-  ````sql
+  ````
+  <copy>
   select dbms_soda.drop_collection('sodacollection') "Status" from dual;
+  </copy>
   ````
 
 19. You should see the following **output**:

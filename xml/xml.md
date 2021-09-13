@@ -1,5 +1,7 @@
 # Oracle XML and Autonomous Database
 
+![](images/xml_banner.png)
+
 ## Introduction
 
 There are several steps within this lab.
@@ -7,7 +9,7 @@ There are several steps within this lab.
 -  Query XML Data: XQuery is a very general and expressive language, and SQL/XML functions XMLQuery, XMLTable, XMLExists, and XMLCast combine that power of expression and computation with the strengths of SQL. We can query XMLType data, possibly decomposing the resulting XML into relational data using function XMLTable.
 -  Insert and Update XML Data -  You can update XML content or replace either the entire contents of a document or only particular parts of a document. The ability to perform partial updates on XML documents is very powerful, particularly when we make small changes to large documents, as it can significantly reduce the amount of network traffic and disk input-output required to perform the update. The Oracle UPDATEXML function allows us to update XML content stored in Oracle Database.
 
-## Objectives
+### Objectives
 
 ### About Oracle XML
 
@@ -25,7 +27,7 @@ For example, XML documents can be very simple, such as the following:
 
 Oracle XML DB also supports the SQL/XML standard, which allows SQL-centric development techniques to be used to publish XML directly from relational data stored in Oracle Database. XML is an extremely popular way to persist and exchange business critical information.
 
-[![Oracle XML tutorial - XMLTable, SQL, XPath select query](https://img.youtube.com/vi/lGQvxPCYR2c/hqdefault.jpg)](https://youtu.be/lGQvxPCYR2c)
+[](youtube:lGQvxPCYR2c)
 
 Oracle XML DB allows an organization to manage XML content in the same way that ii manages traditional relational data. This allows organizations to save costs and improve return on investment by using a single platform to manage and secure all of their mission critical data. Oracle XML DB was first released with Oracle 9iR2, and it has been enhanced in each subsequent major release of the database.
 

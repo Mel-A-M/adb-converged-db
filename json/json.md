@@ -1,12 +1,14 @@
 # JSON and Oracle Autonomous Database
 
+![JSON Banner](images/json_banner.png)
+
 ## Introduction
 
 This lab will show how **JSON** data can be stored and manipulated in the **Autonomous Database**. 
 
 **Oracle Autonomous JSON Database** is Oracle Autonomous Transaction Processing, but specialized for developing NoSQL-style applications that use **JavaScript Object Notation (JSON)** documents. You can promote an Autonomous JSON Database service to an Autonomous Transaction Processing service if you need to store larger data set.           
 
-## Objectives
+### Objectives
 
 There are three main parts to this lab.
 
@@ -30,7 +32,7 @@ JSON documents can be stored using a VARCHAR2, CLOB, or BLOB column. An IS JSON 
 
 Oracle’s JSON capabilities are focused on providing full support for schemaless development and document-based storage. Developers are free to change the structure of their JSON documents as necessary. With the addition of JSON support, Oracle Database delivers the same degree of flexibility as a NoSQL JSON document store.
 
-[![JSON and database - does that make a good cocktail?](https://img.youtube.com/vi/oiOCp23T1ZU/hqdefault.jpg)](https://youtu.be/oiOCp23T1ZU)
+[JSON and database](youtube:oiOCp23T1ZU)
 
 The first thing to realize about JSON is that it remains a simple text format, which is relatively easy to read and inspect with the naked eye. At a syntax level, what starts to set JSON apart from other formats is the characters used to separate data, which are mainly constrained to apostrophes ', brackets ( ), [ ], { }, colons :, and commas ,. This listing illustrates what a JSON payload looks like:
 
@@ -40,7 +42,7 @@ The first thing to realize about JSON is that it remains a simple text format, w
 
 ## TASK 1: Start SQL Developer Web
 
-1. Open **Database Actions** from your Database Details screen.
+1. Go back to your Autonomous Database and open **Database Actions** from your Database Details screen.
    
   ![Database Actions Dashboard](./images/open-dbactions.png)
 
@@ -48,7 +50,10 @@ The first thing to realize about JSON is that it remains a simple text format, w
    
   ![Admin Login](images/login-admin-01.png) 
 
-3. Enter the **password** for `admin` and select **Sign In**. We have created this password on the Provisioning ADB Lab, we have recomended to use: `Oracle_12345`.
+3. Enter the **password** for `admin` and select **Sign In**. We have created this password on the Provisioning ADB Lab, we have recommended to use: 
+  ```
+  <copy>Oracle_12345</copy>
+  ```
    
   ![Admin Login Password](./images/login-admin-02.png)
 
@@ -79,7 +84,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
   ![Select Bucket Lab-bucket](./images/select-lab-bucket.png)
 
-3. On the **Bucket details** screen **Click** on the **Action menu** (the 3 dots menu) next to the file **PurchaseOrders.dmp**. Select **View Object Details**.
+3. On the **Bucket details** screen **Click** on the **Action menu** (the 3 dots menu) next to the file **_PurchaseOrders.dmp_**. Select **View Object Details**.
 
   ![Get Object Details](images/get-object-details.png)
 
@@ -87,39 +92,44 @@ To create an **external table** using a file stored in Object Storage you will u
 
   ![File URI](./images/get-object-details-01.png)
 
-5. Use the **URI** from the previous step in this SQL, **replacing** the text `FILE_URL_HERE` with the URI from your tenancy. **Execute** this SQL using the **Run Script** button on the top of the page.
+5. Use the **URI** from the previous step in this SQL, **replacing** the text _`FILE_URL_HERE`_ with the URI from your tenancy.
 
-  ```sql
-  BEGIN
-     DBMS_CLOUD.CREATE_EXTERNAL_TABLE(
-      table_name =>'PURCHASE_EXT',
-      credential_name =>'LAB_BUCKET_CRED',
-      file_uri_list =>'FILE_URL_HERE',
-      format => json_object('rejectlimit' value '10'),
-      column_list => 'JSON_DOCUMENT VARCHAR(4000)');
-  END;
-  /
-  ```
+    ```
+    <copy>
+    BEGIN
+      DBMS_CLOUD.CREATE_EXTERNAL_TABLE(
+        table_name =>'PURCHASE_EXT',
+        credential_name =>'LAB_BUCKET_CRED',
+        file_uri_list =>'FILE_URL_HERE',
+        format => json_object('rejectlimit' value '10'),
+        column_list => 'JSON_DOCUMENT VARCHAR(4000)');
+    END;
+    /
+    </copy>
+    ```
 
-  The parameters you are providing are as follows:
+    The parameters you are providing are as follows:
 
-  - **table\_name**: This will be the new table's name.
+    - **`table_name`**: This will be the new table's name.
+    - **`credential_name`**: This is the credential that has access to the Object Storage location. This  credential and name was created as part of STEP 2 of this Lab.
+    - **`file_uri_list`**: This is the file location. It can be specified in several formats see the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
+    - **`format`**: This describes the format for the data in the file. In this example you are specifying a rejectlimit, but you could also specify record separators and other information  depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbdu/format-parameter.html) for more details on the available formats.
+    - **`column_list`**: A comma-delimited list of column names and data types for the external table.
 
-  - **credential\_name**: This is the credential that has access to the Object Storage location. This  credential and name was created as part of STEP 2 of this Lab.
-
-  - **file\_uri\_list**: This is the file location. It can be specified in several formats see the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/file-uri-formats.html) for details.
-
-  - **format**: This describes the format for the data in the file. In this example you are specifying a rejectlimit, but you could also specify record separators and other information  depending on the format of your file. See the [documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbdu/format-parameter.html) for more details on the available formats.
-
-  - **column_list**: A comma-delimited list of column names and data types for the external table.
-
+6. **Execute** this SQL using the **Run Script** button on the top of the page.
+  
   ![Create External Table](./images/create-external.png)
+
+  You will see a `Script Output` like this:
+
+  `PL/SQL procedure successfully completed.`
 
 ## TASK 4: Load the JSON dump file into your database
 
-1. **Create** your destination table `PURCHASE_ORDER` which will be used to contain JSON documents. The table has a column `PO_DOCUMENT` of type CLOB. The **IS JSON constraint** is applied to the column `PO_DOCUMENT`, ensuring that the column can store only well formed JSON documents. Up to version 21c, in Oracle there was no dedicated JSON data type. JSON documents were stored in the database using standard Oracle data types such as VARCHAR2, CLOB and BLOB. In order to ensure that the content of the column is valid JSON data, the new constraint IS JSON can be applied to a column. This constraint returns TRUE if the content of the column is well-formed, valid JSON and FALSE otherwise. **Copy** and **execute** the following statement using the **Run Script** button on the top of the page.
+2. **Create** your destination table `PURCHASE_ORDER` which will be used to contain JSON documents. The table has a column `PO_DOCUMENT` of type CLOB. The **IS JSON constraint** is applied to the column `PO_DOCUMENT`, ensuring that the column can store only well formed JSON documents. Up to version 21c, in Oracle there was no dedicated JSON data type. JSON documents were stored in the database using standard Oracle data types such as VARCHAR2, CLOB and BLOB. In order to ensure that the content of the column is valid JSON data, the new constraint IS JSON can be applied to a column. This constraint returns TRUE if the content of the column is well-formed, valid JSON and FALSE otherwise. **Copy** and **execute** the following statement using the **Run Script** button on the top of the page.
 
-  ```sql
+  ```
+  <copy>
   create table PURCHASE_ORDER
     (
       ID RAW(16) NOT NULL,
@@ -127,11 +137,13 @@ To create an **external table** using a file stored in Object Storage you will u
       PO_DOCUMENT CLOB CHECK (PO_DOCUMENT IS JSON)
     )
   /
+  </copy>
   ```
 
 2. **Use** the following statement to **copy** the JSON documents from the dump file into your new table. **Execute** the following statement using the **Run Script** button on the top of the page.
 
-  ```sql
+  ```
+  <copy>
   insert into PURCHASE_ORDER
     select SYS_GUID(), SYSTIMESTAMP, JSON_DOCUMENT
     from PURCHASE_EXT
@@ -139,21 +151,25 @@ To create an **external table** using a file stored in Object Storage you will u
   /
   commit
   /
+  </copy>
   ```
 
 ## TASK 5: Insert a Record
 
 1. **Take a count** of the rows in your **purchase_order table**. Your number returned should vary. **Execute** the following statement using the **Run Statement** button on the top of the page.
 
-  ```sql
+  ```
+  <copy>
   select count(*) from purchase_order;
+  </copy>
   ```
 
   ![Select count SQL](./images/task4_insert_01.png)  
   
 2. **Insert a record**. This new record will have a PONumber of 10001, and will contain 2 items. **Execute** the following statement using the **Run Statement** button on the top of the page.
 
-  ```sql
+  ```
+  <copy>
   INSERT INTO purchase_order
   VALUES (
     SYS_GUID(),
@@ -187,14 +203,17 @@ To create an **external table** using a file stored in Object Storage you will u
                                  "UPCCode"     : 75993851120},
                                    "Quantity"   : 5.0}
                                   ]}');
+  </copy>
   ```
 
   ![Insert PONumber of 10001](./images/task4_insert_02.png)
 
 3. **Verify** your insert by selecting the information for PONumber 10001. Please **copy** the **ID** for your record (highlighted in red in the screenshot) and **Save** it. This value WILL NOT MATCH the one in the screenshot. You will use this **ID** in the update section of the lab. **Execute** the following statement using the **Run Statement** button on the top of the page.
     
-  ```sql
+  ```
+  <copy>
   Select id from purchase_order j where j.po_document.PONumber=10001;
+  </copy>
   ```
   
   ![Select PONumber=10001](./images/task4_insert_03.png)
@@ -205,7 +224,8 @@ You can use Oracle SQL function `json-mergepatch` or PL/SQL object-type method `
 
 1. **Copy** the following update statement and **substitute the ID** you saved from the previous step in where it says `ID_copied_from_previous_step`. **Execute** the following statement using the **Run Statement** button on the top of the page.
 
-  ```sql
+  ```
+  <copy>
   update purchase_order
        set    PO_DOCUMENT = json_mergepatch (
            PO_DOCUMENT,
@@ -214,6 +234,7 @@ You can use Oracle SQL function `json-mergepatch` or PL/SQL object-type method `
            }'
          )
       where id ='ID_copied_from_previous_step';
+  </copy>
   ```
 
   ![Select json_mergepatch](./images/task5_update_01.png)
@@ -224,13 +245,15 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
 1. Let us look at customers who **ordered products** from a specific location, **South San Francisco**. **Execute** the following statement using the **Run Statement** button on the top of the page.
 
-  ```sql
+  ```
+  <copy>
   select j.PO_DOCUMENT.Reference,
   j.PO_DOCUMENT.Requestor,
   j.PO_DOCUMENT.CostCenter,
   j.PO_DOCUMENT.ShippingInstructions.Address.city
   from PURCHASE_ORDER j
   where j.PO_DOCUMENT.ShippingInstructions.Address.city = 'South San Francisco';
+  </copy>
   ```
 
   ![Example Query 1](./images/task6_query_01.png)
@@ -239,16 +262,19 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
   The `JSON_EXISTS` operator takes two arguments, a JSON column and a JSON path expression. It will return TRUE if the document contains a key that matches the JSON path expression, FALSE otherwise. `JSON_EXISTS` provides a set of modifiers that provide control over how to handle any errors encountered while evaluating the JSON path expression. The UPCCode in this example, represents the Universal Product Code. This is a type of code printed on retail product packaging to aid in identifying a particular item. It consists of two parts – the machine-readable barcode, which is a series of unique black bars, and the unique 12-digit number beneath it.
 
-  ```sql
+  ```
+  <copy>
   SELECT po.po_document.PONumber,po.po_document.Requestor
   FROM purchase_order po
   WHERE json_exists(po.po_document,'$?(@.LineItems.Part.UPCCode == 85391628927)');
+  </copy>
   ```
   ![Example Query 2](./images/task6_query_02.png)
 
 3. Next, find the customers who all are purchased specific products **based on a PONumber**. The `JSON_TABLE` operator uses a set of JSON path expressions to map content from a JSON document into columns in a virtual table, which you can also think of as an inline view.  Once the contents of the JSON document have been exposed as columns, all of the power of SQL can be brought to bear on the content of the  JSON document. 
 
-  ```sql
+  ```
+  <copy>
    select D.* from PURCHASE_ORDER p,
        JSON_TABLE(
        p.PO_DOCUMENT,
@@ -270,12 +296,14 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
             )
           ) D
        where PO_NUMBER = 1600;
+  </copy>
   ```
   ![Example Query 3](./images/task6_query_03.png)
 
 4. Next, use the description of the product to find all the customers who **purchased the item**. This example uses `JSON_TABLE`. 
 
-  ```sql
+  ```
+  <copy>
      select D.* from PURCHASE_ORDER p,
      JSON_TABLE(
      p.PO_DOCUMENT,
@@ -297,6 +325,7 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
           )
         ) D
      where description='A Walk on the Moon';
+  </copy>
   ```
   ![Example Query 4](./images/task6_query_04.png)
 
@@ -312,7 +341,8 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
 6. **Create view** `PURCHASE_ORDER_MASTER_VIEW`. This view selects the summary information about the order, including the **PONumber**, and the Shipping information.
 
-  ```sql
+  ```
+  <copy>
   create or replace view PURCHASE_ORDER_MASTER_VIEW
   AS 
   SELECT M.* FROM PURCHASE_ORDER p,
@@ -336,12 +366,14 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
        	SHIP_TO_PHONE VARCHAR2(24 CHAR) PATH '$.ShippingInstructions.Phone[0].number',
        	INSTRUCTIONS VARCHAR2(2048 CHAR) PATH '$.SpecialInstructions'
   ) m ;
+  </copy>
   ```
   ![Example Query 6](./images/task6_query_06_2.png)
 
 7. **Create view** `PURCHASE_ORDER_DETAIL_VIEW`. This view contains nested information related to the **Items on the order**. 
 
-  ```sql
+  ```
+  <copy>
   create or replace view PURCHASE_ORDER_DETAIL_VIEW
   AS
   SELECT D.* FROM PURCHASE_ORDER p,
@@ -375,18 +407,21 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
        	)
        )
   ) d;
+  </copy>
   ```
 
   ![Example Query 7](./images/task6_query_07_2.png)
 
 8. **Query** `PURCHASE_ORDER_DETAIL_VIEW` to find **Purchase Orders** that meet the criteria and were ordered by 'Stephen King'.
 
-  ```sql
+  ```
+  <copy>
   select PO_NUMBER, REFERENCE, INSTRUCTIONS, ITEMNO, UPCCODE, DESCRIPTION, QUANTITY, UNITPRICE
        from PURCHASE_ORDER_DETAIL_VIEW d
       where REQUESTOR = 'Steven King'
       and QUANTITY  > 7
       and UNITPRICE > 25.00;
+  </copy>
   ```
 
   ![Query Example 5](./images/task6_query_05.png)    
@@ -399,20 +434,24 @@ The Oracle database allows a simple ‘dotted’ notation to be used to perform 
 
   First **run** it **without the PRETTY** option.
 
-  ```sql
+  ```
+  <copy>
   select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]') LINEITEMS
   from PURCHASE_ORDER p
   where JSON_VALUE (PO_DOCUMENT,'$.PONumber') = 97;
+  </copy>
   ```
 
   ![Query Example 6](./images/task6_query_06.png)  
 
 10. Next **try** it **with PRETTY**. You can see that the output is much more readable by a human. 
 
-  ```sql
+  ```
+  <copy>
   select JSON_QUERY(PO_DOCUMENT,'$.LineItems[0]' PRETTY) LINEITEMS
   from PURCHASE_ORDER p
   where JSON_VALUE (PO_DOCUMENT,'$.PONumber') = 97;
+  </copy>
   ```
 
   ![Query Example 6a](./images/task6_query_06a.png) 

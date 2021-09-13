@@ -1,10 +1,12 @@
 # Preparing the data source into Object Storage
 
+![Banner](images/upload_banner.png)
+
 ## Introduction
 
 This lab prepares the converged data sources required for the remaining labs of the workshop. In this case we will create an Object Storage bucket, upload data to your bucket and generate an Auth Token to allow access from the Autonomous Database to Object Storage.
 
-## Objectives
+### Objectives
 
 In this lab, you will:
 
@@ -12,7 +14,7 @@ In this lab, you will:
 -   Upload data to your bucket
 -   Generate an Auth Token to allow access from the Autonomous Database to Object Storage
 
-## Prerequisites
+### Prerequisites
 
 To complete this lab, you need to have the following:
 
@@ -116,6 +118,7 @@ During this lab you will create a private **CREDENTIAL** object for your schema.
 1. Using a **text editor** on your local machine prepare the following SQL and name it `create_credential.sql`.
 
    ```
+   <copy>
    set define off
    begin
     DBMS_CLOUD.create_credential(
@@ -125,6 +128,7 @@ During this lab you will create a private **CREDENTIAL** object for your schema.
     );
    end;
    /
+   </copy>
    ```
 
 2. You will need to add more information to this SQL.

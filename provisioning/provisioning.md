@@ -29,13 +29,13 @@ Let check the most important characteristics of **Oracle Autonomous Databases**.
 
 > Note: While this lab uses ATP, the steps are identical for creating an ADW database.*
 
-## Objectives
+### Objectives
 
 In this lab, you will:
 
 -   Learn how to provision a new Autonomous Database
 
-## Prerequisites
+### Prerequisites
 
 To complete this lab, you need to have the following:
 
