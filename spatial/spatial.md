@@ -55,23 +55,23 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
 
 3. **Replace** **YOUR-OCID-HERE** in the command below with the **OCID** for your database. You will be setting the wallet password to the same value as the ADB admin password for ease of use. This is not a recommended practice and just used for the purposes of this lab. The wallet will be created with the name `converged-wallet.zip`.
 
-   ```
-   <copy>
-   cd ~ && oci db autonomous-database generate-wallet --password Oracle_12345 --file converged-wallet.zip --autonomous-database-id YOUR-OCID-HERE
-   </copy>
-   ```
+  ```
+  <copy>
+  cd ~ && oci db autonomous-database generate-wallet --password Oracle_12345 --file converged-wallet.zip--autonomous-database-id YOUR-OCID-HERE
+  </copy>
+  ```
 
-   ![Generate Wallet](../common-images/generate-wallet.png)
+  ![Generate Wallet](../common-images/generate-wallet.png)
 
-   The wallet file will be downloaded to your cloud shell file system under your home directory.
+  The wallet file will be downloaded to your cloud shell file system under your home directory.
 
-4. Enter the ls (list) command in your cloudshell below to verify the **converged-wallet.zip** was created
+4. Enter the ls (list) command in your Cloud Shell below to verify the **converged-wallet.zip** was created
 
-   ```
-   <copy>
-   ls
-   </copy>
-   ```
+  ```
+  <copy>
+  ls
+  </copy>
+  ```
 
   ![Check Wallet Downloaded](../common-images/check-wallet.png)
 
@@ -79,48 +79,40 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
 
 1. Use the **unzip** command below to unzip the contents of the wallet file into a directory that you will call **wallet**. The directory will  be created automatically by  the unzip command.
 
-   ```
-   <copy>
-   cd ~ && unzip -d wallet converged-wallet.zip
-   </copy>
-   ```
-   
-   ![Unzip Wallet](../common-images/unzip-wallet.png)
+  ```
+  <copy>
+  cd ~ && unzip -d wallet converged-wallet.zip
+  </copy>
+  ```
+  
+  ![Unzip Wallet](../common-images/unzip-wallet.png)
 
-2. Next you need to modify the **sqlnet.ora** file located in the wallet directory to include the location of the wallet contents (e.g the directory holding your tnsnames.ora). If you are unsure of the full directory name and path, you can cut-and-paste this from the output of the **pwd** operation.
+2. **Edit** the contents of the **sqlnet.ora** file using the following command in **Cloud Shell**.
 
-   ```
-   <copy>
-   cd ~/wallet && pwd
-   </copy>
-   ```
+  ```
+  <copy>
+  sed -i 's@?/network/admin@'$HOME'/wallet@g' wallet/sqlnet.ora
+  </copy>
+  ```
 
-   ![Wallet pwd](../common-images/wallet-pwd.png)
+  ![Wallet pwd](../common-images/wallet-pwd.png)
 
-3. **Edit** the contents of the **sqlnet.ora** file.
+3. Previous **statement** has changed the first line in the `sqlnet.ora` file to use your directory name as it appears in your **Oracle Cloud Shell prompt**:
 
-   ```
-   <copy>
-   vi sqlnet.ora
-   </copy>
-   ```
-   ​Change the first line in the sqlnet.ora file to use your directory name as it appears in your Oracle Cloud Shell prompt:
+    - **OLD**: `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="?/network/admin")))`
+    - **NEW**: `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/user_name/wallet")))`
 
-   *OLD:* `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="?/network/admin")))`
-
-   *NEW:* `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/<YOUR USERNAME HERE>/wallet")))`
-
-   So in the screenshot example, my wallet directory is `/home/melanie_as/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/melanie_as/wallet")))` Use your information to complete this change.
+    So in the screenshot example, my wallet directory is `/home/xxxxx_as/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/xxxxx_as/wallet")))`
 
    ![SQLnet wallet](../common-images/sqlnet-wallet.png)
 
 4. **Change** directory back to your home Directory.
 
-   ```
-   <copy>
-   cd ..
-   </copy>
-   ```
+  ```
+  <copy>
+  cd ~
+  </copy>
+  ```
 
 ## TASK 2: Load the data
 
@@ -132,108 +124,107 @@ To access data in the Object Storage you must enable your database user to authe
 
 1. In **cloud shell**, set the TNS_ADMIN environment variable to your **wallet** directory. The tilde `~` symbol is a shortcut for your home directory path. 
 
-   ```
-   <copy>
-   export TNS_ADMIN=~/wallet && echo $TNS_ADMIN
-   </copy>
-   ```
+  ```
+  <copy>
+  export TNS_ADMIN=~/wallet && echo $TNS_ADMIN
+  </copy>
+  ```
 
-   ![Set TNS Admin](../common-images/set-tns-admin.png)
+  ![Set TNS Admin](../common-images/set-tns-admin.png)
 
 2. **Connect** using **SQL*Plus** command line from your cloud shell prompt, using your **admin** password instead of YOUR-ADMIN-PASSWORD (We have suggested `Oracle_12345`) and your database name instead of YOUR-DB-NAME (We have suggested `converged_tp`).
 
-   ```
-   <copy>
-   sqlplus admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp
-   </copy>
-   ```
+  ```
+  <copy>
+  sqlplus admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp
+  </copy>
+  ```
 
-   The recomended option is:
+  The recomended option is:
 
-   ```
-   <copy>
-   sqlplus admin/Oracle_12345@converged_tp
-   </copy>
-   ```
+  ```
+  <copy>
+  sqlplus admin/Oracle_12345@converged_tp
+  </copy>
+  ```
 
-   ![SQLPlus Admin Converged_tp](./images/sqlpus_admin_converged_tp.png)
+  ![SQLPlus Admin Converged_tp](./images/sqlpus_admin_converged_tp.png)
 
-   
 3. During the section '**Preparing the Data**' you prepared a `create_credential.sql` file. **Copy and paste** the contents of this into **SQL*Plus** session. You only need to create the credential once per schema during the lab. If you receive the error `ORA-20022: Credential "ADMIN"."LAB_BUCKET_CRED" already exists` then you have already created this credential as part of a previous step in this lab. 
 
-   ![Set create credential](../common-images/sqlplus-create-cred-admin.png)
+  ![Set create credential](../common-images/sqlplus-create-cred-admin.png)
 
 4. **Prepare** the destination schema for your imported data. In **SQL*Plus** execute the following commands
 
-   ```
-   <copy>
-   create user appspat identified by OracleLab1234;
-   grant dwrole to appspat;
-   alter user appspat quota unlimited on data;
-   BEGIN
-         ORDS_ADMIN.ENABLE_SCHEMA(
-           p_enabled => TRUE,
-           p_schema => 'appspat',
-           p_url_mapping_type => 'BASE_PATH',
-           p_url_mapping_pattern => 'appspat',
-           p_auto_rest_auth => TRUE
-         );
-         COMMIT;
-       END;
-       /
-   </copy>
-   ```
+  ```
+  <copy>
+  create user appspat identified by OracleLab1234;
+  grant dwrole to appspat;
+  alter user appspat quota unlimited on data;
+  BEGIN
+        ORDS_ADMIN.ENABLE_SCHEMA(
+          p_enabled => TRUE,
+          p_schema => 'appspat',
+          p_url_mapping_type => 'BASE_PATH',
+          p_url_mapping_pattern => 'appspat',
+          p_auto_rest_auth => TRUE
+        );
+        COMMIT;
+      END;
+      /
+  </copy>
+  ```
 
-5. You have **verified** that your wallet has been correctly configured by using **SQL*Plus** and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data tablespace, and enabled the schema for **SQL Developer Web** by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
+5. You have **verified** that your wallet has been correctly configured by using **SQL*Plus** and have created a credential to access the object storage bucket. You have prepared the destination schema, granting it the DWROLE, unlimited quota on the data `tablespace`, and enabled the schema for **SQL Developer Web** by enabling ORDS. Now you are ready to load data from Object Store as the admin user.
 
 6. **Quit** SQL*Plus.
 
-   ```
-   <copy>
-   quit
-   </copy>
-   ```
+  ```
+  <copy>
+  quit
+  </copy>
+  ```
 
 ### Running impdp
 
-1. **Locate** the file URI for your datapump export file. Go to **Menu** > **Storage** > **Object Storage & Archive** > **Buckets**.
+1. **Locate** the file URI for your `datapump` export file. Go to **Menu** > **Storage** > **Object Storage & Archive** > **Buckets**.
 
-   ![Bucket Menu](../common-images/object-storage-01.png)
+  ![Bucket Menu](../common-images/object-storage-01.png)
    
 2. Click on the name of your **lab-bucket**. 
    
-   ![Select Lab Bucket](../common-images/select-lab-bucket.png)
+  ![Select Lab Bucket](../common-images/select-lab-bucket.png)
 
-3. On the **bucket** details screen click on the action menu (the 3 dots) next to the file **export_spatial22Sep2020.dmp**. **Select** View Object Details.
+3. On the **bucket** details screen click on the action menu (the 3 dots) next to the file _**`export_spatial22Sep2020.dmp`**_. **Select** View Object Details.
    
-   ![get-object-details](images/get-obj-details.png)
+  ![get-object-details](images/get-obj-details.png)
 
 4. On the **Object Details** dialog note the value for the **URL Path (URI)**:
    
-   ![IRL Path](images/obj-details.png)
+  ![IRL Path](images/obj-details.png)
 
    
 5. In Cloud Shell execute the following command to import the data, replacing the following values:
 
-   - YOUR-ADMIN-PASSWORD: replace with the password for your admin account. (We have suggested `Oracle_12345`)
+  - YOUR-ADMIN-PASSWORD: replace with the password for your admin account. (We have suggested `Oracle_12345`)
 
-   - YOUR-DB-NAME: replace with your database nam e, and make sure you are connecting to the _high service (We have suggested `converged_tp`)
+  - YOUR-DB-NAME: replace with your database nam e, and make sure you are connecting to the _high service (We have suggested `converged_tp`)
 
-   - YOUR-FILE-URI: The URI for the dump file stored in your lab bucket as noted in the previous step
+  - YOUR-FILE-URI: The URI for the dump file stored in your lab bucket as noted in the previous step
 
-   ```
-   <copy>
-   impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp credential=lab_bucket_cred directory=data_pump_dir dumpfile=YOUR-FILE-URI 
-   </copy>
-   ```
+  ```
+  <copy>
+  impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp credential=lab_bucket_cred directory=data_pump_dirdumpfile=YOUR-FILE-URI 
+  </copy>
+  ```
 
-   ![Import command converged_tp](./images/import_command_converged_tp.png)
+  ![Import command converged_tp](./images/import_command_converged_tp.png)
 
-   The import should take **less than a minute** to run. 
+  The import should take **less than a minute** to run. 
 
 6. **2 errors** are expected in the output `ORA-31684: Object type USER:"APPSPAT" already exists` and `ORA-39083: Object type ROLE_GRANT failed to create with error: ORA-01924: role 'DBA' not granted or does not exist`.
 
-   ![Import command converged_tp Results](./images/import_command_converged_tp_results.png)
+  ![Import command converged_tp Results](./images/import_command_converged_tp_results.png)
 
 
 ## TASK 3: Connect to SQL Developer Web
@@ -242,32 +233,31 @@ In the previous step you executed commands to **grant** the appspat user privile
 
 1. On your **Database Details** screen select the **Tools** tab and select **Open Database Actions**.
 
-   ![Database Actions Dashboard](../common-images/open-dbactions.png)
+  ![Database Actions Dashboard](../common-images/open-dbactions.png)
 
 2. Enter the username `appspat` and select **Next**.
 
-   ```
-   <copy>
-   appspat
-   </copy>
-   ```
-   
+  ```
+  <copy>
+  appspat
+  </copy>
+  ```
 
-   ![appspat Login](./images/login-appspat-01.png)
+  ![appspat Login](./images/login-appspat-01.png)
 
 3. **Enter** the password for appspat `OracleLab1234` and **Sign in**.
 
-   ```
-   <copy>
-   OracleLab1234
-   </copy>
-   ```
+  ```
+  <copy>
+  OracleLab1234
+  </copy>
+  ```
 
-   ![appspat Login Password](./images/login-appspat-02.png)
+  ![appspat Login Password](./images/login-appspat-02.png)
 
 4. Under the **Development** region of the Database Actions page select the **SQL** tile.
 
-   ![Database Actions Dashboard - Development](../common-images/start-sqldev-web.png)
+  ![Database Actions Dashboard - Development](../common-images/start-sqldev-web.png)
 
 
 ## TASK 4: Examine your Spatial data
@@ -278,28 +268,28 @@ Examine one of these tables using **SQL Developer Web**.
 
 1. **Select** the **Customers** table in the list of tables, and right click, and select **Edit**.
 
-   ![Customers Table Edit](./images/examine-01.png)
+  ![Customers Table Edit](./images/examine-01.png)
 
 2. This opens the **Table Properties** window. You can see that the customer table has a column **CUST\_GEO\_LOCATION** which is of the special **SDO\_GEOMETRY** data type to store the Spatial data.
 
-   ![Customers Table Details](./images/examine-02.png)
+  ![Customers Table Details](./images/examine-02.png)
 
 3. Before the Spatial index was created in the original data load, entries were inserted into the `USER_SDO_GEOM_METADATA` view to provide information about dimensions associated with the data, for example.
 
-   ```
-   <copy>
-   insert into user_sdo_geom_metadata
-   (TABLE_NAME,
-        COLUMN_NAME,
-        DIMINFO,
-        SRID)
-     VALUES (
-   'CUSTOMERS','CUST_GEO_LOCATION',
-   MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', -180, 180, 0.05),
-                  MDSYS.SDO_DIM_ELEMENT('Y', -90, 90, 0.05)),
-   4326);
-   </copy>
-   ```
+  ```
+  <copy>
+  insert into user_sdo_geom_metadata
+  (TABLE_NAME,
+       COLUMN_NAME,
+       DIMINFO,
+       SRID)
+    VALUES (
+  'CUSTOMERS','CUST_GEO_LOCATION',
+  MDSYS.SDO_DIM_ARRAY(MDSYS.SDO_DIM_ELEMENT('X', -180, 180, 0.05),
+                 MDSYS.SDO_DIM_ELEMENT('Y', -90, 90, 0.05)),
+  4326);
+  </copy>
+  ```
 
 **Here is a description of the items that were entered:**
 
@@ -310,7 +300,7 @@ Examine one of these tables using **SQL Developer Web**.
 
 4. Select the **Indexes** item in the sidebar. You can see that there has been an index created called **CUSTOMERS\_SIDX**. This index is on the CUSTOMER_SDO column. This type of index on Spatial data was created using a command similar to `CREATE INDEX customers_sidx ON customers(CUST_GEO_LOCATION) indextype is mdsys.spatial_index;`
 
-   ![Index Details](./images/examine-03.png)
+  ![Index Details](./images/examine-03.png)
 
 5. Select **Close** to leave table properties without making any changes.
 
@@ -324,16 +314,16 @@ Examine one of these tables using **SQL Developer Web**.
 - When using the **SDO\_NUM\_RES** parameter (limiting the number of results returned), other constraints should be used cautiously in the WHERE clause. **SDO\_NUM\_RES** takes only proximity into account. For example, if you added a criterion to the WHERE clause because you wanted the five closest female customers, and four of the five closest customers are male, the query above would return one row. This behavior is specific to the SDO-NUM-RES parameter, and its results may not be what you are looking for. You will learn how to find the five closest female customers in the discussion of query 3.
 
 
-   ```
-   <copy>
-   SELECT c.customer_id, c.cust_last_name, c.GENDER
-   FROM warehouses w, customers c
-   WHERE w.WAREHOUSE_NAME = 'Ferndale Facility'
-   AND sdo_nn (c.cust_geo_location, w.wh_geo_location, 'sdo_num_res=5') = 'TRUE';
-   </copy>
-   ```
+  ```
+  <copy>
+  SELECT c.customer_id, c.cust_last_name, c.GENDER
+  FROM warehouses w, customers c
+  WHERE w.WAREHOUSE_NAME = 'Ferndale Facility'
+  AND sdo_nn (c.cust_geo_location, w.wh_geo_location, 'sdo_num_res=5') = 'TRUE';
+  </copy>
+  ```
 
-   ![Query 1 Example](./images/query-01.png)
+  ![Query 1 Example](./images/query-01.png)
 
 #### Query #2: Find the five customers closest to warehouse named 'Livonia Facility' and put the results in order of distance
 
@@ -345,18 +335,18 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 
 - The **ORDER BY DISTANCE** clause ensures that the distances are returned in order, with the shortest distance first.
 
-   ```
-   <copy>
-   SELECT c.customer_id, c.cust_last_name, c.GENDER,   
-   round( sdo_nn_distance (1), 2) distance_in_miles 
-   FROM warehouses w, customers c 
-   WHERE w.WAREHOUSE_NAME = 'Livonia Facility' 
-   AND sdo_nn (c.cust_geo_location, w.wh_geo_location, 'sdo_num_res=5  unit=mile', 1) = 'TRUE'
-   ORDER BY distance_in_miles;
-   </copy>
-   ```
+  ```
+  <copy>
+  SELECT c.customer_id, c.cust_last_name, c.GENDER,   
+  round( sdo_nn_distance (1), 2) distance_in_miles 
+  FROM warehouses w, customers c 
+  WHERE w.WAREHOUSE_NAME = 'Livonia Facility' 
+  AND sdo_nn (c.cust_geo_location, w.wh_geo_location, 'sdo_num_res=5  unit=mile', 1) = 'TRUE'
+  ORDER BY distance_in_miles;
+  </copy>
+  ```
     
-   ![Query 2 Example](./images/query-02.png)
+  ![Query 2 Example](./images/query-02.png)
 
 
 #### Query #3: Find the five female customers closest to warehouse named 'Livonia Facility', put the results in order of distance, and give the distance in miles
@@ -370,20 +360,20 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 - The **ORDER BY DISTANCE\_IN\_MILES** clause ensures that the distances are returned in order, with the shortest distance first and the distances measured in miles.
 
    ```
-   <copy>
-   SELECT c.customer_id,c.cust_last_name,c.GENDER, 
-   round( sdo_nn_distance(1), 2) distance_in_miles
-   FROM warehouses w,   customers c
-   WHERE w.WAREHOUSE_NAME = 'Livonia Facility'
-   AND sdo_nn (c.cust_geo_location, w.wh_geo_location,
-   'sdo_batch_size =5 unit=mile', 1) = 'TRUE'
-   AND c.GENDER = 'F'
-   AND rownum < 6
-   ORDER BY distance_in_miles;
-   </copy>
-   ```
+  <copy>
+  SELECT c.customer_id,c.cust_last_name,c.GENDER, 
+  round( sdo_nn_distance(1), 2) distance_in_miles
+  FROM warehouses w,   customers c
+  WHERE w.WAREHOUSE_NAME = 'Livonia Facility'
+  AND sdo_nn (c.cust_geo_location, w.wh_geo_location,
+  'sdo_batch_size =5 unit=mile', 1) = 'TRUE'
+  AND c.GENDER = 'F'
+  AND rownum < 6
+  ORDER BY distance_in_miles;
+  </copy>
+  ```
 
-   ![Query 3 Example](./images/query-03.png)
+  ![Query 3 Example](./images/query-03.png)
 
 
 #### Query #4: Find all the customers within 100 miles of warehouse named 'Livonia Facility'
@@ -394,17 +384,17 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 
 - The **UNIT** parameter used within the SDO\_WITHIN\_DISTANCE operator specifies the UNIT of measure of the DISTANCE parameter. The default UNIT is the unit of measure associated with the data. For longitude and latitude data, the default is meters; so in this lab you need to specify the unit=miles.
 
-   ```
-   <copy>
-   SELECT c.customer_id, c.cust_last_name, c.GENDER 
-   FROM warehouses w, customers c 
-   WHERE w.WAREHOUSE_NAME = 'Livonia Facility' 
-   AND sdo_within_distance (c.cust_geo_location,w.wh_geo_location,
-   'distance = 100 unit=MILE') = 'TRUE';
-   </copy>
-   ```
+  ```
+  <copy>
+  SELECT c.customer_id, c.cust_last_name, c.GENDER 
+  FROM warehouses w, customers c 
+  WHERE w.WAREHOUSE_NAME = 'Livonia Facility' 
+  AND sdo_within_distance (c.cust_geo_location,w.wh_geo_location,
+  'distance = 100 unit=MILE') = 'TRUE';
+  </copy>
+  ```
 
-   ![Query 4 Example](./images/query-04.png)
+  ![Query 4 Example](./images/query-04.png)
 
 
 #### Query #5: Find all the customers within 100 miles of warehouse named 'Livonia Facility', put the results in order of distance, and give the distance in miles.
@@ -417,19 +407,19 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
 
 - The **ORDER BY DISTANCE\_IN\_MILES** clause ensures that the distances are returned in order, with the shortest distance first and the distances measured in miles.
 
-   ```
-   <copy>
-   SELECT c.customer_id, c.cust_last_name, c.GENDER, 
-   round(sdo_geom.sdo_distance (c.cust_geo_location, w.wh_geo_location,.005,'unit=MILE'), 2) distance_in_miles
-   FROM warehouses w, customers c
-   WHERE  w.WAREHOUSE_NAME = 'Livonia Facility' 
-   and
-   sdo_within_distance (c.cust_geo_location, w.wh_geo_location, 'distance = 100 unit=MILE') = 'TRUE'
-   ORDER BY distance_in_miles;
-   </copy>
-   ```
+  ```
+  <copy>
+  SELECT c.customer_id, c.cust_last_name, c.GENDER, 
+  round(sdo_geom.sdo_distance (c.cust_geo_location, w.wh_geo_location,.005,'unit=MILE'), 2) distance_in_miles
+  FROM warehouses w, customers c
+  WHERE  w.WAREHOUSE_NAME = 'Livonia Facility' 
+  and
+  sdo_within_distance (c.cust_geo_location, w.wh_geo_location, 'distance = 100 unit=MILE') = 'TRUE'
+  ORDER BY distance_in_miles;
+  </copy>
+  ```
 
-   ![Query 5 Example](./images/query-05.png)
+  ![Query 5 Example](./images/query-05.png)
 
 
 #### Query #6: Find all the customers inside a 30 min drive time polygons  
@@ -447,7 +437,7 @@ In this query you are not just looking for the Nearest Neighbour of your warehou
   </copy>
   ```
 
-   ![Query 6 Example](./images/query-06.png)
+  ![Query 6 Example](./images/query-06.png)
 
 
 ### Learn More
