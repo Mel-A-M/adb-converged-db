@@ -43,10 +43,23 @@ There are some limitations on the usage of XML in Autonomous Database. See the d
 
 2. **Enter** the username `admin` and select **Next.**
 
+   ```
+   <copy>
+   admin
+   </copy>
+   ```
+
    ![Admin Login](images/login-admin-01.png)
 
 3. **Enter** the password for admin `Oracle_12345` and select **Sign In**.
 
+
+   ```
+   <copy>
+   Oracle_12345
+   </copy>
+   ```
+   
    ![Admin Login Password](images/login-admin-02.png)
 
 4. Under the **Development** region of the **Database Actions** page select the **SQL** tile.
@@ -76,7 +89,7 @@ To create an **external table** using a file stored in Object Storage you will u
 
   ![Select Bucket Lab-bucket](./images/select-lab-bucket.png)
 
-3. On the **Bucket details** screen **Click** on the **Action menu** (the 3 dots menu) next to the file **xmlfile.xml**. Select **View Object Details**.
+3. On the **Bucket details** screen **Click** on the **Action menu** (the 3 dots menu) next to the file _**`xmlfile.xml`**_. Select **View Object Details**.
    
   ![Get Object Details](./images/get-obj-details.png)
 
@@ -86,7 +99,8 @@ To create an **external table** using a file stored in Object Storage you will u
 
 5. Use the **URI** from the previous step in this SQL, **replacing** the text `FILE_URL_HERE` with the URI from your tenancy. **Execute** this SQL using the **Run Script** button on the top of the page.
 
-   ```sql
+   ```
+   <copy>
    BEGIN
       DBMS_CLOUD.CREATE_EXTERNAL_TABLE(
        table_name =>'PURCHASE_XML',
@@ -96,6 +110,7 @@ To create an **external table** using a file stored in Object Storage you will u
        column_list => 'XML_DOCUMENT CLOB',
        field_list => 'xml_document CHAR(80000)');
    END;
+   </copy>
    /
    ```
 
@@ -117,7 +132,8 @@ To create an **external table** using a file stored in Object Storage you will u
 
 1. You can now immediately query our **XML file lying in the object store via the external table CLOB column**, using [native database XML features](https://docs.oracle.com/en/database/oracle/oracle-database/19/adxdb/how-to-use-XML-DB.html#GUID-D937B3D1-BA54-41D0-9428-4739DA805D75) such as XPATH expressions.
 
-   ```sql
+   ```
+   <copy>
    SELECT EXTRACTVALUE(XMLTYPE(xml_document),'/PurchaseOrder/Actions/Action/User') 
    as Users 
    from PURCHASE_XML;
@@ -126,10 +142,12 @@ To create an **external table** using a file stored in Object Storage you will u
 
 2. Use your **external table** to populate a table in the database.
 
-   ```sql
+   ```
+   <copy>
    CREATE TABLE XPURCHASE (xml_document xmltype); 
    INSERT INTO XPURCHASE 
    (SELECT XMLTYPE(xml_document) from PURCHASE_XML);
+   </copy>
    ```
 
    ![](./images/task3_copy_ext.png)
@@ -139,8 +157,10 @@ To create an **external table** using a file stored in Object Storage you will u
 
 1. Let us take a **count** of the rows we have currently in the table in the database and then do a insert. The source external table had **1 row**.
 
-   ```sql
+   ```
+   <copy>
    SELECT Count(*) FROM xpurchase p;
+   </copy>
    ```
 
 2. Download the SQL for the insert statement from [xml-insert.sql](files/xml-insert.sql). Copy and paste the full statement into **SQL Developer Web**.
@@ -149,8 +169,10 @@ To create an **external table** using a file stored in Object Storage you will u
 
    This should return 1 more row !
    
-   ```sql
+   ```
+   <copy>
    SELECT Count(*) FROM xpurchase p;
+   </copy>
    ```
 
 ## TASK 6: Update values in the XML table
@@ -159,9 +181,11 @@ You can update values in your XML data stored in the database.
 
 1. **Review** which user is responsible for the the **Purchase Order** with the Reference **'MSD-20200505'**.
 
-   ```sql
+   ```
+   <copy>
    SELECT extractValue(xml_document, '/PurchaseOrder/User') 
    FROM xpurchase where existsNode(xml_document, '/PurchaseOrder[Reference="MSD-20200505"]') =1;
+   </copy>
    ```
 
    ![ExtractValue Statement](./images/task5_update_01.png)
@@ -169,20 +193,24 @@ You can update values in your XML data stored in the database.
 
 2. **Update** the User to **'M March'**.
 
-   ```sql
+   ```
+   <copy>
    UPDATE xpurchase
    set xml_document=updateXML(XML_DOCUMENT, '/PurchaseOrder/User/text()', 'M March')
    WHERE existsNode(XML_DOCUMENT, '/PurchaseOrder[Reference="MSD-20200505"]')=1;
    commit;
+   </copy>
    ```
 
    ![](./images/task5_update_02.png)
 
 3. **Verify** that the update was successful.
 
-   ```sql
+   ```
+   <copy>
    SELECT extractValue(xml_document, '/PurchaseOrder/User') 
    FROM xpurchase where existsNode(xml_document, '/PurchaseOrder[Reference="MSD-20200505"]') =1;
+   </copy>
    ```
 
    ![](./images/task5_update_03.png)
@@ -193,29 +221,33 @@ You can update values in your XML data stored in the database.
 
 **XMLEXISTS** is an SQL/XML operator that you can use to query XML values in SQL, in a regular query. You can use the xmlexists function to look to see if a specific value is present in an xmltype column.
 
-   ```sql
+   ```
+   <copy>
    SELECT xp.xml_document.getclobval() 
    FROM xpurchase xp
    WHERE xmlexists('/PurchaseOrder/ShippingInstructions/Address[city/text()=$CITY]' passing xml_document, 'South San Francisco' AS "CITY" );
+   </copy>
    ```
 
    ![Query XML Exist](./images/task6_xmlexists.png)
 
 
-2. Get the product description for products whose unit prices matches $19.95. **XMLSERIALIZE** is a SQL/XML operator that you can use to convert an XML type to a character type. **Download** the SQL for the statement from [xmlserialize.sql](files/xmlserialize.sql). **Copy and paste** the full statement into **SQL Developer Web**.
+1. Get the product description for products whose unit prices matches $19.95. **XMLSERIALIZE** is a SQL/XML operator that you can use to convert an XML type to a character type. **Download** the SQL for the statement from [xmlserialize.sql](files/xmlserialize.sql). **Copy and paste** the full statement into **SQL Developer Web**.
 
    ![Query XML Serialize](./images/task6_xmlserialize.png)
 
-3. **XMLQUERY** allows you to query XML data in SQL statements. It takes an XQuery expression as a string literal, an optional context item, and other bind variables and returns the result of evaluating the XQuery expression using these input values. The XQuery string is a complete XQuery expression, including prolog (a series of declarations and definitions that together create the required environment for query processing). For more information about XQuery see the standard [here](https://www.w3.org/TR/xquery/).
+2. **XMLQUERY** allows you to query XML data in SQL statements. It takes an XQuery expression as a string literal, an optional context item, and other bind variables and returns the result of evaluating the XQuery expression using these input values. The XQuery string is a complete XQuery expression, including prolog (a series of declarations and definitions that together create the required environment for query processing). For more information about XQuery see the standard [here](https://www.w3.org/TR/xquery/).
 Download the SQL for the  statement from [xmlquery.sql](files/xmlquery.sql). Copy and paste the full statement into SQL Developer.
 
    ![Query XML Query](./images/task6_xquery.png)
 
 4. Find the purchase order reference if the Special Instructions for the order are 'COD' (Cash on Delivery). **ExistsNode** checks if  the xpath-expression returns at least one XML element or text node. If so, `existsNode` returns 1, otherwise, it returns 0. `existsNode` should only be used in the where clause of the select statement.
 
-   ```sql
+   ```
+   <copy>
    SELECT extractValue(XML_DOCUMENT, '/PurchaseOrder/Reference') "REFERENCE"
    FROM xpurchase WHERE existsNode(XML_DOCUMENT, '/PurchaseOrder[Special_Instructions="COD"]')=1;
+   </copy>
    ```
 
    ![Query XML Exist Node](./images/task6_existsnode.png)
