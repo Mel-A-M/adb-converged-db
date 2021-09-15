@@ -124,7 +124,7 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
 
 6. For the next step you will **create a file to store our connection information**. You will then use this file with any additional python programs moving forward in this lab. Placing your connection settings in a separate file makes the database connections much more seamless to use.  
 
-  **Create** a file called **myConnection.py**, using the following command in **Cloud Shell**. 
+  **Create** a file called **myConnection.py**, using the following command in **Cloud Shell**. Press _ENTER_ to run the command and the file will be created.
 
   ```
   <copy>
@@ -330,23 +330,18 @@ Now that your environment is configured and you can connect to database from Pyt
   import cx_Oracle
   import myConnection
   connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
-
   # Enable Auto-commit
   connection.autocommit = True
-
   # Create the parent object for SODA
   soda = connection.getSodaDatabase()
-
   # This will open an existing collection, if the name is already in use.
   collection = soda.createCollection("sodacollection")
-
   # Find all documents with array diet containing an element 'plankton%'
   print("\nWhales with a diet that includes 'plankton%'")
-  qbe = {'diet': {'$like': 'plankton%'}}
+  qbe = { "diet" : { "\$like" : "plankton%" }}
   for doc in collection.find().filter(qbe).getDocuments():
       content = doc.getContent()
       print(" - " + content["name"] + ",", "key:", doc.key)
-
   # Close the database connection
   connection.close()
   print("\n")
