@@ -1,6 +1,6 @@
 # Preparing the data source into Object Storage
 
-![Banner](images/upload_banner.png)
+![Object Storage Banner](images/upload_banner.png)
 
 ## Introduction
 

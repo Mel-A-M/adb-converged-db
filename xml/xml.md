@@ -1,6 +1,6 @@
 # Oracle XML and Autonomous Database
 
-![](images/xml_banner.png)
+![XML Banner](images/xml_banner.png)
 
 ## Introduction
 
@@ -137,7 +137,9 @@ To create an **external table** using a file stored in Object Storage you will u
    SELECT EXTRACTVALUE(XMLTYPE(xml_document),'/PurchaseOrder/Actions/Action/User') 
    as Users 
    from PURCHASE_XML;
+   </copy>
    ```
+
    ![Select ExtractValue](./images/task3_query_ext.png)
 
 2. Use your **external table** to populate a table in the database.
@@ -150,7 +152,7 @@ To create an **external table** using a file stored in Object Storage you will u
    </copy>
    ```
 
-   ![](./images/task3_copy_ext.png)
+   ![Create XPurchase Table](./images/task3_copy_ext.png)
 
 
 ## TASK 5: Insert an XML record
@@ -202,7 +204,7 @@ You can update values in your XML data stored in the database.
    </copy>
    ```
 
-   ![](./images/task5_update_02.png)
+   ![Update XPurchase Table](./images/task5_update_02.png)
 
 3. **Verify** that the update was successful.
 
@@ -213,7 +215,7 @@ You can update values in your XML data stored in the database.
    </copy>
    ```
 
-   ![](./images/task5_update_03.png)
+   ![ExtractValue Statement](./images/task5_update_03.png)
 
 ## TASK 7: Example Queries
 

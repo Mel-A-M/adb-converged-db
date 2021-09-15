@@ -97,14 +97,17 @@ If you have **downloaded** the **wallet** for your database into your **cloud sh
 
   ![Wallet pwd](../common-images/wallet-pwd.png)
 
-3. Previous **statement** has changed the first line in the `sqlnet.ora` file to use your directory name as it appears in your **Oracle Cloud Shell prompt**:
+ 3. **Check** the content of **sqlnet.ora** file after the modification:
 
-    - **OLD**: `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="?/network/admin")))`
-    - **NEW**: `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/user_name/wallet")))`
+  ```
+  <copy>
+  more wallet/sqlnet.ora
+  </copy>
+  ```
+  
+  So in the screenshot example, my wallet directory is `/home/xxxxx/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/xxxxx/wallet")))`
 
-    So in the screenshot example, my wallet directory is `/home/xxxxx_as/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/xxxxx_as/wallet")))`
-
-   ![SQLnet wallet](../common-images/sqlnet-wallet.png)
+  ![SQLnet wallet](./images/sqlnet-wallet_new.png)
 
 4. **Change** directory back to your home Directory.
 
@@ -154,7 +157,7 @@ To access data in the Object Storage you must enable your database user to authe
 
   ![Set create credential](../common-images/sqlplus-create-cred-admin.png)
 
-4. **Prepare** the destination schema for your imported data. In **SQL*Plus** execute the following commands
+4. **Prepare** the destination schema for your imported data. In **SQL*Plus** execute the following commands.
 
   ```
   <copy>

@@ -105,14 +105,17 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
   </copy>
   ```
 
-4. Previous **statement** has changed the first line in the `sqlnet.ora` file to use your directory name as it appears in your **Oracle Cloud Shell prompt**:
+4. **Check** the content of **sqlnet.ora** file after the modification:
 
-    - **OLD**: `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="?/network/admin")))`
-    - **NEW**: `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/user_name/wallet")))`
+  ```
+  <copy>
+  more wallet/sqlnet.ora
+  </copy>
+  ```
+  
+  So in the screenshot example, my wallet directory is `/home/xxxxx/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/xxxxx/wallet")))`
 
-    So in the screenshot example, my wallet directory is `/home/xxxxx_as/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/xxxxx_as/wallet")))`
-
-    ![SQLnet wallet](./images/sqlnet-wallet.png)
+  ![SQLnet wallet](./images/sqlnet-wallet_new.png)
 
 5. **Change directory** back to your **home Directory**.
 
@@ -124,7 +127,7 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
 
 6. For the next step you will **create a file to store our connection information**. You will then use this file with any additional python programs moving forward in this lab. Placing your connection settings in a separate file makes the database connections much more seamless to use.  
 
-  **Create** a file called **myConnection.py**, using the following command in **Cloud Shell**. Press _ENTER_ to run the command and the file will be created.
+  **Create** a file called **myConnection.py**, using the following command in **Cloud Shell**. Press **ENTER** to run the command and the file will be created.
 
   ```
   <copy>
@@ -142,19 +145,19 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
   </copy>
   ```
 
-7. If and **only if**  you have selected a different password or Autonomous Database name, you have to **edit** the content of the file `myConnection.py`: 
+7. **If** and **only if**  you have selected a different password or Autonomous Database name, you have to **edit** the content of the file `myConnection.py`: 
 
     The contents of the file we have created:
-    - The first two lines set a *TNS_ADMIN* environment variable.
+    - The first two lines set a **TNS_ADMIN** environment variable.
     - `usrnm=` You can leave this as is to use the admin user for this lab.
     - `passwd=` Supply the password for your admin user here. The password `Oracle_12345` is the default.
-    - `dsn=` Provide the name for your database connection.  This is the name of the Autonomous Database for this lab. We have used **converged**, just in case, you have followed our recommendations. We are appending the *_tp* suffix for a transaction processing service. You can also locate this from the *tnsnames.ora* file located in your wallet directory.  
+    - `dsn=` Provide the name for your database connection.  This is the name of the Autonomous Database for this lab. We have used **converged**, just in case, you have followed our recommendations. We are appending the **_tp** suffix for a transaction processing service. You can also locate this from the *tnsnames.ora* file located in your wallet directory.  
 
-    ![myConnection.py file](./images/py-connect-03_new.png)
+    ![myConnection.py file](./images/py-connect-03_new2.png)
 
 8. You are now ready to create your **first python program** to connect to the Autonomous Database using `cx_Oracle` library. **`cx_Oracle`** is a Python extension that enables connectivity to an Oracle Database.  
 
-9. **Create** a file called **soda1.py**:
+9. **Create** a file called **soda1.py**. Press **ENTER** to run the command and the file will be created.
 
     ```
     <copy>
@@ -194,7 +197,7 @@ You will also use the **wallet-file** we called **converged-wallet.zip** that we
 
 Now that your environment is configured and you can connect to database from Python, you are ready to get started with SODA.  
 
-1. **Create** a new file called **soda2.py**:
+1. **Create** a new file called **soda2.py**. Press **ENTER** to run the command and the file will be created.
 
   ```
   <copy>
@@ -256,49 +259,49 @@ Now that your environment is configured and you can connect to database from Pyt
 
   In the next example you will see how to perform a bulk insert into a collection with SODA.  
 
-3. **Create** a new file called **soda3.py**:
+3. **Create** a new file called **soda3.py**. Press **ENTER** to run the command and the file will be created.
 
-  ```
-  <copy>
-  cat << EOF > soda3.py
-  import cx_Oracle
-  import myConnection
-  connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
+```
+<copy>
+cat << EOF > soda3.py
+import cx_Oracle
+import myConnection
+connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
 
-  # Enable Auto-commit
-  connection.autocommit = True
+# Enable Auto-commit
+connection.autocommit = True
 
-  # Create the parent object for SODA
-  soda = connection.getSodaDatabase()
+# Create the parent object for SODA
+soda = connection.getSodaDatabase()
 
-  # Create a new SODA collection
-  # This will open an existing collection, if the name is already in use.
-  collection = soda.createCollection("sodacollection")
+# Create a new SODA collection
+# This will open an existing collection, if the name is already in use.
+collection = soda.createCollection("sodacollection")
 
-  # Insert multiple documents into the collection
-  inDocs = [
-      dict(name='Humpback', diet=['squid', 'krill', 'herring'], status= 'least concern'),
-      dict(name='Sperm', diet=['squid', 'octopus'], status= 'vulnerable'),
-      dict(name='Antarctic Minke', diet= ['krill','plankton','small fish'], status= 'near   threatened'),
-      dict(name='North Pacific Right', diet=['plankton', 'krill'], status= 'endangered',  population='500')
-  ]
+# Insert multiple documents into the collection
+inDocs = [
+  dict(name='Humpback', diet=['squid', 'krill', 'herring'], status= 'least concern'),
+  dict(name='Sperm', diet=['squid', 'octopus'], status= 'vulnerable'),
+  dict(name='Antarctic Minke', diet= ['krill','plankton','small fish'], status= 'near threatened'),
+  dict(name='North Pacific Right', diet=['plankton', 'krill'], status= 'endangered', population='500')
+]
 
-  # Perform BULK insert
-  bulkDocs = collection.insertManyAndGet(inDocs)
-  for doc in bulkDocs:
-     print("Inserted SODA document with key", doc.key)
-  print()
+# Perform BULK insert
+bulkDocs = collection.insertManyAndGet(inDocs)
+for doc in bulkDocs:
+  print("Inserted SODA document with key", doc.key)
+print()
 
-  # Return the most recent entry (using the key)
-  content = collection.find().key(doc.key).getOne().getContent()
-  print("Last Inserted SODA document", content)
+# Return the most recent entry (using the key)
+content = collection.find().key(doc.key).getOne().getContent()
+print("Last Inserted SODA document", content)
 
-  # Close the database connection
-  connection.close()
-  print("\n")
-  EOF
-  </copy>
-  ```
+# Close the database connection
+connection.close()
+print("\n")
+EOF
+</copy>
+```
 
 4. This program will insert four additional documents into your existing collection called   **sodacollection**. Some additional things to consider:
 
@@ -322,32 +325,32 @@ Now that your environment is configured and you can connect to database from Pyt
 
   The next example will explore running a **QBE** (Query By Example) operation against the **Collection**.
 
-6. **Create** a new file called **soda4.py**:
+6. **Create** a new file called **soda4.py**. Press **ENTER** to run the command and the file will be created.
 
-  ```
-  <copy>
-  cat << EOF > soda4.py
-  import cx_Oracle
-  import myConnection
-  connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
-  # Enable Auto-commit
-  connection.autocommit = True
-  # Create the parent object for SODA
-  soda = connection.getSodaDatabase()
-  # This will open an existing collection, if the name is already in use.
-  collection = soda.createCollection("sodacollection")
-  # Find all documents with array diet containing an element 'plankton%'
-  print("\nWhales with a diet that includes 'plankton%'")
-  qbe = { "diet" : { "\$like" : "plankton%" }}
-  for doc in collection.find().filter(qbe).getDocuments():
-      content = doc.getContent()
-      print(" - " + content["name"] + ",", "key:", doc.key)
-  # Close the database connection
-  connection.close()
-  print("\n")
-  EOF
-  </copy>
-  ```
+```
+<copy>
+cat << EOF > soda4.py
+import cx_Oracle
+import myConnection
+connection = cx_Oracle.connect(myConnection.usrnm, myConnection.psswd, myConnection.dsn)
+# Enable Auto-commit
+connection.autocommit = True
+# Create the parent object for SODA
+soda = connection.getSodaDatabase()
+# This will open an existing collection, if the name is already in use.
+collection = soda.createCollection("sodacollection")
+# Find all documents with array diet containing an element 'plankton%'
+print("\nWhales with a diet that includes 'plankton%'")
+qbe = { "diet" : { "\$like" : "plankton%" }}
+for doc in collection.find().filter(qbe).getDocuments():
+    content = doc.getContent()
+    print(" - " + content["name"] + ",", "key:", doc.key)
+# Close the database connection
+connection.close()
+print("\n")
+EOF
+</copy>
+```
 
   In this program you are performing a **QBE** against the collection to find all the whales with a diet that includes plankton.  To perform this the program is using a soda operation to filter based on the string/element including the search term ("plankton" in this case).
 
@@ -391,7 +394,7 @@ In this section you will connect to the Oracle database you provisioned in your 
 
   ![Database Actions Dashboard - Development](./images/db-soda-02.png)
 
-6. In the first part of this lab you created a collection in python called `sodacollection`.  This object did not previously exist in the database, but the first SODA insert operation created this automatically for you.
+6. In the first part of this lab you created a collection in python called **sodacollection**. This object did not previously exist in the database, but the first SODA insert operation created this automatically for you.
 
   The collection appears in the database as a table. You can see the table's columns described in the pane on the left hand side of the screen:
 
