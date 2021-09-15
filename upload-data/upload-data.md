@@ -54,7 +54,7 @@ To complete this lab, you need to have the following:
    
    - [export_spatial22Sep2020.dmp](files/export_spatial22Sep2020.dmp) 
    - [PurchaseOrders.dmp](files/PurchaseOrders.dmp)
-   - [xmlfile.xml](files/xmlfile.xml)
+   - [xmlfile.xml](https://bit.ly/3lodG7L)
 
 2. **Open** your new bucket by clicking the name,`lab-bucket`.
    
