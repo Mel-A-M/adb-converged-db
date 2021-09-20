@@ -37,87 +37,7 @@ Each table stores location using Oracle's native Spatial data type, SDO\_GEOMETR
 
 **Estimated Lab Time:** 30 minutes.
 
-## TASK 1: Prepare your environment
-
-If you have **downloaded** the **wallet** for your database into your **cloud shell** in a previous lab, skip to **Extract the wallet**. If you do not have a wallet, follow this process.
-
-### Download the Wallet
-
-1. **Navigate** to the **Autonomous Database Details** page for your database. Select the **Copy** next to the **OCID** for your database.
-
-   ![Get OCID Information](../common-images/adb-get-ocid.png)
-
-2. Start **Cloud Shell** by selecting the icon in the **menu bar**.
-
-   ![Start Cloud Shell](../common-images/start-cloud-shell.png)
-   
-   After a few moments, the cloud shell will open at the **bottom** of your web browser window.
-
-3. **Replace** **YOUR-OCID-HERE** in the command below with the **OCID** for your database. You will be setting the wallet password to the same value as the ADB admin password for ease of use. This is not a recommended practice and just used for the purposes of this lab. The wallet will be created with the name `converged-wallet.zip`.
-
-  ```
-  <copy>
-  cd ~ && oci db autonomous-database generate-wallet --password Oracle_12345 --file converged-wallet.zip--autonomous-database-id YOUR-OCID-HERE
-  </copy>
-  ```
-
-  ![Generate Wallet](../common-images/generate-wallet.png)
-
-  The wallet file will be downloaded to your cloud shell file system under your home directory.
-
-4. Enter the ls (list) command in your Cloud Shell below to verify the **converged-wallet.zip** was created
-
-  ```
-  <copy>
-  ls
-  </copy>
-  ```
-
-  ![Check Wallet Downloaded](../common-images/check-wallet.png)
-
-### Extract the wallet
-
-1. Use the **unzip** command below to unzip the contents of the wallet file into a directory that you will call **wallet**. The directory will  be created automatically by  the unzip command.
-
-  ```
-  <copy>
-  cd ~ && unzip -d wallet converged-wallet.zip
-  </copy>
-  ```
-  
-  ![Unzip Wallet](../common-images/unzip-wallet.png)
-
-2. **Edit** the contents of the **sqlnet.ora** file using the following command in **Cloud Shell**.
-
-  ```
-  <copy>
-  sed -i 's@?/network/admin@'$HOME'/wallet@g' wallet/sqlnet.ora
-  </copy>
-  ```
-
-  ![Wallet pwd](../common-images/wallet-pwd.png)
-
- 3. **Check** the content of **sqlnet.ora** file after the modification:
-
-  ```
-  <copy>
-  more wallet/sqlnet.ora
-  </copy>
-  ```
-  
-  So in the screenshot example, my wallet directory is `/home/xxxxx/wallet` so my entry is `WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/home/xxxxx/wallet")))`
-
-  ![SQLnet wallet](./images/sqlnet-wallet_new.png)
-
-4. **Change** directory back to your home Directory.
-
-  ```
-  <copy>
-  cd ~
-  </copy>
-  ```
-
-## TASK 2: Load the data
+## TASK 1: Load the data
 
 In this step you will load the data for the lab using Oracle Data Pump. 
 
@@ -230,7 +150,7 @@ To access data in the Object Storage you must enable your database user to authe
   ![Import command converged_tp Results](./images/import_command_converged_tp_results.png)
 
 
-## TASK 3: Connect to SQL Developer Web
+## TASK 2: Connect to SQL Developer Web
 
 In the previous step you executed commands to **grant** the appspat user privileges and setup **SQL Developer Web** using **Rest Services (ORDS)**. You are now going to connect as this new user. 
 
@@ -263,7 +183,7 @@ In the previous step you executed commands to **grant** the appspat user privile
   ![Database Actions Dashboard - Development](../common-images/start-sqldev-web.png)
 
 
-## TASK 4: Examine your Spatial data
+## TASK 3: Examine your Spatial data
 
 As part of the **dataload** you created the tables CUSTOMERS, WAREHOUSES_DTP and WAREHOUSES.
 
@@ -308,7 +228,7 @@ Examine one of these tables using **SQL Developer Web**.
 5. Select **Close** to leave table properties without making any changes.
 
 
-## TASK 5: Run Spatial Queries
+## TASK 4: Run Spatial Queries
 
 #### Query #1: Find the five customers closest to the warehouse whose warehouse name  is 'Ferndale Facility'
 

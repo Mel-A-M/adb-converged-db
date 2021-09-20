@@ -34,11 +34,11 @@ To complete this lab, you need to have the following:
 
 3. Fill the **Create Bucket** form with the following values.
 
-   ![Create Bucket](images/create-bucket-02.png)
+      ![Create Bucket](images/create-bucket-02.png)
 
-   - Bucket name: `lab-bucket`
-   - Default Storage Tier: `Standard`
-   - Encryption: `Encrypt using Oracle managed keys`
+      - Bucket name: `lab-bucket`
+      - Default Storage Tier: `Standard`
+      - Encryption: `Encrypt using Oracle managed keys`
 
 4. Click **Create**.
 
@@ -54,7 +54,7 @@ To complete this lab, you need to have the following:
    
    - [export_spatial22Sep2020.dmp](files/export_spatial22Sep2020.dmp) 
    - [PurchaseOrders.dmp](files/PurchaseOrders.dmp)
-   - [xmlfile.xml](https://bit.ly/3lodG7L)
+   - [xmlfile.xml](https://bit.ly/3lodG7L) -> This file will be open in a new tab in your browser, so save it using the browser, please.
 
 2. **Open** your new bucket by clicking the name,`lab-bucket`.
    

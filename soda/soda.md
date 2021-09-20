@@ -36,7 +36,7 @@ One last thing about SODA. It is important to understand that SODA is NOT mandat
 
 ## TASK 1: Prepare your environment
 
-If you have downloaded the wallet for your database in a previous lab, skip to STEP 2. If you do not have a wallet, follow this process.
+If you have downloaded the wallet for your database in a previous lab, skip to TASK 2. If you do not have a wallet, follow this process.
 
 ### Download the Wallet
 

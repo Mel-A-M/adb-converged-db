@@ -217,7 +217,7 @@ You can update values in your XML data stored in the database.
 
    ![ExtractValue Statement](./images/task5_update_03.png)
 
-## TASK 7: Example Queries
+## TASK 7: Additional Example Queries (Optional)
 
 1. Get the list of the customer and their purchase information from a specific geographical location.  
 

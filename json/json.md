@@ -239,7 +239,7 @@ You can use Oracle SQL function `json-mergepatch` or PL/SQL object-type method `
 
   ![Select json_mergepatch](./images/task5_update_01.png)
 
-## TASK 7: Example Queries
+## TASK 7: Additional Example Queries (Optional)
 
 The Oracle database allows a simple ‘dotted’ notation to be used to perform a limited set of operations on columns containing JSON. In order to use the dotted notation, a table alias must be assigned to the table in the FROM clause, and any reference to the JSON column must be prefixed with the assigned alias. All data is returned as VARCHAR2(4000). 
 
