@@ -137,7 +137,7 @@ To access data in the Object Storage you must enable your database user to authe
 
   ```
   <copy>
-  impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp credential=lab_bucket_cred directory=data_pump_dirdumpfile=YOUR-FILE-URI 
+  impdp admin/YOUR-ADMIN-PASSWORD@YOUR-DB-NAME_tp credential=lab_bucket_cred directory=data_pump_dir dumpfile=YOUR-FILE-URI 
   </copy>
   ```
 
