@@ -69,7 +69,7 @@ To complete this lab, you need to have the following:
 
 4. Fill the next part of the provisioning form with the following values.
 
-   - Always Free: Turn it `on`. For this workshop it must be `off` like in the screenshot.
+   - Always Free: Turn it _*`off`*_. For this workshop it must be `off` like in the screenshot.
    
    You will have visible the **Always Free** logo next to the name of your database:
 
