@@ -165,7 +165,7 @@ To create an **external table** using a file stored in Object Storage you will u
    </copy>
    ```
 
-2. Download the SQL for the insert statement from [xml-insert.sql](files/xml-insert.sql). Copy and paste the full statement into **SQL Developer Web**.
+2. **Download** the SQL for the insert statement from [xml-insert.sql](files/xml-insert.sql). Copy and paste the full statement into **SQL Developer Web**.
 
    ![Insert Statement](./images/task4_insert_01.png)
 
